@@ -12,11 +12,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Tomato',
       theme: ThemeData(
-        
-        primarySwatch: Colors.blue,
+        textTheme: TextTheme(
+          overline: TextStyle(color: Colors.black),
+          caption: TextStyle(color: Colors.black),
+          button: TextStyle(color: Colors.black),
+          bodyText1: TextStyle(color: Colors.black),
+          bodyText2: TextStyle(color: Colors.black),
+          subtitle1: TextStyle(color: Colors.black,fontSize: 18),
+          subtitle2: TextStyle(color: Colors.black,fontSize: 16),
+          headline6: TextStyle(color: Colors.black),
+          headline5: TextStyle(color: Colors.black),
+          headline4: TextStyle(color: Colors.black),
+          headline3: TextStyle(color: Colors.black),
+          headline2: TextStyle(color: Colors.black),
+          headline1: TextStyle(color: Colors.black),
+        ),
+        primarySwatch: Colors.indigo,
       ),
-      home:WelcomeScreen(),
+      home: WelcomeScreen(),
     );
   }
 }
-
