@@ -43,7 +43,7 @@ class WelcomeScreen extends StatelessWidget {
             height: 10,
           ),
           Text(
-            'We deliver food at any ponit of the Nepal in 30 minutes',
+            'We deliver food at any point of the Nepal in 30 minutes',
             style: Theme.of(context)
                 .textTheme
                 .subtitle1!

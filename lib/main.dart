@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tomato_app/screens/login_screen.dart';
 import 'package:tomato_app/screens/welcome_screen.dart';
 
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Tomato',
       theme: ThemeData(
+        fontFamily: GoogleFonts.lato().fontFamily,
         textTheme: TextTheme(
           overline: TextStyle(color: Colors.black),
           caption: TextStyle(color: Colors.black),
