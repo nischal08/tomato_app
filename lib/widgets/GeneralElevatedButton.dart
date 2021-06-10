@@ -5,14 +5,14 @@ class GeneralElevatedButton extends StatelessWidget {
   final String title;
   final Color bgColor;
   final Color? fgColor;
-  final Function? onPress;
+  final onPressed;
   final double? borderRadius;
   GeneralElevatedButton({
     Key? key,
     required this.title,
     required this.bgColor,
     this.fgColor,
-    this.onPress,
+    this.onPressed,
     this.borderRadius,
   }) : super(key: key);
 
@@ -27,13 +27,13 @@ class GeneralElevatedButton extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: () {},
+      onPressed: onPressed,
       child: Text(
         title,
         style: Theme.of(context)
             .textTheme
-            .headline6!
-            .copyWith(color: fgColor ?? kColorWhiteText),
+            .subtitle1!
+            .copyWith(color: fgColor ?? kColorWhiteText,fontWeight: FontWeight.bold),
       ),
     );
   }

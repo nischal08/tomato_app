@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tomato_app/screens/login_screen.dart';
 import 'package:tomato_app/screens/welcome_screen.dart';
 
 void main() {
@@ -18,8 +19,8 @@ class MyApp extends StatelessWidget {
           button: TextStyle(color: Colors.black),
           bodyText1: TextStyle(color: Colors.black),
           bodyText2: TextStyle(color: Colors.black),
-          subtitle1: TextStyle(color: Colors.black,fontSize: 18),
-          subtitle2: TextStyle(color: Colors.black,fontSize: 16),
+          subtitle1: TextStyle(color: Colors.black, fontSize: 18),
+          subtitle2: TextStyle(color: Colors.black, fontSize: 16),
           headline6: TextStyle(color: Colors.black),
           headline5: TextStyle(color: Colors.black),
           headline4: TextStyle(color: Colors.black),
@@ -28,8 +29,12 @@ class MyApp extends StatelessWidget {
           headline1: TextStyle(color: Colors.black),
         ),
         primarySwatch: Colors.indigo,
+        accentColor: Colors.deepOrangeAccent
       ),
-      home: WelcomeScreen(),
+      routes: {
+        "/": (context) => WelcomeScreen(),
+        "/login": (context) => LoginScreen(),
+      },
     );
   }
 }
