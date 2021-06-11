@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tomato_app/contants/color_properties.dart';
-import 'package:tomato_app/widgets/GeneralBackgroundImage.dart';
-import 'package:tomato_app/widgets/GeneralElevatedButton.dart';
-import 'package:tomato_app/widgets/GeneralTextButton.dart';
-import 'package:tomato_app/widgets/GeneralTextField.dart';
+import 'package:tomato_app/widgets/general_background_image.dart';
+import 'package:tomato_app/widgets/general_elevated_button.dart';
+import 'package:tomato_app/widgets/general_text_button.dart';
+import 'package:tomato_app/widgets/general_textfield.dart';
 import 'package:tomato_app/widgets/curve_painter.dart';
 import 'package:tomato_app/widgets/horizontal_line_between_word.dart';
 

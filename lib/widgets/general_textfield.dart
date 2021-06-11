@@ -21,23 +21,21 @@ class GeneralTextField extends StatelessWidget {
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.only(
           top: 13.0,
-        
         ),
         hintText: labelText,
         suffixIcon: Icon(suffixIcon),
         prefixIcon: Container(
-       width: 25,
+          width: 25,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Icon(preferIcon),
               // Spacer(),
-             Container(
+              Container(
                 height: 30,
                 width: 1,
                 color: Colors.grey,
               )
-
             ],
           ),
         ),

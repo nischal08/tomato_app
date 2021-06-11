@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tomato_app/contants/color_properties.dart';
-import 'package:tomato_app/widgets/GeneralBackgroundImage.dart';
-import 'package:tomato_app/widgets/GeneralElevatedButton.dart';
+import 'package:tomato_app/widgets/general_background_image.dart';
+import 'package:tomato_app/widgets/general_elevated_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
