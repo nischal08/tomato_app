@@ -9,8 +9,19 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [GeneralBackgroundImage(), _infoBody(context)],
+  
+      body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+         height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: [
+              GeneralBackgroundImage(),
+              _infoBody(context),
+            ],
+          ),
+        ),
       ),
     );
   }

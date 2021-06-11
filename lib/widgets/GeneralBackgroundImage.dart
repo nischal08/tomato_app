@@ -10,8 +10,9 @@ class GeneralBackgroundImage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       width: double.infinity,
-      height: double.infinity,
+      height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
+        
         image: DecorationImage(
           colorFilter: ColorFilter.mode(
             Colors.indigo,
