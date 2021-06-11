@@ -4,6 +4,8 @@ import 'package:tomato_app/widgets/GeneralBackgroundImage.dart';
 import 'package:tomato_app/widgets/GeneralElevatedButton.dart';
 import 'package:tomato_app/widgets/GeneralTextButton.dart';
 import 'package:tomato_app/widgets/GeneralTextField.dart';
+import 'package:tomato_app/widgets/curve_painter.dart';
+import 'package:tomato_app/widgets/horizontal_line_between_word.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -48,48 +50,77 @@ back """,
             ),
           ),
           Container(
-            color: Colors.white,
-            child: Padding(
-              padding: EdgeInsets.only(left: 30, right: 30, bottom: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(
-                    height: 30,
-                  ),
-                  GeneralTextField(),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  GeneralTextField(),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  SizedBox(
-                    height: 55,
-                    child: GeneralElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/login');
-                      },
-                      title: "Log in",
-                      bgColor: Theme.of(context).primaryColor,
-                      fgColor: Colors.white.withOpacity(0.9),
+            // color: Colors.white,
+            child: CustomPaint(
+              painter: CurvePainter(),
+              child: Padding(
+                padding: EdgeInsets.only(left: 30, right: 30, bottom: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(
+                      height: 80,
                     ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  SizedBox(
-                    height: 55,
-                    child: GeneralTextButton(
-                      // onPressed: () {},
+                    GeneralTextField(
+                      labelText: "Email Address",
+                      obscureText: false,
+                      preferIcon: Icons.email_outlined,
+                      suffixIcon: null,
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    GeneralTextField(
+                      labelText: "Password",
+                      obscureText: true,
+                      preferIcon: Icons.lock_outline,
+                      suffixIcon: null,
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      "Forgot password?",
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2!
+                          .copyWith(color: Theme.of(context).primaryColorDark),
+                      textAlign: TextAlign.end,
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    SizedBox(
+                      height: 55,
+                      child: GeneralElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/login');
+                        },
+                        title: "Log in",
+                        bgColor: Theme.of(context).primaryColor,
+                        fgColor: Colors.white.withOpacity(0.9),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    HorizontalLineBetweenWord(label: "or", height: 40),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      height: 55,
+                      child: GeneralTextButton(
+                        // onPressed: () {},
 
-                      title: "Sign up",
-                      bgColor: Colors.white,
-                      fgColor: Theme.of(context).primaryColor.withOpacity(0.95),
-                    ),
-                  )
-                ],
+                        title: "Sign up",
+                        bgColor: Colors.white,
+                        fgColor:
+                            Theme.of(context).primaryColor.withOpacity(0.95),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
