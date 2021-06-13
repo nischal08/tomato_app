@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:tomato_app/contants/color_properties.dart';
-import 'package:tomato_app/screens/register_screen.dart';
+import 'package:tomato_app/screens/login_screen.dart';
+import 'package:tomato_app/widgets/curve_painter_register.dart';
 import 'package:tomato_app/widgets/general_background_image.dart';
 import 'package:tomato_app/widgets/general_elevated_button.dart';
 import 'package:tomato_app/widgets/general_text_button.dart';
 import 'package:tomato_app/widgets/general_textfield.dart';
-import 'package:tomato_app/widgets/curve_painter_login.dart';
 import 'package:tomato_app/widgets/horizontal_line_between_word.dart';
 
-class LoginScreen extends StatelessWidget {
-  static const routeName = '/login';
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatelessWidget {
+  static const routeName = '/register';
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +43,8 @@ class LoginScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 30, right: 30, bottom: 20),
             child: Text(
-              """Hello Again!
-Welcome 
-back """,
+              """Create 
+Account """,
               style: Theme.of(context)
                   .textTheme
                   .headline4!
@@ -55,7 +54,7 @@ back """,
           Container(
             // color: Colors.white,
             child: CustomPaint(
-              painter: CurvePainterLogin(),
+              painter: CurvePainterRegister(),
               child: Padding(
                 padding: EdgeInsets.only(left: 30, right: 30, bottom: 20),
                 child: Column(
@@ -65,7 +64,16 @@ back """,
                       height: 60,
                     ),
                     GeneralTextField(
-                      labelText: "Email Address",
+                      labelText: "Name",
+                      obscureText: false,
+                      preferIcon: Icons.person_outline,
+                      suffixIcon: null,
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    GeneralTextField(
+                      labelText: "Email",
                       obscureText: false,
                       preferIcon: Icons.email_outlined,
                       suffixIcon: null,
@@ -80,26 +88,15 @@ back """,
                       suffixIcon: null,
                     ),
                     SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      "Forgot password?",
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle2!
-                          .copyWith(color: Theme.of(context).primaryColorDark),
-                      textAlign: TextAlign.end,
-                    ),
-                    SizedBox(
                       height: 40,
                     ),
                     SizedBox(
                       height: 55,
                       child: GeneralElevatedButton(
                         onPressed: () {
-                          //....Login authentication for form
+                          //This where you submit the form for register
                         },
-                        title: "Log in",
+                        title: "Sign up",
                         bgColor: Theme.of(context).primaryColor,
                         fgColor: Colors.white.withOpacity(0.9),
                       ),
@@ -115,10 +112,9 @@ back """,
                       height: 55,
                       child: GeneralTextButton(
                         onPressed: () {
-                          Navigator.pushNamed(
-                              context, RegisterScreen.routeName);
+                          Navigator.pushNamed(context, LoginScreen.routeName);
                         },
-                        title: "Sign up",
+                        title: "Log in",
                         bgColor: Colors.white,
                         fgColor:
                             Theme.of(context).primaryColor.withOpacity(0.95),

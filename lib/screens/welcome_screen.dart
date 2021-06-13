@@ -4,17 +4,17 @@ import 'package:tomato_app/widgets/general_background_image.dart';
 import 'package:tomato_app/widgets/general_elevated_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
+  static const routeName = "/";
   const WelcomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-  
       body: SingleChildScrollView(
         physics: NeverScrollableScrollPhysics(),
         child: Container(
           width: MediaQuery.of(context).size.width,
-         height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
               GeneralBackgroundImage(),
