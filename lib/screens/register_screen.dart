@@ -15,25 +15,24 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Stack(children: [
-            GeneralBackgroundImage(),
-            _body(context),
-          ]),
-        ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Stack(children: [
+          SingleChildScrollView(child: GeneralBackgroundImage()),
+          SingleChildScrollView(child: _body(context)),
+        ]),
       ),
     );
   }
 
   Container _body(BuildContext context) {
     return Container(
+      height: MediaQuery.of(context).size.height,
       color: Colors.black26.withOpacity(0.50),
       width: double.infinity,
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

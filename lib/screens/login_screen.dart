@@ -7,6 +7,8 @@ import 'package:tomato_app/widgets/general_textfield.dart';
 import 'package:tomato_app/widgets/curve_painter_login.dart';
 import 'package:tomato_app/widgets/horizontal_line_between_word.dart';
 
+import 'home.dart';
+
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
   const LoginScreen({Key? key}) : super(key: key);
@@ -17,26 +19,36 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool changebuttonAnimation = false;
+  // bool showSpinner = false;
+  Future<void> _onClickLoginBtn() async {
+    // setState(() {
+    //   changebuttonAnimation = true;
+    // });
 
-  void _onClickLoginBtn() {
-    setState(() {
-      changebuttonAnimation = true;
-    });
+    // showSpinner = true;
+
+    // await Future.delayed(
+    //   Duration(seconds: 3),
+    // );
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Home(),
+        ));
+    // showSpinner = false;
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Stack(children: [
-            GeneralBackgroundImage(),
-            _body(context, changebuttonAnimation),
-          ]),
-        ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Stack(children: [
+          SingleChildScrollView(child: GeneralBackgroundImage()),
+          SingleChildScrollView(child: _body(context, changebuttonAnimation)),
+        ]),
       ),
     );
   }
@@ -45,7 +57,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       color: Colors.black26.withOpacity(0.50),
       width: double.infinity,
+      height: MediaQuery.of(context).size.height,
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -123,7 +137,7 @@ back """,
                           alignment: Alignment.center,
                           duration: Duration(seconds: 2),
                           height: 55,
-                          width: changebuttonAnimation ? 55 :250,
+                          width: changebuttonAnimation ? 55 : 250,
                           child: changebuttonAnimation
                               ? Icon(
                                   Icons.check,

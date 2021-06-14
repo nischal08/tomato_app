@@ -12,15 +12,14 @@ class GeneralBackgroundImage extends StatelessWidget {
       width: double.infinity,
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
-        
         image: DecorationImage(
           colorFilter: ColorFilter.mode(
             Colors.indigo,
             BlendMode.hue,
           ),
-          fit: BoxFit.fitHeight,
-          image: NetworkImage(
-            "https://www.kolpaper.com/wp-content/uploads/2019/12/kawaii-food-wallpaper.jpg",
+          fit: BoxFit.cover,
+          image: AssetImage(
+            "assets/images/background.jpg",
           ),
         ),
       ),
