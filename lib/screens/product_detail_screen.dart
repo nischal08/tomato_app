@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:tomato_app/constant/customColor.dart';
+import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/homeController.dart';
 import 'package:tomato_app/controller/productDetailController.dart';
 import 'package:tomato_app/screens/home.dart';
+import 'package:tomato_app/widgets/EachProductBox.dart';
+import 'package:tomato_app/widgets/custom_icon_button.dart';
 import 'package:tomato_app/widgets/custom_widgets.dart';
+import 'package:tomato_app/widgets/general_text_button.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   late ProductDetailController _prodDetailContr;
   late HomeController _homeContrstate;
-  var _theme;
   @override
   Widget build(BuildContext context) {
     _prodDetailContr = Provider.of<ProductDetailController>(context);
     _homeContrstate = Provider.of<HomeController>(context);
-    _theme = Theme.of(context);
     return Scaffold(
       body: _body(context),
     );
@@ -53,10 +54,12 @@ class ProductDetailScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          BuyAddToCart(
-            context,
+
+
+          BuyAndAddToCartButton( 
+          fgColor: Colors.black,
             title: "Buy Now",
-            bgColor: CustomColors.darkBrown,
+            bgColor: Colors.white,
             onPressed: () async {
               await _homeContrstate.onBottomNavClick(2);
               Get.to(
@@ -64,10 +67,9 @@ class ProductDetailScreen extends StatelessWidget {
               );
             },
           ),
-          BuyAddToCart(
-            context,
+          BuyAndAddToCartButton(
               title: "Add To Cart",
-              bgColor: CustomColors.darkRed,
+              bgColor: Theme.of(context).primaryColorDark,
               onPressed: () async {
                 await _homeContrstate.onBottomNavClick(2);
                 Get.to(
@@ -78,8 +80,6 @@ class ProductDetailScreen extends StatelessWidget {
       ),
     );
   }
-
-  
 
   Stack _productInfoWithImg() {
     return Stack(
@@ -106,13 +106,13 @@ class ProductDetailScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _price(650),
-          SizedBox(
-            height: 40.0,
-          ),
-          _eachProductInfo(
-            key: "Calories",
-            value: "750 Calories",
-          ),
+          // SizedBox(
+          //   height: 40.0,
+          // ),
+          // _eachProductInfo(
+          //   key: "Calories",
+          //   value: "750 Calories",
+          // ),
           SizedBox(
             height: 30.0,
           ),
@@ -128,13 +128,16 @@ class ProductDetailScreen extends StatelessWidget {
             value: "45 min",
           ),
           SizedBox(
-            height: 30.0,
+            height: 40.0,
           ),
           _productSizes(),
           SizedBox(
-            height: 15,
+            height: 20,
           ),
           _productQuantity(),
+           SizedBox(
+            height: 30,
+          ),
         ],
       ),
     );
@@ -192,7 +195,6 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  
   Widget _eachProductInfo({
     required String key,
     required String value,
@@ -224,7 +226,7 @@ class ProductDetailScreen extends StatelessWidget {
 
   Widget _price(int price) {
     return Text(
-      "Rs.${price}",
+      "Rs.$price",
       style: GoogleFonts.robotoSlab(
           fontWeight: FontWeight.w800, fontSize: 24, letterSpacing: 0.5),
     );
@@ -253,7 +255,7 @@ class ProductDetailScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CustomIcon(
+          CustomIconButton(
             paddingLeft: 9,
             icon: Icons.arrow_back_ios,
             onPressed: () {
@@ -261,7 +263,7 @@ class ProductDetailScreen extends StatelessWidget {
             },
           ),
           _title(),
-          CustomIcon(
+          CustomIconButton(
             onPressed: () async {
               await _homeContrstate.onBottomNavClick(2);
               Get.to(

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +38,8 @@ class MyApp extends StatelessWidget {
        child: MaterialApp(
         title: 'Tomato',
         theme: ThemeData(
+          cardColor: Color(0xffFFFFFE),
+          canvasColor:Color(0xFFFBFBFB),
             fontFamily: GoogleFonts.lato().fontFamily,
             textTheme: TextTheme(
               overline: TextStyle(color: Colors.black),
@@ -53,7 +56,7 @@ class MyApp extends StatelessWidget {
               headline2: TextStyle(color: Colors.black),
               headline1: TextStyle(color: Colors.black),
             ),
-            primarySwatch: Colors.indigo,
+            primarySwatch: Colors.red,
             accentColor: Colors.deepOrangeAccent),
         routes: {
           WelcomeScreen.routeName: (context) => WelcomeScreen(),

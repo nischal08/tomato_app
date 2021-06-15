@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
+BoxShadow kBoxShadowSmallChipCard = BoxShadow(
+    blurRadius: 1, spreadRadius: 0, offset: Offset(1, 2), color: Colors.grey);
+BoxShadow kBoxShadowBigCard = BoxShadow(
+    blurRadius: 2, spreadRadius: 1, offset: Offset(2, 3), color: Colors.grey);
 
 const kSendButtonTextStyle = TextStyle(
   color: Colors.lightBlueAccent,

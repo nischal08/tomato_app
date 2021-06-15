@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:tomato_app/constant/customColor.dart';
+import 'package:tomato_app/contants/color_properties.dart';
+import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/homeController.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
@@ -95,8 +96,8 @@ class VenderMenu extends StatelessWidget {
         Icons.favorite,
         size: 20,
         color: _homeControllerState.likeBtnFlag
-            ? CustomColors.lightRed
-            : CustomColors.lightBrown,
+            ? lightRed
+            : lightBrown,
       ),
     );
   }
@@ -105,7 +106,7 @@ class VenderMenu extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(6),
       decoration: BoxDecoration(
-        color: CustomColors.lightRed!.withOpacity(0.9),
+        color: lightRed!.withOpacity(0.9),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(
@@ -137,7 +138,7 @@ class VenderMenu extends StatelessWidget {
       child: Icon(
         Icons.arrow_back_ios,
         size: 30,
-        color: CustomColors.lightGrey,
+        color: lightGrey,
       ),
     );
   }
@@ -146,8 +147,9 @@ class VenderMenu extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Choose what you", style: _themeData.headline3),
-        Text("want to eat today", style: _themeData.headline4),
+        Text("Choose what you", style: _themeData.headline4),
+        SizedBox(height:5 ,),
+        Text("want to eat today", style: _themeData.headline5),
       ],
     );
   }
@@ -155,10 +157,14 @@ class VenderMenu extends StatelessWidget {
   Widget _venderInfo() {
     return Container(
         decoration: BoxDecoration(
+          boxShadow: [kBoxShadowBigCard],
           borderRadius: BorderRadius.circular(20),
           color: _theme.cardColor,
         ),
-        margin: EdgeInsets.symmetric(horizontal: 30),
+        margin: EdgeInsets.symmetric(
+          horizontal: 30,
+          vertical: 10,
+        ),
         padding: EdgeInsets.only(
           left: 15,
           top: 5,

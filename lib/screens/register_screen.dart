@@ -96,7 +96,7 @@ Account """,
                           //This where you submit the form for register
                         },
                         title: "Sign up",
-                        bgColor: Theme.of(context).primaryColor,
+                        bgColor:  Theme.of(context).primaryColorDark,
                         fgColor: Colors.white.withOpacity(0.9),
                       ),
                     ),
@@ -116,7 +116,7 @@ Account """,
                         title: "Log in",
                         bgColor: Colors.white,
                         fgColor:
-                            Theme.of(context).primaryColor.withOpacity(0.95),
+                             Theme.of(context).primaryColorDark,
                       ),
                     )
                   ],

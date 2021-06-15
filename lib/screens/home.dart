@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tomato_app/constant/customColor.dart';
 import 'package:tomato_app/controller/homeController.dart';
 import 'package:tomato_app/screens/product_detail_screen.dart';
 
@@ -23,6 +22,7 @@ class Home extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 8,
         currentIndex: _homeControllerState!.bottomNavIndex,
         items: [
           for (var key in _homeControllerState!.bottomNavItemData.keys)
@@ -31,8 +31,8 @@ class Home extends StatelessWidget {
               label: _homeControllerState!.bottomNavItemData[key],
             ),
         ],
-        selectedItemColor: CustomColors.lightRed,
-        unselectedItemColor: CustomColors.lightBrown,
+        selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor:  Theme.of(context).primaryColorDark.withOpacity(0.4),
         onTap: _homeControllerState!.onBottomNavClick,
       ),
     );

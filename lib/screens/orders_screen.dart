@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:tomato_app/constant/customColor.dart';
+import 'package:tomato_app/contants/color_properties.dart';
 
 import 'package:tomato_app/controller/homeController.dart';
 import 'package:tomato_app/controller/orderController.dart';
+import 'package:tomato_app/widgets/EachProductBox.dart';
 import 'package:tomato_app/widgets/product_card.dart';
-import 'package:tomato_app/widgets/custom_widgets.dart';
 
 class OrderScreen extends StatelessWidget {
   late HomeController _homeControllerState;
   late OrderController _orderControllerState;
-  var _theme;
   late TextTheme _themeData;
 
   @override
   Widget build(BuildContext context) {
     _themeData = Theme.of(context).textTheme;
-    _theme = Theme.of(context);
     _homeControllerState = Provider.of<HomeController>(context);
     _orderControllerState = Provider.of<OrderController>(context);
     return _body(context);
@@ -54,7 +52,7 @@ class OrderScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
           ),
           onPressed: () {},
-          color: CustomColors.darkRed,
+          color: darkRed,
           child: Text(
             "Checkout",
             style: GoogleFonts.raleway(

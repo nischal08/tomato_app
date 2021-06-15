@@ -14,7 +14,7 @@ class GeneralBackgroundImage extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           colorFilter: ColorFilter.mode(
-            Colors.indigo,
+            Colors.red,
             BlendMode.hue,
           ),
           fit: BoxFit.cover,

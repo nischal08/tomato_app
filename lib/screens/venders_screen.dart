@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:tomato_app/constant/customColor.dart';
+import 'package:tomato_app/contants/color_properties.dart';
+import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/homeController.dart';
 import 'package:tomato_app/controller/vendersController.dart';
+import 'package:tomato_app/widgets/custom_icon_button.dart';
 import 'package:tomato_app/widgets/custom_widgets.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
@@ -15,14 +16,21 @@ class VendersScreen extends StatelessWidget {
   late HomeController _homeControllerState;
   @override
   Widget build(BuildContext context) {
-   _theme = Theme.of(context);
-   _themeData = Theme.of(context).textTheme;
+    _theme = Theme.of(context);
+    _themeData = Theme.of(context).textTheme;
     _homeControllerState = Provider.of<HomeController>(context);
     _restaurantControllerState = Provider.of<VendersController>(context);
-    return _body();
+    return Scaffold(
+      // backgroundColor: Theme.of(context).canvasColor,
+      body: _body(
+        context,
+      ),
+    );
   }
 
-  Widget _body() {
+  Widget _body(
+    context,
+  ) {
     return SafeArea(
       child: Container(
         child: Column(
@@ -32,15 +40,17 @@ class VendersScreen extends StatelessWidget {
             ),
             _userInfo(),
             SizedBox(
-              height: 35,
+              height: 25,
             ),
             _search(),
             SizedBox(
-              height: 30,
-            ),
-            _category(),
-            SizedBox(
               height: 20,
+            ),
+            _category(
+              context,
+            ),
+            SizedBox(
+              height: 10,
             ),
             _vender(),
           ],
@@ -100,11 +110,11 @@ class VendersScreen extends StatelessWidget {
     return RichText(
       text: TextSpan(
         text: "Good Morning, ",
-        style: _themeData.subtitle1,
+        style: _themeData.headline6,
         children: [
           TextSpan(
             text: "Nischal",
-            style: _themeData.subtitle2,
+            style: _themeData.headline6!.copyWith(color: darkRed),
           ),
         ],
       ),
@@ -120,7 +130,7 @@ class VendersScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _searchTitle(),
-          CustomIcon(
+          CustomIconButton(
             icon: Icons.search_outlined,
           ),
         ],
@@ -138,15 +148,19 @@ class VendersScreen extends StatelessWidget {
     );
   }
 
-  Widget _category() {
+  Widget _category(
+    context,
+  ) {
     return Container(
+      color: Colors.transparent,
       padding: EdgeInsets.symmetric(
-        horizontal: 30,
+        horizontal: 10,vertical: 10
       ),
-      height: 50,
+      height: 70,
       child: ListView(scrollDirection: Axis.horizontal, children: [
         for (var key in _restaurantControllerState.categoryList.keys)
           _eachCategory(
+            context,
             label: key,
             assetUrl: _restaurantControllerState.categoryList[key],
           ),
@@ -154,7 +168,8 @@ class VendersScreen extends StatelessWidget {
     );
   }
 
-  Widget _eachCategory({
+  Widget _eachCategory(
+    context, {
     String? assetUrl,
     required String label,
   }) {
@@ -163,12 +178,17 @@ class VendersScreen extends StatelessWidget {
         _restaurantControllerState.onClickCategory(currentKey: label);
       },
       child: Container(
-        margin: EdgeInsets.only(right: 10),
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        margin: EdgeInsets.only(right: 10,top: 2, bottom: 3),
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,vertical: 10
+        ),
         decoration: BoxDecoration(
+          boxShadow: [
+            kBoxShadowSmallChipCard
+          ],
           borderRadius: BorderRadius.circular(15),
           color: _restaurantControllerState.categoryKey == label
-              ? CustomColors.lightRed
+              ? lightRed
               : _theme.cardColor,
         ),
         child: Row(
@@ -189,9 +209,7 @@ class VendersScreen extends StatelessWidget {
             ),
             Text(
               label,
-              style: GoogleFonts.raleway(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
+              style: Theme.of(context).textTheme.subtitle2!.copyWith(
                   color: _restaurantControllerState.categoryKey == label
                       ? Colors.white
                       : Colors.black),

@@ -130,7 +130,7 @@ back """,
                     Material(
                       borderRadius:
                           BorderRadius.circular(changebuttonAnimation ? 50 : 8),
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).primaryColorDark,
                       child: InkWell(
                         onTap: () => _onClickLoginBtn(),
                         child: AnimatedContainer(
@@ -174,7 +174,7 @@ back """,
                         title: "Sign up",
                         bgColor: Colors.white,
                         fgColor:
-                            Theme.of(context).primaryColor.withOpacity(0.95),
+                            Theme.of(context).primaryColorDark,
                       ),
                     )
                   ],

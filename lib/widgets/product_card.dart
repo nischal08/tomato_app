@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tomato_app/constant/customColor.dart';
+import 'package:tomato_app/contants/color_properties.dart';
 
 class ProductCard extends StatelessWidget {
   final String favFood;
@@ -12,13 +12,13 @@ class ProductCard extends StatelessWidget {
   final bool addToCartFlag;
   final Color? priceColor;
   ProductCard({
-     this.priceColor,
-     this.productPadding,
+    this.priceColor,
+    this.productPadding,
     required this.assetUrl,
     required this.favFood,
     required this.venderName,
-     this.rating,
-     this.price,
+    this.rating,
+    this.price,
     this.addToCartFlag = false,
   });
   @override
@@ -32,20 +32,27 @@ class ProductCard extends StatelessWidget {
         vertical: productPadding ?? 10,
         horizontal: 30,
       ),
-      padding: EdgeInsets.all(addToCartFlag?20:13),
       height: 140,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
         color: Theme.of(context).cardColor,
       ),
-      child: Row(
-        children: [
-          _venderLogo(),
-          SizedBox(
-            width: addToCartFlag?10:35,
+      child: Card(
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(addToCartFlag ? 20 : 13),
+          child: Row(
+            children: [
+              _venderLogo(),
+              SizedBox(
+                width: addToCartFlag ? 10 : 35,
+              ),
+              _venderInfo(context),
+            ],
           ),
-          _venderInfo(context),
-        ],
+        ),
       ),
     );
   }
@@ -62,14 +69,10 @@ class ProductCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          addToCartFlag
-              ? SizedBox(
-                  width: 1,
-                )
-              : _rating(context),
+          addToCartFlag ? SizedBox() : _rating(context),
           _title(context),
           SizedBox(
-            height: price != null ? 8 : 10,
+            height: price != null ? 6 : 10,
           ),
           _type(context),
           price != null
@@ -92,9 +95,9 @@ class ProductCard extends StatelessWidget {
           child: Text(
             "Rs.$price",
             style: GoogleFonts.openSans(
-              fontSize:addToCartFlag?18: 16,
-              fontWeight: addToCartFlag?FontWeight.w800:FontWeight.w600,
-              color: addToCartFlag?CustomColors.lightRed:Colors.black,
+              fontSize: addToCartFlag ? 18 : 16,
+              fontWeight: addToCartFlag ? FontWeight.w800 : FontWeight.w600,
+              color: addToCartFlag ? lightRed : Colors.black,
             ),
           ),
         ),
@@ -111,7 +114,7 @@ class ProductCard extends StatelessWidget {
             children: [
               Text(
                 "$rating",
-                style: Theme.of(context).textTheme.overline,
+                style: Theme.of(context).textTheme.bodyText1,
               ),
               SizedBox(
                 width: 4,
@@ -135,7 +138,7 @@ class ProductCard extends StatelessWidget {
     return Container(
       child: Text(
         venderName,
-        style: Theme.of(context).textTheme.caption,
+        style: Theme.of(context).textTheme.subtitle1,
       ),
     );
   }
@@ -144,7 +147,7 @@ class ProductCard extends StatelessWidget {
     return Container(
       child: Text(
         favFood,
-        style: Theme.of(context).textTheme.button,
+        style: Theme.of(context).textTheme.subtitle2,
       ),
     );
   }
