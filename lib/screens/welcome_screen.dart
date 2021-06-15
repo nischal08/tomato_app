@@ -36,10 +36,9 @@ class WelcomeScreen extends StatelessWidget {
           SafeArea(
             child: Text(
               'Tomato',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4!
-                  .copyWith(color: kColorWhiteText),
+              style: Theme.of(context).textTheme.headline4!.copyWith(
+                    color: kColorWhiteText,
+                  ),
             ),
           ),
           Spacer(),
@@ -70,7 +69,7 @@ class WelcomeScreen extends StatelessWidget {
                 Navigator.pushNamed(context, '/login');
               },
               title: "Log in",
-              fgColor: Theme.of(context).primaryColor,
+              fgColor: Theme.of(context).primaryColorDark,
               bgColor: Colors.white.withOpacity(0.9),
             ),
           ),
@@ -80,11 +79,13 @@ class WelcomeScreen extends StatelessWidget {
           SizedBox(
             height: 55,
             child: GeneralElevatedButton(
-              // onPressed: () {},
+             onPressed: () {
+                Navigator.pushNamed(context, '/register');
+              },
 
               title: "Sign up",
               fgColor: Colors.white,
-              bgColor: Theme.of(context).primaryColor.withOpacity(0.95),
+              bgColor: Theme.of(context).primaryColorDark,
             ),
           )
         ],

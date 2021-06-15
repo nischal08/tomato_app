@@ -24,6 +24,7 @@ class OrderScreen extends StatelessWidget {
   Widget _body(context) {
     return SafeArea(
       child: Container(
+        height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
             SizedBox(
@@ -34,7 +35,11 @@ class OrderScreen extends StatelessWidget {
               height: 20,
             ),
             _vender(),
+           
             _checkoutBtn(context),
+            SizedBox(
+              height: 40,
+            ),
           ],
         ),
       ),
@@ -42,30 +47,23 @@ class OrderScreen extends StatelessWidget {
   }
 
   Widget _checkoutBtn(context) {
-    return Column(
-      children: [
-        MaterialButton(
-          height: 45,
-          minWidth: 168,
-          elevation: 5.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          onPressed: () {},
-          color: darkRed,
-          child: Text(
-            "Checkout",
-            style: GoogleFonts.raleway(
-              color: Theme.of(context).cardColor,
-              fontWeight: FontWeight.w600,
-              fontSize: 17,
-            ),
-          ),
+    return MaterialButton(
+      height: 45,
+      minWidth: 168,
+      elevation: 5.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      onPressed: () {},
+      color: Theme.of(context).primaryColorDark,
+      child: Text(
+        "Checkout",
+        style: GoogleFonts.raleway(
+          color: Theme.of(context).cardColor,
+          fontWeight: FontWeight.w600,
+          fontSize: 17,
         ),
-        SizedBox(
-          height: 80,
-        ),
-      ],
+      ),
     );
   }
 

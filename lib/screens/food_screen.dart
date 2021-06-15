@@ -90,7 +90,7 @@ class FoodScreen extends StatelessWidget {
       child: Icon(
         Icons.favorite,
         size: 20,
-        color: _homeControllerState.likeBtnFlag ? lightRed : lightBrown,
+        color: _homeControllerState.likeBtnFlag ? kColorLightRed : kColorLightBrown,
       ),
     );
   }
@@ -99,7 +99,7 @@ class FoodScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(6),
       decoration: BoxDecoration(
-        color: lightRed!.withOpacity(0.9),
+        color: kColorLightRed!.withOpacity(0.9),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(
@@ -131,7 +131,7 @@ class FoodScreen extends StatelessWidget {
       child: Icon(
         Icons.arrow_back_ios,
         size: 30,
-        color: lightGrey,
+        color: kColorLightGrey,
       ),
     );
   }

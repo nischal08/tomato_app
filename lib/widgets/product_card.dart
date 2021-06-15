@@ -97,7 +97,7 @@ class ProductCard extends StatelessWidget {
             style: GoogleFonts.openSans(
               fontSize: addToCartFlag ? 18 : 16,
               fontWeight: addToCartFlag ? FontWeight.w800 : FontWeight.w600,
-              color: addToCartFlag ? lightRed : Colors.black,
+              color: addToCartFlag ? kColorLightRed : Colors.black,
             ),
           ),
         ),

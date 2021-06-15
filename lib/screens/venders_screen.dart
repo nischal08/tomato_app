@@ -10,13 +10,11 @@ import 'package:tomato_app/widgets/product_card.dart';
 
 // ignore: must_be_immutable
 class VendersScreen extends StatelessWidget {
-  var _theme;
   late TextTheme _themeData;
   late VendersController _restaurantControllerState;
   late HomeController _homeControllerState;
   @override
   Widget build(BuildContext context) {
-    _theme = Theme.of(context);
     _themeData = Theme.of(context).textTheme;
     _homeControllerState = Provider.of<HomeController>(context);
     _restaurantControllerState = Provider.of<VendersController>(context);
@@ -114,7 +112,7 @@ class VendersScreen extends StatelessWidget {
         children: [
           TextSpan(
             text: "Nischal",
-            style: _themeData.headline6!.copyWith(color: darkRed),
+            style: _themeData.headline6!.copyWith(color: kColorDarkRed),
           ),
         ],
       ),
@@ -184,12 +182,12 @@ class VendersScreen extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           boxShadow: [
-            kBoxShadowSmallChipCard
+            kBoxShadowMeduimChipCard
           ],
           borderRadius: BorderRadius.circular(15),
           color: _restaurantControllerState.categoryKey == label
-              ? lightRed
-              : _theme.cardColor,
+              ? Theme.of(context).primaryColor
+              : Theme.of(context).cardColor
         ),
         child: Row(
           children: [

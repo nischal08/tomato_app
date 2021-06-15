@@ -26,7 +26,7 @@ class EachProductBox extends StatelessWidget {
           alignment: Alignment.center,
           margin: EdgeInsets.only(right: 4),
           decoration: BoxDecoration(
-            boxShadow: [kBoxShadowSmallChipCard],
+            boxShadow: [kBoxShadowSmallBtn],
             borderRadius: BorderRadius.circular(10),
             color:
                 isSelected ? Theme.of(context).primaryColor : _theme.cardColor,
@@ -35,14 +35,14 @@ class EachProductBox extends StatelessWidget {
               ? Icon(
                   icon,
                   size: 18,
-                  color: isSelected ? _theme.cardColor : unselectedColor,
+                  color: isSelected ? _theme.cardColor : kColorUnselectedColor,
                 )
               : Text(
                   label!,
                   style: GoogleFonts.raleway(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: isSelected ? _theme.cardColor : unselectedColor,
+                    color: isSelected ? _theme.cardColor : kColorUnselectedColor,
                   ),
                 ),
         ));

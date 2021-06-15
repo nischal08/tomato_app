@@ -96,8 +96,8 @@ class VenderMenu extends StatelessWidget {
         Icons.favorite,
         size: 20,
         color: _homeControllerState.likeBtnFlag
-            ? lightRed
-            : lightBrown,
+            ? kColorLightRed
+            : kColorLightBrown,
       ),
     );
   }
@@ -106,7 +106,7 @@ class VenderMenu extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(6),
       decoration: BoxDecoration(
-        color: lightRed!.withOpacity(0.9),
+        color: kColorLightRed!.withOpacity(0.9),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(
@@ -138,7 +138,7 @@ class VenderMenu extends StatelessWidget {
       child: Icon(
         Icons.arrow_back_ios,
         size: 30,
-        color: lightGrey,
+        color: kColorLightGrey,
       ),
     );
   }
