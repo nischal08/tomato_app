@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 BoxShadow kBoxShadowMeduimChipCard = BoxShadow(
     blurRadius: 1, spreadRadius: 0, offset: Offset(1, 2), color: Colors.grey);
 BoxShadow kBoxShadowBigCard = BoxShadow(
-    blurRadius: 2, spreadRadius: 1, offset: Offset(2, 3), color: Colors.grey);
+    blurRadius: 2, spreadRadius: 1, offset: Offset(3, 2), color: Colors.grey);
 BoxShadow kBoxShadowSmallBtn = BoxShadow(
     blurRadius: 1, spreadRadius: 0, offset: Offset(1, 2), color: Colors.grey);
 

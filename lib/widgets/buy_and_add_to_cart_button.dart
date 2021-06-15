@@ -18,11 +18,11 @@ class BuyAndAddToCartButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      height: 45,
+      height: 50,
       minWidth: 168,
       elevation: 5.0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(8),
       ),
       onPressed: onPressed,
       color: bgColor,

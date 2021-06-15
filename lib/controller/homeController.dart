@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tomato_app/screens/food_screen.dart';
-import 'package:tomato_app/screens/orders_screen.dart';
+import 'package:tomato_app/screens/cart_screen.dart';
 import 'package:tomato_app/screens/venders_screen.dart';
 
 class HomeController extends ChangeNotifier {
@@ -21,7 +21,7 @@ class HomeController extends ChangeNotifier {
   List _screensList = [
     VendersScreen(),
     FoodScreen(),
-    OrderScreen(),
+    CartScreen(),
   ];
   // ignore: unnecessary_getters_setters
   List get screensList => _screensList;

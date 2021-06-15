@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:tomato_app/contants/color_properties.dart';
 
 import 'package:tomato_app/controller/homeController.dart';
 import 'package:tomato_app/controller/orderController.dart';
-import 'package:tomato_app/widgets/EachProductBox.dart';
+import 'package:tomato_app/widgets/buy_and_add_to_cart_button.dart';
+import 'package:tomato_app/widgets/each_product_box.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
-class OrderScreen extends StatelessWidget {
+class CartScreen extends StatelessWidget {
   late HomeController _homeControllerState;
   late OrderController _orderControllerState;
   late TextTheme _themeData;
@@ -26,6 +26,7 @@ class OrderScreen extends StatelessWidget {
       child: Container(
         height: MediaQuery.of(context).size.height,
         child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(
               height: 20,
@@ -35,8 +36,11 @@ class OrderScreen extends StatelessWidget {
               height: 20,
             ),
             _vender(),
-           
-            _checkoutBtn(context),
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.symmetric(horizontal:30.0),
+              child: _checkoutBtn(context),
+            ),
             SizedBox(
               height: 40,
             ),
@@ -47,24 +51,31 @@ class OrderScreen extends StatelessWidget {
   }
 
   Widget _checkoutBtn(context) {
-    return MaterialButton(
-      height: 45,
-      minWidth: 168,
-      elevation: 5.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
+    return BuyAndAddToCartButton(
+      title: "Checkout",
+      bgColor: Theme.of(context).primaryColorDark,
+      fgColor: Theme.of(context).cardColor,
       onPressed: () {},
-      color: Theme.of(context).primaryColorDark,
-      child: Text(
-        "Checkout",
-        style: GoogleFonts.raleway(
-          color: Theme.of(context).cardColor,
-          fontWeight: FontWeight.w600,
-          fontSize: 17,
-        ),
-      ),
     );
+
+    // MaterialButton(
+    //   height: 45,
+    //   minWidth: 168,
+    //   elevation: 5.0,
+    //   shape: RoundedRectangleBorder(
+    //     borderRadius: BorderRadius.circular(15),
+    //   ),
+    //   onPressed: () {},
+    //   color: Theme.of(context).primaryColorDark,
+    //   child: Text(
+    //     "Checkout",
+    //     style: GoogleFonts.raleway(
+    //       color: Theme.of(context).cardColor,
+    //       fontWeight: FontWeight.w600,
+    //       fontSize: 17,
+    //     ),
+    //   ),
+    // );
   }
 
   Widget _vender() {
@@ -119,7 +130,7 @@ class OrderScreen extends StatelessWidget {
             _orderControllerState.currentQuantity.toString(),
             style: GoogleFonts.robotoSlab(
               fontSize: 18,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),

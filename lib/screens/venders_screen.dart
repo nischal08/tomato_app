@@ -5,7 +5,7 @@ import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/homeController.dart';
 import 'package:tomato_app/controller/vendersController.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
-import 'package:tomato_app/widgets/custom_widgets.dart';
+import 'package:tomato_app/widgets/buy_and_add_to_cart_button.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
 // ignore: must_be_immutable
@@ -36,7 +36,7 @@ class VendersScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            _userInfo(),
+            _userInfo(context),
             SizedBox(
               height: 25,
             ),
@@ -78,7 +78,7 @@ class VendersScreen extends StatelessWidget {
     );
   }
 
-  _userInfo() {
+  _userInfo(context) {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 30,
@@ -86,7 +86,7 @@ class VendersScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _greeting(),
+          _greeting(context),
           _userProfileImg(),
         ],
       ),
@@ -104,7 +104,7 @@ class VendersScreen extends StatelessWidget {
     );
   }
 
-  Widget _greeting() {
+  Widget _greeting(context) {
     return RichText(
       text: TextSpan(
         text: "Good Morning, ",
@@ -112,7 +112,7 @@ class VendersScreen extends StatelessWidget {
         children: [
           TextSpan(
             text: "Nischal",
-            style: _themeData.headline6!.copyWith(color: kColorDarkRed),
+            style: _themeData.headline6!.copyWith(color: Theme.of(context).primaryColor),
           ),
         ],
       ),

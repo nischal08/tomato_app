@@ -28,16 +28,16 @@ class ProductCard extends StatelessWidget {
 
   Widget _venderCard(context) {
     return Container(
-      margin: EdgeInsets.symmetric(
-        vertical: productPadding ?? 10,
-        horizontal: 30,
-      ),
-      height: 140,
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-      ),
+      margin:EdgeInsets.only(bottom: 8),
+      height: 160,
       child: Card(
-        elevation: 5,
+
+        margin: EdgeInsets.symmetric(
+          vertical: productPadding ?? 10,
+          horizontal: 30,
+        ),
+        color: Theme.of(context).cardColor,
+        elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
@@ -47,7 +47,7 @@ class ProductCard extends StatelessWidget {
             children: [
               _venderLogo(),
               SizedBox(
-                width: addToCartFlag ? 10 : 35,
+                width:20,
               ),
               _venderInfo(context),
             ],
@@ -59,6 +59,7 @@ class ProductCard extends StatelessWidget {
 
   Widget _venderLogo() {
     return Container(
+      padding:EdgeInsets.all(5),
       child: Image.asset(assetUrl),
     );
   }
@@ -76,7 +77,7 @@ class ProductCard extends StatelessWidget {
           ),
           _type(context),
           price != null
-              ? _price()
+              ? _price(context)
               : SizedBox(
                   height: 0,
                 ),
@@ -85,7 +86,7 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Widget _price() {
+  Widget _price(context) {
     return Column(
       children: [
         SizedBox(
@@ -96,8 +97,8 @@ class ProductCard extends StatelessWidget {
             "Rs.$price",
             style: GoogleFonts.openSans(
               fontSize: addToCartFlag ? 18 : 16,
-              fontWeight: addToCartFlag ? FontWeight.w800 : FontWeight.w600,
-              color: addToCartFlag ? kColorLightRed : Colors.black,
+              fontWeight: addToCartFlag ? FontWeight.w700 : FontWeight.w600,
+              color: addToCartFlag ? Theme.of(context).primaryColor :priceColor?? kColorBlackText,
             ),
           ),
         ),

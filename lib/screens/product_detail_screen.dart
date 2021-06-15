@@ -6,10 +6,9 @@ import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/homeController.dart';
 import 'package:tomato_app/controller/productDetailController.dart';
 import 'package:tomato_app/screens/home.dart';
-import 'package:tomato_app/widgets/EachProductBox.dart';
+import 'package:tomato_app/widgets/each_product_box.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
-import 'package:tomato_app/widgets/custom_widgets.dart';
-import 'package:tomato_app/widgets/general_text_button.dart';
+import 'package:tomato_app/widgets/buy_and_add_to_cart_button.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   late ProductDetailController _prodDetailContr;
@@ -38,7 +37,7 @@ class ProductDetailScreen extends StatelessWidget {
           SizedBox(
             height: 40,
           ),
-          _productInfoWithImg(),
+          _productInfoWithImg(context),
           SizedBox(
             height: 25,
           ),
@@ -54,12 +53,10 @@ class ProductDetailScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-
-
-          BuyAndAddToCartButton( 
-          fgColor: Colors.black,
+          BuyAndAddToCartButton(
+            fgColor:kColorWhiteText,
             title: "Buy Now",
-            bgColor: Colors.white,
+            bgColor: Theme.of(context).accentColor,
             onPressed: () async {
               await _homeContrstate.onBottomNavClick(2);
               Get.to(
@@ -81,10 +78,10 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  Stack _productInfoWithImg() {
+  Stack _productInfoWithImg(context) {
     return Stack(
       children: [
-        _productInfo(),
+        _productInfo(context),
         Positioned(
           right: -80,
           child: Container(
@@ -96,7 +93,7 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _productInfo() {
+  Widget _productInfo(context) {
     return Container(
       padding: EdgeInsets.only(
         left: 30.0,
@@ -105,7 +102,7 @@ class ProductDetailScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _price(650),
+          _price(650, context),
           // SizedBox(
           //   height: 40.0,
           // ),
@@ -135,7 +132,7 @@ class ProductDetailScreen extends StatelessWidget {
             height: 20,
           ),
           _productQuantity(),
-           SizedBox(
+          SizedBox(
             height: 30,
           ),
         ],
@@ -180,7 +177,7 @@ class ProductDetailScreen extends StatelessWidget {
             _prodDetailContr.currentQuantity.toString(),
             style: GoogleFonts.robotoSlab(
               fontSize: 18,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),
@@ -224,11 +221,14 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _price(int price) {
+  Widget _price(int price, context) {
     return Text(
       "Rs.$price",
-      style: GoogleFonts.robotoSlab(
-          fontWeight: FontWeight.w800, fontSize: 24, letterSpacing: 0.5),
+      style: Theme.of(context).textTheme.headline6!.copyWith(
+          fontWeight: FontWeight.w600,
+          
+            color: Theme.of(context).primaryColor,
+          ),
     );
   }
 

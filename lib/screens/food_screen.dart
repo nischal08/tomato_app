@@ -32,14 +32,14 @@ class FoodScreen extends StatelessWidget {
             SizedBox(
               height: 25,
             ),
-            _vender(context),
+            _allFoodCard(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _vender(context) {
+  Widget _allFoodCard(context) {
     return Expanded(
       child: ListView(
         children: [
@@ -54,8 +54,8 @@ class FoodScreen extends StatelessWidget {
                     rating: 4.5,
                     assetUrl: 'assets/foods/polopizza.png',
                     price: 650,
-                    productPadding: 12,
-                    priceColor: null,
+                    productPadding: 8,
+                    priceColor: Theme.of(context).accentColor,
                   ),
                 ),
                 Positioned(
@@ -73,7 +73,7 @@ class FoodScreen extends StatelessWidget {
                 Positioned(
                   right: 45,
                   bottom: 30,
-                  child: _favBtn(),
+                  child: _favBtn(context),
                 ),
               ],
             ),
@@ -82,7 +82,7 @@ class FoodScreen extends StatelessWidget {
     );
   }
 
-  Widget _favBtn() {
+  Widget _favBtn(context) {
     return GestureDetector(
       onTap: () {
         _homeControllerState.onClickLikeBtn();
@@ -90,7 +90,7 @@ class FoodScreen extends StatelessWidget {
       child: Icon(
         Icons.favorite,
         size: 20,
-        color: _homeControllerState.likeBtnFlag ? kColorLightRed : kColorLightBrown,
+        color: _homeControllerState.likeBtnFlag ? Theme.of(context).accentColor : kColorLightBrown,
       ),
     );
   }
@@ -99,7 +99,7 @@ class FoodScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(6),
       decoration: BoxDecoration(
-        color: kColorLightRed!.withOpacity(0.9),
+        color: Theme.of(context).accentColor,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(

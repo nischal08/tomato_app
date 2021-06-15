@@ -29,20 +29,20 @@ class EachProductBox extends StatelessWidget {
             boxShadow: [kBoxShadowSmallBtn],
             borderRadius: BorderRadius.circular(10),
             color:
-                isSelected ? Theme.of(context).primaryColor : _theme.cardColor,
+                isSelected ? Theme.of(context).accentColor : _theme.cardColor,
           ),
           child: icon != null
               ? Icon(
                   icon,
                   size: 18,
-                  color: isSelected ? _theme.cardColor : kColorUnselectedColor,
+                  color: isSelected ? _theme.cardColor : kColorBlackText,
                 )
               : Text(
                   label!,
                   style: GoogleFonts.raleway(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: isSelected ? _theme.cardColor : kColorUnselectedColor,
+                    color: isSelected ? _theme.cardColor : kColorBlackText,
                   ),
                 ),
         ));

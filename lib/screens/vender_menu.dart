@@ -59,8 +59,8 @@ class VenderMenu extends StatelessWidget {
                     rating: 4.5,
                     assetUrl: 'assets/foods/polopizza.png',
                     price: 650,
-                    productPadding: 12,
-                    priceColor: null,
+                    productPadding: 8,
+                    priceColor: Theme.of(context).accentColor,
                   ),
                 ),
                 Positioned(
@@ -78,7 +78,7 @@ class VenderMenu extends StatelessWidget {
                 Positioned(
                   right: 45,
                   bottom: 30,
-                  child: _favBtn(),
+                  child: _favBtn(context),
                 ),
               ],
             ),
@@ -87,7 +87,7 @@ class VenderMenu extends StatelessWidget {
     );
   }
 
-  Widget _favBtn() {
+  Widget _favBtn(context) {
     return GestureDetector(
       onTap: () {
         _homeControllerState.onClickLikeBtn();
@@ -96,7 +96,7 @@ class VenderMenu extends StatelessWidget {
         Icons.favorite,
         size: 20,
         color: _homeControllerState.likeBtnFlag
-            ? kColorLightRed
+            ? Theme.of(context).accentColor
             : kColorLightBrown,
       ),
     );
@@ -106,7 +106,7 @@ class VenderMenu extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(6),
       decoration: BoxDecoration(
-        color: kColorLightRed!.withOpacity(0.9),
+        color: Theme.of(context).accentColor,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(
@@ -170,7 +170,7 @@ class VenderMenu extends StatelessWidget {
           top: 5,
           bottom: 5,
         ),
-        height: 80,
+        height: 90,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
