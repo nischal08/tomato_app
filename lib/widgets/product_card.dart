@@ -11,6 +11,7 @@ class ProductCard extends StatelessWidget {
   final double? productPadding;
   final bool addToCartFlag;
   final Color? priceColor;
+  final bool isVenderCard;
   ProductCard({
     this.priceColor,
     this.productPadding,
@@ -20,6 +21,7 @@ class ProductCard extends StatelessWidget {
     this.rating,
     this.price,
     this.addToCartFlag = false,
+    this.isVenderCard = false,
   });
   @override
   Widget build(BuildContext context) {
@@ -28,10 +30,9 @@ class ProductCard extends StatelessWidget {
 
   Widget _venderCard(context) {
     return Container(
-      margin:EdgeInsets.only(bottom: 8),
+      margin: EdgeInsets.only(bottom: 8),
       height: 160,
       child: Card(
-
         margin: EdgeInsets.symmetric(
           vertical: productPadding ?? 10,
           horizontal: 30,
@@ -44,12 +45,19 @@ class ProductCard extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(addToCartFlag ? 20 : 13),
           child: Row(
+            mainAxisAlignment: isVenderCard
+                ? MainAxisAlignment.spaceEvenly
+                : MainAxisAlignment.start,
             children: [
               _venderLogo(),
               SizedBox(
-                width:20,
+                width: isVenderCard ? 0 : 20,
               ),
               _venderInfo(context),
+              if (isVenderCard)
+                SizedBox(
+                  width: 20,
+                ),
             ],
           ),
         ),
@@ -59,7 +67,7 @@ class ProductCard extends StatelessWidget {
 
   Widget _venderLogo() {
     return Container(
-      padding:EdgeInsets.all(5),
+      padding: EdgeInsets.all(5),
       child: Image.asset(assetUrl),
     );
   }
@@ -98,7 +106,9 @@ class ProductCard extends StatelessWidget {
             style: GoogleFonts.openSans(
               fontSize: addToCartFlag ? 18 : 16,
               fontWeight: addToCartFlag ? FontWeight.w700 : FontWeight.w600,
-              color: addToCartFlag ? Theme.of(context).primaryColor :priceColor?? kColorBlackText,
+              color: addToCartFlag
+                  ? Theme.of(context).accentColor
+                  : priceColor ?? kColorBlackText,
             ),
           ),
         ),

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
-import 'package:tomato_app/controller/homeController.dart';
-import 'package:tomato_app/controller/productDetailController.dart';
+import 'package:tomato_app/controller/home_controller.dart';
+import 'package:tomato_app/controller/product_detail_controller.dart';
 import 'package:tomato_app/screens/home.dart';
 import 'package:tomato_app/widgets/each_product_box.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
@@ -29,11 +28,11 @@ class ProductDetailScreen extends StatelessWidget {
           SizedBox(
             height: 30,
           ),
-          _titleInfo(),
+          _titleInfo(context),
           SizedBox(
             height: 25,
           ),
-          _ingredient(),
+          _ingredient(context),
           SizedBox(
             height: 40,
           ),
@@ -54,14 +53,12 @@ class ProductDetailScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           BuyAndAddToCartButton(
-            fgColor:kColorWhiteText,
+            fgColor: kColorWhiteText,
             title: "Buy Now",
             bgColor: Theme.of(context).accentColor,
             onPressed: () async {
               await _homeContrstate.onBottomNavClick(2);
-              Get.to(
-                Home(),
-              );
+              Navigator.pushNamed(context, HomeScreen.routeName);
             },
           ),
           BuyAndAddToCartButton(
@@ -69,9 +66,7 @@ class ProductDetailScreen extends StatelessWidget {
               bgColor: Theme.of(context).primaryColorDark,
               onPressed: () async {
                 await _homeContrstate.onBottomNavClick(2);
-                Get.to(
-                  Home(),
-                );
+                Navigator.pushNamed(context, HomeScreen.routeName);
               }),
         ],
       ),
@@ -98,7 +93,7 @@ class ProductDetailScreen extends StatelessWidget {
       padding: EdgeInsets.only(
         left: 30.0,
       ),
-      width: Get.width,
+      width: MediaQuery.of(context).size.width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -144,15 +139,18 @@ class ProductDetailScreen extends StatelessWidget {
     return Row(
       children: [
         for (String each in _prodDetailContr.productSizeList)
-          EachProductBox(
-            isSelected: _prodDetailContr.currentProductSize ==
-                _prodDetailContr.productSizeList.indexOf(each),
-            label: each,
-            onPressed: () {
-              _prodDetailContr.onProductSizeClick(
-                _prodDetailContr.productSizeList.indexOf(each),
-              );
-            },
+          Container(
+            margin: EdgeInsets.only(right: 4),
+            child: EachProductBox(
+              isSelected: _prodDetailContr.currentProductSize ==
+                  _prodDetailContr.productSizeList.indexOf(each),
+              label: each,
+              onPressed: () {
+                _prodDetailContr.onProductSizeClick(
+                  _prodDetailContr.productSizeList.indexOf(each),
+                );
+              },
+            ),
           ),
       ],
     );
@@ -225,16 +223,15 @@ class ProductDetailScreen extends StatelessWidget {
     return Text(
       "Rs.$price",
       style: Theme.of(context).textTheme.headline6!.copyWith(
-          fontWeight: FontWeight.w600,
-          
-            color: Theme.of(context).primaryColor,
+            fontWeight: FontWeight.w600,
+            color: Theme.of(context).accentColor,
           ),
     );
   }
 
-  Widget _ingredient() {
+  Widget _ingredient(context) {
     return SizedBox(
-      width: Get.width * .65,
+      width: MediaQuery.of(context).size.width * .65,
       child: Text(
         "Salami, chilli peppers, tomatoes, oregano, basil",
         textAlign: TextAlign.center,
@@ -247,7 +244,7 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _titleInfo() {
+  Widget _titleInfo(context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 30.0,
@@ -266,9 +263,7 @@ class ProductDetailScreen extends StatelessWidget {
           CustomIconButton(
             onPressed: () async {
               await _homeContrstate.onBottomNavClick(2);
-              Get.to(
-                Home(),
-              );
+              Navigator.pushNamed(context, HomeScreen.routeName);
             },
             icon: Icons.shopping_bag_outlined,
           ),

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/contants/constant.dart';
-import 'package:tomato_app/controller/homeController.dart';
-import 'package:tomato_app/controller/vendersController.dart';
+import 'package:tomato_app/controller/home_controller.dart';
+import 'package:tomato_app/controller/venders_controller.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
 import 'package:tomato_app/widgets/buy_and_add_to_cart_button.dart';
 import 'package:tomato_app/widgets/product_card.dart';
@@ -67,6 +67,7 @@ class VendersScreen extends StatelessWidget {
                 _homeControllerState.onChangeWidget(1);
               },
               child: ProductCard(
+                isVenderCard: true,
                 favFood: "Pizza",
                 venderName: "PizzaHut",
                 rating: 4.5,

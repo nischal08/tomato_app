@@ -2,14 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:tomato_app/controller/food_controller.dart';
+import 'package:tomato_app/screens/home.dart';
 import 'package:tomato_app/screens/login_screen.dart';
 import 'package:tomato_app/screens/register_screen.dart';
 import 'package:tomato_app/screens/welcome_screen.dart';
 
-import 'controller/homeController.dart';
-import 'controller/orderController.dart';
-import 'controller/productDetailController.dart';
-import 'controller/vendersController.dart';
+import 'controller/home_controller.dart';
+import 'controller/order_controller.dart';
+import 'controller/product_detail_controller.dart';
+import 'controller/venders_controller.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,6 +34,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => OrderController(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => FoodController(),
         ),
       ],
       child: MaterialApp(
@@ -59,6 +64,7 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.deepOrangeAccent,
         ),
         routes: {
+          HomeScreen.routeName:(context)=>HomeScreen(),
           WelcomeScreen.routeName: (context) => WelcomeScreen(),
           LoginScreen.routeName: (context) => LoginScreen(),
           RegisterScreen.routeName: (context) => RegisterScreen()

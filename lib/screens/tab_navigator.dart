@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:tomato_app/controller/homeController.dart';
+import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/screens/food_screen.dart';
 import 'package:tomato_app/screens/cart_screen.dart';
 import 'package:tomato_app/screens/venders_screen.dart';

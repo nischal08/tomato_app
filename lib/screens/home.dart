@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tomato_app/controller/homeController.dart';
+import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/screens/product_detail_screen.dart';
 
 import 'package:tomato_app/screens/vender_menu.dart';
 
-class Home extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
+    static const routeName = "/";
   HomeController? _homeControllerState;
   @override
   Widget build(BuildContext context) {

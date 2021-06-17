@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/contants/constant.dart';
-import 'package:tomato_app/controller/homeController.dart';
+import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
 import 'home.dart';
@@ -69,9 +68,7 @@ class VenderMenu extends StatelessWidget {
                   child: GestureDetector(
                       onTap: () async {
                         await _homeControllerState.onBottomNavClick(2);
-                        Get.to(
-                          Home(),
-                        );
+                        Navigator.pushNamed(context, HomeScreen.routeName);
                       },
                       child: _addtoCart(context)),
                 ),
@@ -148,7 +145,9 @@ class VenderMenu extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Choose what you", style: _themeData.headline4),
-        SizedBox(height:5 ,),
+        SizedBox(
+          height: 5,
+        ),
         Text("want to eat today", style: _themeData.headline5),
       ],
     );

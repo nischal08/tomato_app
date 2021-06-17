@@ -25,8 +25,8 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   google_fonts: ^2.1.0
+  http: ^0.13.3
   provider: ^5.0.0
-  get: ^4.1.4
 
 dev_dependencies:
   flutter_test:
@@ -42,7 +42,6 @@ flutter:
     - assets/foods/
     - assets/images/
     - assets/venders/
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

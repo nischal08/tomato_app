@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'package:tomato_app/controller/homeController.dart';
-import 'package:tomato_app/controller/orderController.dart';
+import 'package:tomato_app/controller/home_controller.dart';
+import 'package:tomato_app/controller/order_controller.dart';
 import 'package:tomato_app/widgets/buy_and_add_to_cart_button.dart';
 import 'package:tomato_app/widgets/each_product_box.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
 class CartScreen extends StatelessWidget {
+  static const routeName = "/cart";
   late HomeController _homeControllerState;
   late OrderController _orderControllerState;
   late TextTheme _themeData;
@@ -38,7 +39,7 @@ class CartScreen extends StatelessWidget {
             _vender(),
             Container(
               width: double.infinity,
-              margin: EdgeInsets.symmetric(horizontal:30.0),
+              margin: EdgeInsets.symmetric(horizontal: 30.0),
               child: _checkoutBtn(context),
             ),
             SizedBox(
