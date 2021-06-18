@@ -5,7 +5,10 @@ import 'package:tomato_app/models/category_type_model.dart';
 import 'package:http/http.dart' as http;
 
 class FoodController extends ChangeNotifier {
-  List<CategoryTypeModel> categoryItems = [];
+  List<CategoryTypeModel> _categoryItems = [];
+  get categoryItems => this._categoryItems;
+
+  set categoryItems(value) => this._categoryItems = value;
 
   String categoryUrl = "https://www.themealdb.com/api/json/v1/1/categories.php";
 
@@ -14,18 +17,19 @@ class FoodController extends ChangeNotifier {
       http.Response response = await http.get(
         Uri.parse(categoryUrl),
       );
-
-      var decodedResponse = jsonDecode(response.body);
-      List listResponse = decodedResponse['categories'];
+      _categoryItems = [];
+      final decodedResponse = jsonDecode(response.body);
+      final List listResponse = decodedResponse['categories'];
       listResponse.forEach(
         (itemCategory) {
-          CategoryTypeModel _tempCategoryItem = CategoryTypeModel(
+          _categoryItems.add(
+            CategoryTypeModel(
               id: itemCategory["idCategory"],
               name: itemCategory["strCategory"],
               image: itemCategory["strCategoryThumb"],
-              description: itemCategory["strCategoryDescription"]);
-
-          categoryItems.add(_tempCategoryItem);
+              description: itemCategory["strCategoryDescription"],
+            ),
+          );
         },
       );
     } catch (e) {
