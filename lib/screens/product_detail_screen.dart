@@ -7,7 +7,7 @@ import 'package:tomato_app/controller/product_detail_controller.dart';
 import 'package:tomato_app/screens/home.dart';
 import 'package:tomato_app/widgets/each_product_box.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
-import 'package:tomato_app/widgets/buy_and_add_to_cart_button.dart';
+import 'package:tomato_app/widgets/buy_button.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   late ProductDetailController _prodDetailContr;
@@ -37,10 +37,11 @@ class ProductDetailScreen extends StatelessWidget {
             height: 40,
           ),
           _productInfoWithImg(context),
-          SizedBox(
-            height: 25,
-          ),
+          Spacer(),
           _transactionBtn(context),
+          SizedBox(
+            height: 20,
+          ),
         ],
       ),
     );
@@ -52,21 +53,19 @@ class ProductDetailScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          BuyAndAddToCartButton(
+          BuyButton(
             fgColor: kColorWhiteText,
             title: "Buy Now",
             bgColor: Theme.of(context).accentColor,
             onPressed: () async {
               await _homeContrstate.onBottomNavClick(2);
-              Navigator.pushNamed(context, HomeScreen.routeName);
             },
           ),
-          BuyAndAddToCartButton(
+          BuyButton(
               title: "Add To Cart",
               bgColor: Theme.of(context).primaryColorDark,
               onPressed: () async {
                 await _homeContrstate.onBottomNavClick(2);
-                Navigator.pushNamed(context, HomeScreen.routeName);
               }),
         ],
       ),
@@ -122,13 +121,13 @@ class ProductDetailScreen extends StatelessWidget {
           SizedBox(
             height: 40.0,
           ),
-          _productSizes(),
-          SizedBox(
-            height: 20,
-          ),
           _productQuantity(),
           SizedBox(
             height: 30,
+          ),
+          _productSizes(),
+          SizedBox(
+            height: 20,
           ),
         ],
       ),
@@ -140,7 +139,7 @@ class ProductDetailScreen extends StatelessWidget {
       children: [
         for (String each in _prodDetailContr.productSizeList)
           Container(
-            margin: EdgeInsets.only(right: 4),
+            margin: EdgeInsets.only(right: 5),
             child: EachProductBox(
               isSelected: _prodDetailContr.currentProductSize ==
                   _prodDetailContr.productSizeList.indexOf(each),

@@ -4,31 +4,32 @@ import 'package:tomato_app/contants/color_properties.dart';
 
 class ProductCard extends StatelessWidget {
   final String favFood;
-  final String venderName;
+  final String title;
   final double? rating;
-  final int? price;
-  final String assetUrl;
+  final double? price;
+  final String? networkUrl;
   final double? productPadding;
   final bool addToCartFlag;
   final Color? priceColor;
   final bool isVenderCard;
+  final bool isCartCard;
   ProductCard({
     this.priceColor,
     this.productPadding,
-    required this.assetUrl,
+    required this.networkUrl,
     required this.favFood,
-    required this.venderName,
+    required this.title,
     this.rating,
     this.price,
     this.addToCartFlag = false,
-    this.isVenderCard = false,
+    this.isVenderCard = false, this.isCartCard=false,
   });
   @override
   Widget build(BuildContext context) {
-    return _venderCard(context);
+    return _card(context);
   }
 
-  Widget _venderCard(context) {
+  Widget _card(context) {
     return Container(
       margin: EdgeInsets.only(bottom: 8),
       height: 160,
@@ -45,15 +46,15 @@ class ProductCard extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(addToCartFlag ? 20 : 13),
           child: Row(
-            mainAxisAlignment: isVenderCard
+            mainAxisAlignment:isCartCard?MainAxisAlignment.start: isVenderCard
                 ? MainAxisAlignment.spaceEvenly
                 : MainAxisAlignment.start,
             children: [
-              _venderLogo(),
+              _logo(context),
               SizedBox(
                 width: isVenderCard ? 0 : 20,
               ),
-              _venderInfo(context),
+              _info(context),
               if (isVenderCard)
                 SizedBox(
                   width: 20,
@@ -65,14 +66,22 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Widget _venderLogo() {
+  Widget _logo(context) {
     return Container(
+      width: MediaQuery.of(context).size.width * 0.35,
       padding: EdgeInsets.all(5),
-      child: Image.asset(assetUrl),
+      child: (isVenderCard || isCartCard)
+          ? Image.asset(networkUrl!)
+          : networkUrl == null
+              ? Image.asset('assets/foods/polopizza.png')
+              : Image.network(
+                  networkUrl!,
+                  fit: BoxFit.cover,
+                ),
     );
   }
 
-  Widget _venderInfo(context) {
+  Widget _info(context) {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -148,7 +157,7 @@ class ProductCard extends StatelessWidget {
   Widget _title(context) {
     return Container(
       child: Text(
-        venderName,
+        title,
         style: Theme.of(context).textTheme.subtitle1,
       ),
     );

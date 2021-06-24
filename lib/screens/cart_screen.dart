@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/order_controller.dart';
-import 'package:tomato_app/widgets/buy_and_add_to_cart_button.dart';
+import 'package:tomato_app/widgets/buy_button.dart';
 import 'package:tomato_app/widgets/each_product_box.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
@@ -36,14 +36,17 @@ class CartScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            _vender(),
+            _cartItems(),
+            SizedBox(
+              height: 20,
+            ),
             Container(
               width: double.infinity,
               margin: EdgeInsets.symmetric(horizontal: 30.0),
               child: _checkoutBtn(context),
             ),
             SizedBox(
-              height: 40,
+              height: 20,
             ),
           ],
         ),
@@ -52,34 +55,15 @@ class CartScreen extends StatelessWidget {
   }
 
   Widget _checkoutBtn(context) {
-    return BuyAndAddToCartButton(
+    return BuyButton(
       title: "Checkout",
       bgColor: Theme.of(context).primaryColorDark,
       fgColor: Theme.of(context).cardColor,
       onPressed: () {},
     );
-
-    // MaterialButton(
-    //   height: 45,
-    //   minWidth: 168,
-    //   elevation: 5.0,
-    //   shape: RoundedRectangleBorder(
-    //     borderRadius: BorderRadius.circular(15),
-    //   ),
-    //   onPressed: () {},
-    //   color: Theme.of(context).primaryColorDark,
-    //   child: Text(
-    //     "Checkout",
-    //     style: GoogleFonts.raleway(
-    //       color: Theme.of(context).cardColor,
-    //       fontWeight: FontWeight.w600,
-    //       fontSize: 17,
-    //     ),
-    //   ),
-    // );
   }
 
-  Widget _vender() {
+  Widget _cartItems() {
     return Expanded(
       child: ListView(
         children: [
@@ -90,18 +74,20 @@ class CartScreen extends StatelessWidget {
                   onTap: () => _homeControllerState.onChangeWidget(2),
                   child: ProductCard(
                     favFood: "Mixed Pizza",
-                    venderName: "Pepperoni Pizza",
+                    title: "Pepperoni Pizza",
                     addToCartFlag: true,
-                    assetUrl: 'assets/foods/polopizza.png',
+                    networkUrl: 'assets/foods/polopizza.png',
                     price: 650,
-                    productPadding: 12,
+                    isVenderCard: true,
+                    productPadding: 10,
+                    isCartCard: true,
                   ),
                 ),
                 Positioned(
-                  right: 30,
-                  bottom: 24,
+                  right: 15,
+                  bottom: 20,
                   child: Transform.scale(
-                    scale: 0.8,
+                    scale: 0.7,
                     child: _productQuantity(),
                   ),
                 ),

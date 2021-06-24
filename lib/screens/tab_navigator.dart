@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/screens/food_screen.dart';
 import 'package:tomato_app/screens/cart_screen.dart';
-import 'package:tomato_app/screens/venders_screen.dart';
+import 'package:tomato_app/screens/venders_list_screen.dart';
 
 class TabNavigator extends StatelessWidget {
  late HomeController _homeControllerState;
@@ -18,7 +18,7 @@ class TabNavigator extends StatelessWidget {
    late Widget child;
 
     if (tabItem == "Page1")
-      child = VendersScreen();
+      child = VendersListScreen();
     else if (tabItem == "Page2")
       child = FoodScreen();
     else if (tabItem == "Page3") child = CartScreen();

@@ -25,7 +25,7 @@ class FoodController extends ChangeNotifier {
           _categoryItems.add(
             CategoryTypeModel(
               id: itemCategory["idCategory"],
-              name: itemCategory["strCategory"],
+              title: itemCategory["strCategory"],
               image: itemCategory["strCategoryThumb"],
               description: itemCategory["strCategoryDescription"],
             ),

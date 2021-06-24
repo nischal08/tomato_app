@@ -3,20 +3,40 @@ import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/home_controller.dart';
+import 'package:tomato_app/controller/products.dart';
+import 'package:tomato_app/models/product.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
-import 'home.dart';
 
-class VenderMenu extends StatelessWidget {
+class VenderMenu extends StatefulWidget {
+  @override
+  _VenderMenuState createState() => _VenderMenuState();
+}
+
+class _VenderMenuState extends State<VenderMenu> {
+  late Products _productContr;
+  bool isInit = false;
   late HomeController _homeControllerState;
+
   var _theme;
+
   late TextTheme _themeData;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!isInit) {
+      _productContr = Provider.of<Products>(context);
+    }
+    isInit = true;
+  }
 
   @override
   Widget build(BuildContext context) {
     _themeData = Theme.of(context).textTheme;
     _theme = Theme.of(context);
-    _homeControllerState = Provider.of<HomeController>(context);
+    _homeControllerState = Provider.of<HomeController>(context, listen: false);
     return _body(context);
   }
 
@@ -30,12 +50,9 @@ class VenderMenu extends StatelessWidget {
             ),
             _text(),
             SizedBox(
-              height: 30,
+              height: 20,
             ),
             _venderInfo(),
-            SizedBox(
-              height: 25,
-            ),
             _vender(context),
           ],
         ),
@@ -47,17 +64,17 @@ class VenderMenu extends StatelessWidget {
     return Expanded(
       child: ListView(
         children: [
-          for (int i = 0; i < 8; i++)
+          for (Product prod in _productContr.items)
             Stack(
               children: [
                 GestureDetector(
                   onTap: () => _homeControllerState.onChangeWidget(2),
                   child: ProductCard(
-                    favFood: "Mixed Pizza",
-                    venderName: "Pepperoni Pizza",
-                    rating: 4.5,
-                    assetUrl: 'assets/foods/polopizza.png',
-                    price: 650,
+                    favFood: prod.type!,
+                    title: prod.name!,
+                    rating: prod.rating,
+                    networkUrl: prod.image,
+                    price: prod.price,
                     productPadding: 8,
                     priceColor: Theme.of(context).accentColor,
                   ),
@@ -66,16 +83,16 @@ class VenderMenu extends StatelessWidget {
                   right: 40,
                   top: 1,
                   child: GestureDetector(
-                      onTap: () async {
-                        await _homeControllerState.onBottomNavClick(2);
-                        Navigator.pushNamed(context, HomeScreen.routeName);
-                      },
-                      child: _addtoCart(context)),
+                    onTap: () async {
+                      await _homeControllerState.onBottomNavClick(2);
+                    },
+                    child: _addtoCart(context),
+                  ),
                 ),
                 Positioned(
                   right: 45,
                   bottom: 30,
-                  child: _favBtn(context),
+                  child: _favBtn(context, prod.isFavorite!),
                 ),
               ],
             ),
@@ -84,17 +101,17 @@ class VenderMenu extends StatelessWidget {
     );
   }
 
-  Widget _favBtn(context) {
-    return GestureDetector(
-      onTap: () {
-        _homeControllerState.onClickLikeBtn();
-      },
-      child: Icon(
-        Icons.favorite,
-        size: 20,
-        color: _homeControllerState.likeBtnFlag
-            ? Theme.of(context).accentColor
-            : kColorLightBrown,
+  Widget _favBtn(context, isFav) {
+    return Consumer<Product>(
+      builder: (_, prod, child) => GestureDetector(
+        onTap: () {
+          prod.toggleFavoriteStatus();
+        },
+        child: Icon(
+          isFav ? Icons.favorite : Icons.favorite_border,
+          size: 20,
+          color: Theme.of(context).accentColor,
+        ),
       ),
     );
   }

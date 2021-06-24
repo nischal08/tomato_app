@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tomato_app/screens/food_screen.dart';
 import 'package:tomato_app/screens/cart_screen.dart';
-import 'package:tomato_app/screens/venders_screen.dart';
+import 'package:tomato_app/screens/venders_list_screen.dart';
 
 class HomeController extends ChangeNotifier {
   int widgetIndex = 0;
-  bool likeBtnFlag = false;
+  // bool likeBtnFlag = false;
 
-  onClickLikeBtn() {
-    likeBtnFlag = !likeBtnFlag;
-    notifyListeners();
-  }
+  // onClickLikeBtn() {
+  //   likeBtnFlag = !likeBtnFlag;
+  //   notifyListeners();
+  // }
 
   onChangeWidget(int index) {
     widgetIndex = index;
@@ -19,7 +19,7 @@ class HomeController extends ChangeNotifier {
   }
 
   List _screensList = [
-    VendersScreen(),
+    VendersListScreen(),
     FoodScreen(),
     CartScreen(),
   ];

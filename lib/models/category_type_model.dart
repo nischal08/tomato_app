@@ -1,12 +1,12 @@
 class CategoryTypeModel {
   final String id;
-  final String name;
+  final String title;
   final String image;
   final String description;
 
   CategoryTypeModel({
     required this.id,
-    required this.name,
+    required this.title,
     required this.image,
     required this.description,
   });

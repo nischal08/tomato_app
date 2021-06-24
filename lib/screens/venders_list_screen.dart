@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/venders_controller.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
-import 'package:tomato_app/widgets/buy_and_add_to_cart_button.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
 // ignore: must_be_immutable
-class VendersScreen extends StatelessWidget {
+class VendersListScreen extends StatelessWidget {
   late TextTheme _themeData;
   late VendersController _restaurantControllerState;
   late HomeController _homeControllerState;
@@ -69,9 +67,9 @@ class VendersScreen extends StatelessWidget {
               child: ProductCard(
                 isVenderCard: true,
                 favFood: "Pizza",
-                venderName: "PizzaHut",
+                title: "PizzaHut",
                 rating: 4.5,
-                assetUrl: 'assets/venders/pizzahut.png',
+                networkUrl: 'assets/venders/pizzahut.png',
               ),
             ),
         ],
@@ -100,7 +98,10 @@ class VendersScreen extends StatelessWidget {
       width: 45,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(50),
-        child: Image.network(_restaurantControllerState.userImgUrl),
+        child: Image.network(
+          _restaurantControllerState.userImgUrl,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -113,7 +114,8 @@ class VendersScreen extends StatelessWidget {
         children: [
           TextSpan(
             text: "Nischal",
-            style: _themeData.headline6!.copyWith(color: Theme.of(context).primaryColor),
+            style: _themeData.headline6!
+                .copyWith(color: Theme.of(context).primaryColor),
           ),
         ],
       ),
@@ -152,9 +154,7 @@ class VendersScreen extends StatelessWidget {
   ) {
     return Container(
       color: Colors.transparent,
-      padding: EdgeInsets.symmetric(
-        horizontal: 10,vertical: 10
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       height: 70,
       child: ListView(scrollDirection: Axis.horizontal, children: [
         for (var key in _restaurantControllerState.categoryList.keys)
@@ -177,19 +177,14 @@ class VendersScreen extends StatelessWidget {
         _restaurantControllerState.onClickCategory(currentKey: label);
       },
       child: Container(
-        margin: EdgeInsets.only(right: 10,top: 2, bottom: 3),
-        padding: EdgeInsets.symmetric(
-          horizontal: 20,vertical: 10
-        ),
+        margin: EdgeInsets.only(right: 10, top: 2, bottom: 3),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          boxShadow: [
-            kBoxShadowMeduimChipCard
-          ],
-          borderRadius: BorderRadius.circular(15),
-          color: _restaurantControllerState.categoryKey == label
-              ? Theme.of(context).primaryColor
-              : Theme.of(context).cardColor
-        ),
+            boxShadow: [kBoxShadowMeduimChipCard],
+            borderRadius: BorderRadius.circular(15),
+            color: _restaurantControllerState.categoryKey == label
+                ? Theme.of(context).primaryColor
+                : Theme.of(context).cardColor),
         child: Row(
           children: [
             assetUrl == null

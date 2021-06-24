@@ -11,7 +11,9 @@ import 'package:tomato_app/screens/welcome_screen.dart';
 import 'controller/home_controller.dart';
 import 'controller/order_controller.dart';
 import 'controller/product_detail_controller.dart';
+import 'controller/products.dart';
 import 'controller/venders_controller.dart';
+import 'models/product.dart';
 
 void main() {
   runApp(MyApp());
@@ -37,6 +39,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => FoodController(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => Products(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => Product(),
         ),
       ],
       child: MaterialApp(
@@ -64,7 +72,7 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.deepOrangeAccent,
         ),
         routes: {
-          HomeScreen.routeName:(context)=>HomeScreen(),
+          HomeScreen.routeName: (context) => HomeScreen(),
           WelcomeScreen.routeName: (context) => WelcomeScreen(),
           LoginScreen.routeName: (context) => LoginScreen(),
           RegisterScreen.routeName: (context) => RegisterScreen()

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class BuyAndAddToCartButton extends StatelessWidget {
+class BuyButton extends StatelessWidget {
   final String title;
   final Color bgColor;
   final onPressed;
   final Color? fgColor;
 
-  const BuyAndAddToCartButton(
+  const BuyButton(
       {Key? key,
       required this.title,
       required this.bgColor,
@@ -19,7 +19,9 @@ class BuyAndAddToCartButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       height: 50,
-      minWidth: 168,
+      
+      minWidth: 155,
+      
       elevation: 5.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),

@@ -71,7 +71,7 @@ class FoodScreen extends StatelessWidget {
                           ),
                           padding: EdgeInsets.symmetric(vertical: 5),
                           child: Text(
-                            _foodStateController.categoryItems[index].name,
+                            _foodStateController.categoryItems[index].title,
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
