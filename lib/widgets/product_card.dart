@@ -41,7 +41,8 @@ class ProductCard extends StatelessWidget {
 
   Widget _favBtn(context, isFav) {
     return Consumer<Product>(
-      builder: (_, prod, child) => IconButton(splashRadius: 1,
+      builder: (_, prod, child) => IconButton(
+        splashRadius: 1,
         onPressed: () {
           prod.toggleFavoriteStatus();
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -93,7 +94,10 @@ class ProductCard extends StatelessWidget {
               SizedBox(
                 width: 20,
               ),
-              _info(context, product),
+              Flexible(
+                fit: FlexFit.loose,
+                child: _info(context, product),
+              ),
             ],
           ),
         ),
@@ -119,10 +123,10 @@ class ProductCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _rating(context, product),
-           SizedBox(height: 4),
+          SizedBox(height: 4),
           _title(context, product),
           _type(context, product),
-          SizedBox(height:4),
+          SizedBox(height: 4),
           _price(context, product)
         ],
       ),
@@ -143,7 +147,6 @@ class ProductCard extends StatelessWidget {
   Widget _rating(context, product) {
     return Container(
       child: Row(
-  
         children: [
           Text(
             "${product.rating}",
@@ -163,20 +166,18 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget _title(context, product) {
-    return Container(
-      child: Text(
-        product.name!,
-        style: Theme.of(context).textTheme.subtitle1,
-      ),
+    return Text(
+      product.name!,
+      overflow: TextOverflow.fade,
+      softWrap: false,
+      style: Theme.of(context).textTheme.subtitle1,
     );
   }
 
   Widget _type(context, product) {
-    return Container(
-      child: Text(
-        product.type!,
-        style: Theme.of(context).textTheme.subtitle2,
-      ),
+    return Text(
+      product.type!,
+      style: Theme.of(context).textTheme.subtitle2,
     );
   }
 }
