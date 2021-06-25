@@ -43,9 +43,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => Products(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => Product(),
-        ),
+      
       ],
       child: MaterialApp(
         title: 'Tomato',

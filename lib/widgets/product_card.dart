@@ -1,41 +1,82 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
+import 'package:tomato_app/controller/home_controller.dart';
+import 'package:tomato_app/models/product.dart';
 
 class ProductCard extends StatelessWidget {
-  final String favFood;
-  final String title;
-  final double? rating;
-  final double? price;
-  final String? networkUrl;
-  final double? productPadding;
-  final bool addToCartFlag;
-  final Color? priceColor;
-  final bool isVenderCard;
-  final bool isCartCard;
-  ProductCard({
-    this.priceColor,
-    this.productPadding,
-    required this.networkUrl,
-    required this.favFood,
-    required this.title,
-    this.rating,
-    this.price,
-    this.addToCartFlag = false,
-    this.isVenderCard = false, this.isCartCard=false,
-  });
   @override
   Widget build(BuildContext context) {
-    return _card(context);
+    final _homeControllerState = Provider.of<HomeController>(context);
+    final product = Provider.of<Product>(context, listen: false);
+    return Container(
+      child: Stack(
+        children: [
+          GestureDetector(
+            onTap: () => _homeControllerState.onChangeWidget(2),
+            child: Container(
+              child: _card(context, product),
+            ),
+          ),
+          Positioned(
+            right: 40,
+            top: 1,
+            child: GestureDetector(
+              onTap: () async {
+                await _homeControllerState.onBottomNavClick(2);
+              },
+              child: _addtoCart(context),
+            ),
+          ),
+          Positioned(
+            right: 35,
+            bottom: 20,
+            child: _favBtn(context, product.isFavorite),
+          ),
+        ],
+      ),
+    );
   }
 
-  Widget _card(context) {
+  Widget _favBtn(context, isFav) {
+    return Consumer<Product>(
+      builder: (_, prod, child) => IconButton(splashRadius: 1,
+        onPressed: () {
+          prod.toggleFavoriteStatus();
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        },
+        icon: Icon(
+          isFav ? Icons.favorite : Icons.favorite_border,
+          size: 22,
+          color: Theme.of(context).accentColor,
+        ),
+      ),
+    );
+  }
+
+  Widget _addtoCart(context) {
+    return Container(
+      padding: EdgeInsets.all(6),
+      decoration: BoxDecoration(
+        color: Theme.of(context).accentColor,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Icon(
+        Icons.shopping_cart_outlined,
+        size: 18,
+        color: Theme.of(context).cardColor,
+      ),
+    );
+  }
+
+  Widget _card(context, product) {
     return Container(
       margin: EdgeInsets.only(bottom: 8),
       height: 160,
       child: Card(
         margin: EdgeInsets.symmetric(
-          vertical: productPadding ?? 10,
+          vertical: 8,
           horizontal: 30,
         ),
         color: Theme.of(context).cardColor,
@@ -44,21 +85,15 @@ class ProductCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(
-          padding: EdgeInsets.all(addToCartFlag ? 20 : 13),
+          padding: EdgeInsets.all(20),
           child: Row(
-            mainAxisAlignment:isCartCard?MainAxisAlignment.start: isVenderCard
-                ? MainAxisAlignment.spaceEvenly
-                : MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              _logo(context),
+              _itemImage(context, product),
               SizedBox(
-                width: isVenderCard ? 0 : 20,
+                width: 20,
               ),
-              _info(context),
-              if (isVenderCard)
-                SizedBox(
-                  width: 20,
-                ),
+              _info(context, product),
             ],
           ),
         ),
@@ -66,107 +101,80 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Widget _logo(context) {
+  Widget _itemImage(context, product) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.35,
       padding: EdgeInsets.all(5),
-      child: (isVenderCard || isCartCard)
-          ? Image.asset(networkUrl!)
-          : networkUrl == null
-              ? Image.asset('assets/foods/polopizza.png')
-              : Image.network(
-                  networkUrl!,
-                  fit: BoxFit.cover,
-                ),
+      child: Image.network(
+        product.image!,
+        fit: BoxFit.cover,
+      ),
     );
   }
 
-  Widget _info(context) {
+  Widget _info(context, product) {
     return Container(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          addToCartFlag ? SizedBox() : _rating(context),
-          _title(context),
-          SizedBox(
-            height: price != null ? 6 : 10,
-          ),
-          _type(context),
-          price != null
-              ? _price(context)
-              : SizedBox(
-                  height: 0,
-                ),
+          _rating(context, product),
+           SizedBox(height: 4),
+          _title(context, product),
+          _type(context, product),
+          SizedBox(height:4),
+          _price(context, product)
         ],
       ),
     );
   }
 
-  Widget _price(context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 10,
-        ),
-        Container(
-          child: Text(
-            "Rs.$price",
-            style: GoogleFonts.openSans(
-              fontSize: addToCartFlag ? 18 : 16,
-              fontWeight: addToCartFlag ? FontWeight.w700 : FontWeight.w600,
-              color: addToCartFlag
-                  ? Theme.of(context).accentColor
-                  : priceColor ?? kColorBlackText,
-            ),
-          ),
-        ),
-      ],
+  Widget _price(context, product) {
+    return Text(
+      "Rs.${product.price}",
+      style: GoogleFonts.openSans(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: Theme.of(context).accentColor,
+      ),
     );
   }
 
-  Widget _rating(context) {
+  Widget _rating(context, product) {
     return Container(
-      child: Column(
+      child: Row(
+  
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                "$rating",
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              SizedBox(
-                width: 4,
-              ),
-              Icon(
-                Icons.star_rounded,
-                size: 16,
-                color: Colors.amber[300],
-              )
-            ],
+          Text(
+            "${product.rating}",
+            style: Theme.of(context).textTheme.bodyText1,
           ),
           SizedBox(
-            height: 10,
+            width: 1,
           ),
+          Icon(
+            Icons.star_rounded,
+            size: 22,
+            color: kColorAmber,
+          )
         ],
       ),
     );
   }
 
-  Widget _title(context) {
+  Widget _title(context, product) {
     return Container(
       child: Text(
-        title,
+        product.name!,
         style: Theme.of(context).textTheme.subtitle1,
       ),
     );
   }
 
-  Widget _type(context) {
+  Widget _type(context, product) {
     return Container(
       child: Text(
-        favFood,
+        product.type!,
         style: Theme.of(context).textTheme.subtitle2,
       ),
     );

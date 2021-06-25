@@ -1,19 +1,19 @@
 import 'package:flutter/widgets.dart';
 
-class Product extends ChangeNotifier {
-  final double? rating;
-  final String? name;
-  final String? type;
-  final double? price;
-  final String? image;
-  bool? isFavorite;
+class Product with ChangeNotifier {
+  final double rating;
+  final String name;
+  final String type;
+  final double price;
+  final String image;
+  bool isFavorite;
 
   Product({
-    this.image,
-    this.rating,
-    this.name,
-    this.type,
-    this.price,
+    required this.image,
+    required this.rating,
+    required this.name,
+    required this.type,
+    required this.price,
     this.isFavorite = false,
   });
 
@@ -25,7 +25,7 @@ class Product extends ChangeNotifier {
   void toggleFavoriteStatus() {
     print("!!!!Toggle Fav Status!!!!");
     final oldStatus = isFavorite;
-    isFavorite = !isFavorite!;
+    isFavorite = !isFavorite;
     notifyListeners();
     print("!!!!Toggle Fav Status!!!!");
   }

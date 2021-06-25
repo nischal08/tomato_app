@@ -72,16 +72,7 @@ class CartScreen extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () => _homeControllerState.onChangeWidget(2),
-                  child: ProductCard(
-                    favFood: "Mixed Pizza",
-                    title: "Pepperoni Pizza",
-                    addToCartFlag: true,
-                    networkUrl: 'assets/foods/polopizza.png',
-                    price: 650,
-                    isVenderCard: true,
-                    productPadding: 10,
-                    isCartCard: true,
-                  ),
+                  child:Card(),
                 ),
                 Positioned(
                   right: 15,

@@ -7,7 +7,6 @@ import 'package:tomato_app/controller/products.dart';
 import 'package:tomato_app/models/product.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
-
 class VenderMenu extends StatefulWidget {
   @override
   _VenderMenuState createState() => _VenderMenuState();
@@ -15,7 +14,7 @@ class VenderMenu extends StatefulWidget {
 
 class _VenderMenuState extends State<VenderMenu> {
   late Products _productContr;
-  bool isInit = false;
+  // bool isInit = false;
   late HomeController _homeControllerState;
 
   var _theme;
@@ -23,24 +22,25 @@ class _VenderMenuState extends State<VenderMenu> {
   late TextTheme _themeData;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
 
-    if (!isInit) {
-      _productContr = Provider.of<Products>(context);
-    }
-    isInit = true;
-  }
+  //   if (!isInit) {
+  //     _productContr = Provider.of<Products>(context);
+  //   }
+  //   isInit = true;
+  // }
 
   @override
   Widget build(BuildContext context) {
     _themeData = Theme.of(context).textTheme;
     _theme = Theme.of(context);
     _homeControllerState = Provider.of<HomeController>(context, listen: false);
-    return _body(context);
+    final Products productData = Provider.of<Products>(context);
+    return _body(context, productData);
   }
 
-  Widget _body(context) {
+  Widget _body(context, productData) {
     return SafeArea(
       child: Container(
         child: Column(
@@ -53,80 +53,22 @@ class _VenderMenuState extends State<VenderMenu> {
               height: 20,
             ),
             _venderInfo(),
-            _vender(context),
+            _vender(context, productData),
           ],
         ),
       ),
     );
   }
 
-  Widget _vender(context) {
+  Widget _vender(context, Products productData) {
     return Expanded(
-      child: ListView(
-        children: [
-          for (Product prod in _productContr.items)
-            Stack(
-              children: [
-                GestureDetector(
-                  onTap: () => _homeControllerState.onChangeWidget(2),
-                  child: ProductCard(
-                    favFood: prod.type!,
-                    title: prod.name!,
-                    rating: prod.rating,
-                    networkUrl: prod.image,
-                    price: prod.price,
-                    productPadding: 8,
-                    priceColor: Theme.of(context).accentColor,
-                  ),
-                ),
-                Positioned(
-                  right: 40,
-                  top: 1,
-                  child: GestureDetector(
-                    onTap: () async {
-                      await _homeControllerState.onBottomNavClick(2);
-                    },
-                    child: _addtoCart(context),
-                  ),
-                ),
-                Positioned(
-                  right: 45,
-                  bottom: 30,
-                  child: _favBtn(context, prod.isFavorite!),
-                ),
-              ],
-            ),
-        ],
-      ),
-    );
-  }
-
-  Widget _favBtn(context, isFav) {
-    return Consumer<Product>(
-      builder: (_, prod, child) => GestureDetector(
-        onTap: () {
-          prod.toggleFavoriteStatus();
-        },
-        child: Icon(
-          isFav ? Icons.favorite : Icons.favorite_border,
-          size: 20,
-          color: Theme.of(context).accentColor,
+      child: ListView.builder(
+        itemCount: productData.items.length,
+        itemBuilder: (context, index) =>
+            ChangeNotifierProvider<Product>.value(
+          value: productData.items[index],
+          child: ProductCard(),
         ),
-      ),
-    );
-  }
-
-  Widget _addtoCart(context) {
-    return Container(
-      padding: EdgeInsets.all(6),
-      decoration: BoxDecoration(
-        color: Theme.of(context).accentColor,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Icon(
-        Icons.shopping_cart_outlined,
-        size: 18,
-        color: Theme.of(context).cardColor,
       ),
     );
   }

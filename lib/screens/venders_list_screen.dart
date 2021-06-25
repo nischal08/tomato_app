@@ -4,7 +4,8 @@ import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/venders_controller.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
-import 'package:tomato_app/widgets/product_card.dart';
+
+import 'vender_card.dart';
 
 // ignore: must_be_immutable
 class VendersListScreen extends StatelessWidget {
@@ -64,12 +65,11 @@ class VendersListScreen extends StatelessWidget {
               onTap: () {
                 _homeControllerState.onChangeWidget(1);
               },
-              child: ProductCard(
-                isVenderCard: true,
-                favFood: "Pizza",
-                title: "PizzaHut",
-                rating: 4.5,
-                networkUrl: 'assets/venders/pizzahut.png',
+              child: VenderCard(
+                // favFood: "Pizza",
+                // title: "PizzaHut",
+                // rating: 4.5,
+                // networkUrl: 'assets/venders/pizzahut.png',
               ),
             ),
         ],
