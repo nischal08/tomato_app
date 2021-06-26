@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class VendersController extends ChangeNotifier {
+class RestaurantController extends ChangeNotifier {
+  bool toggleSearchbar = false;
+
+  void ontoggleSearchbar() {
+    toggleSearchbar = !toggleSearchbar;
+    notifyListeners();
+  }
+
   String _categoryKey = "All";
   // ignore: unnecessary_getters_setters
   String get categoryKey => _categoryKey;

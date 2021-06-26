@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/home_controller.dart';
-import 'package:tomato_app/controller/venders_controller.dart';
+import 'package:tomato_app/controller/restaurant_controller.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
 
-import 'vender_card.dart';
+import '../widgets/restaurant_card.dart';
 
 // ignore: must_be_immutable
-class VendersListScreen extends StatelessWidget {
+class ResturantListScreen extends StatelessWidget {
   late TextTheme _themeData;
-  late VendersController _restaurantControllerState;
+  late RestaurantController _restaurantControllerState;
   late HomeController _homeControllerState;
   @override
   Widget build(BuildContext context) {
     _themeData = Theme.of(context).textTheme;
     _homeControllerState = Provider.of<HomeController>(context);
-    _restaurantControllerState = Provider.of<VendersController>(context);
+    _restaurantControllerState = Provider.of<RestaurantController>(context);
     return Scaffold(
       // backgroundColor: Theme.of(context).canvasColor,
       body: _body(
@@ -39,7 +40,7 @@ class VendersListScreen extends StatelessWidget {
             SizedBox(
               height: 25,
             ),
-            _search(),
+            _search(context),
             SizedBox(
               height: 20,
             ),
@@ -65,12 +66,12 @@ class VendersListScreen extends StatelessWidget {
               onTap: () {
                 _homeControllerState.onChangeWidget(1);
               },
-              child: VenderCard(
-                // favFood: "Pizza",
-                // title: "PizzaHut",
-                // rating: 4.5,
-                // networkUrl: 'assets/venders/pizzahut.png',
-              ),
+              child: RestaurantCard(
+                  // favFood: "Pizza",
+                  // title: "PizzaHut",
+                  // rating: 4.5,
+                  // networkUrl: 'assets/venders/pizzahut.png',
+                  ),
             ),
         ],
       ),
@@ -122,19 +123,60 @@ class VendersListScreen extends StatelessWidget {
     );
   }
 
-  _search() {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 30,
+  _search(context) {
+    return Consumer<RestaurantController>(
+      builder: (context, resturantCont, _) => 
+      Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 30,
+        ),
+        child: resturantCont.toggleSearchbar
+            ? _searchBar(context)
+            : _searchButtonTitle(),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _searchTitle(),
-          CustomIconButton(
-            icon: Icons.search_outlined,
+    );
+  }
+
+  Widget _searchButtonTitle() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _searchTitle(),
+        CustomIconButton(
+          icon: Icons.search,
+          onPressed: () => _restaurantControllerState.ontoggleSearchbar(),
+        )
+      ],
+    );
+  }
+
+  TextField _searchBar(context) {
+    return TextField(
+      decoration: InputDecoration(
+        hintText: "Search",
+        hintStyle: TextStyle(
+          color: kColorLightGrey,
+        ),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Icon(Icons.search),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: BorderSide(
+            color: kColorLightGrey!,
           ),
-        ],
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide:
+              BorderSide(color: kColorLightGrey!.withOpacity(0.8), width: 1),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide:
+              BorderSide(color: Theme.of(context).accentColor, width: 1.2),
+        ),
       ),
     );
   }
@@ -153,8 +195,7 @@ class VendersListScreen extends StatelessWidget {
     context,
   ) {
     return Container(
-      color: Colors.transparent,
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       height: 70,
       child: ListView(scrollDirection: Axis.horizontal, children: [
         for (var key in _restaurantControllerState.categoryList.keys)

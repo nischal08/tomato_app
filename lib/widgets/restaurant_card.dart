@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 
-class VenderCard extends StatelessWidget {
-  const VenderCard({Key? key}) : super(key: key);
+class RestaurantCard extends StatelessWidget {
+  const RestaurantCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

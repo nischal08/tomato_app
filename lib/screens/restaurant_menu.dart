@@ -7,12 +7,12 @@ import 'package:tomato_app/controller/products.dart';
 import 'package:tomato_app/models/product.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
-class VenderMenu extends StatefulWidget {
+class RestaurantMenu extends StatefulWidget {
   @override
-  _VenderMenuState createState() => _VenderMenuState();
+  _RestaurantMenuState createState() => _RestaurantMenuState();
 }
 
-class _VenderMenuState extends State<VenderMenu> {
+class _RestaurantMenuState extends State<RestaurantMenu> {
   late Products _productContr;
   // bool isInit = false;
   late HomeController _homeControllerState;
@@ -48,19 +48,19 @@ class _VenderMenuState extends State<VenderMenu> {
             SizedBox(
               height: 20,
             ),
-            _text(),
+            _customAppbar(),
             SizedBox(
               height: 20,
             ),
             _venderInfo(),
-            _vender(context, productData),
+            _productList(context, productData),
           ],
         ),
       ),
     );
   }
 
-  Widget _vender(context, Products productData) {
+  Widget _productList(context, Products productData) {
     return Expanded(
       child: ListView.builder(
         itemCount: productData.items.length,
@@ -73,7 +73,7 @@ class _VenderMenuState extends State<VenderMenu> {
     );
   }
 
-  _text() {
+  _customAppbar() {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 30,

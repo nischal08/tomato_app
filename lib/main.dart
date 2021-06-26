@@ -12,7 +12,7 @@ import 'controller/home_controller.dart';
 import 'controller/order_controller.dart';
 import 'controller/product_detail_controller.dart';
 import 'controller/products.dart';
-import 'controller/venders_controller.dart';
+import 'controller/restaurant_controller.dart';
 import 'models/product.dart';
 
 void main() {
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           create: (_) => HomeController(),
         ),
         ChangeNotifierProvider(
-          create: (_) => VendersController(),
+          create: (_) => RestaurantController(),
         ),
         ChangeNotifierProvider(
           create: (_) => ProductDetailController(),

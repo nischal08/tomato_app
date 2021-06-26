@@ -57,7 +57,9 @@ class ProductDetailScreen extends StatelessWidget {
                 _ingredient(context),
                 SizedBox(height: 20),
                 _productInfoRow(context),
-                SizedBox(height: _checkBigDeviceSize(context) ? 40 : 20),
+                SizedBox(
+                  height: _checkBigDeviceSize(context) ? 40 : 20,
+                ),
                 _transactionBtn(context),
                 SizedBox(
                   height: 20,

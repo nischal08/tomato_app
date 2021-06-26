@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/screens/product_detail_screen.dart';
 
-import 'package:tomato_app/screens/vender_menu.dart';
+import 'package:tomato_app/screens/restaurant_menu.dart';
 
 class HomeScreen extends StatelessWidget {
     static const routeName = "/";
@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
         index: _homeControllerState!.widgetIndex,
         children: [
           _homeControllerState!.screensList[_homeControllerState!.bottomNavIndex],
-          VenderMenu(),
+          RestaurantMenu(),
           ProductDetailScreen(),
         ],
       ),
