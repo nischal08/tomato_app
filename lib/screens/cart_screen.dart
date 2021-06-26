@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/order_controller.dart';
-import 'package:tomato_app/widgets/buy_button.dart';
+import 'package:tomato_app/widgets/circular_button.dart';
 import 'package:tomato_app/widgets/each_product_box.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
@@ -55,7 +55,7 @@ class CartScreen extends StatelessWidget {
   }
 
   Widget _checkoutBtn(context) {
-    return BuyButton(
+    return CircularButton(
       title: "Checkout",
       bgColor: Theme.of(context).primaryColorDark,
       fgColor: Theme.of(context).cardColor,

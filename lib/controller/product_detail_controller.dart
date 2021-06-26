@@ -11,10 +11,6 @@ class ProductDetailController extends ChangeNotifier {
     "L",
   ];
 
-  List prodQuantityList = [
-    Icons.remove,
-    Icons.add,
-  ];
 
   onIncrQuantity() {
     currentQuantity++;

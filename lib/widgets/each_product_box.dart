@@ -39,7 +39,7 @@ class EachProductBox extends StatelessWidget {
                 )
               : Text(
                   label!,
-                  style: GoogleFonts.raleway(
+                  style: GoogleFonts.lato(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     color: isSelected ? _theme.cardColor : kColorBlackText,
