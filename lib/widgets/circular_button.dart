@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tomato_app/contants/color_properties.dart';
 
 class CircularButton extends StatelessWidget {
   final String title;
@@ -32,7 +33,7 @@ class CircularButton extends StatelessWidget {
         child: Text(
           title,
           style: GoogleFonts.raleway(
-            color: fgColor ?? Theme.of(context).cardColor,
+            color: fgColor ?? kColorWhiteText,
             fontWeight: FontWeight.w600,
             fontSize: 17,
           ),
