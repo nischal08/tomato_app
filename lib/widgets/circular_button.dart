@@ -7,22 +7,21 @@ class CircularButton extends StatelessWidget {
   final Color bgColor;
   final onPressed;
   final Color? fgColor;
+  final double? height;
 
-  const CircularButton(
-      {Key? key,
-      required this.title,
-      required this.bgColor,
-      this.onPressed,
-      this.fgColor})
-      : super(key: key);
+  const CircularButton({
+    Key? key,
+    required this.title,
+    required this.bgColor,
+    this.onPressed,
+    this.height,
+    this.fgColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      height: 50,
-      
-      
-      
+      height: height ?? 50,
       elevation: 5.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),

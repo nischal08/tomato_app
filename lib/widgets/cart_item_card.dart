@@ -87,8 +87,14 @@ class CartItemCard extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),
-              leading: Image.network(
-                _cart.imageUrl,
+              leading: Padding(
+                padding: const EdgeInsets.only(left:10.0),
+                child: CircleAvatar(
+                  radius: 27,
+                  backgroundImage: NetworkImage(
+                    _cart.imageUrl,
+                  ),
+                ),
               ),
               trailing: SizedBox(
                 width: 100,

@@ -9,17 +9,17 @@ import 'package:tomato_app/widgets/circular_button.dart';
 
 class CartScreen extends StatelessWidget {
   static const routeName = "/cart";
-  late Carts _carts;
+  
   late TextTheme _themeData;
 
   @override
   Widget build(BuildContext context) {
     _themeData = Theme.of(context).textTheme;
-    _carts = Provider.of<Carts>(context);
-    return _body(context);
+ Carts   _carts = Provider.of<Carts>(context);
+    return _body(context,_carts );
   }
 
-  Widget _body(context) {
+  Widget _body(context, _carts ) {
     return Container(
       color: Theme.of(context).canvasColor,
       height: MediaQuery.of(context).size.height,
@@ -34,12 +34,16 @@ class CartScreen extends StatelessWidget {
             height: 20,
           ),
           Expanded(
-            child: _cartItems(context),
+            child: _cartItems(context,_carts),
           ),
           SizedBox(
             height: 15,
           ),
           _promoCode(context),
+          SizedBox(
+            height: 40,
+          ),
+          _totalAmount(context, ),
           SizedBox(
             height: 30,
           ),
@@ -55,6 +59,30 @@ class CartScreen extends StatelessWidget {
     );
   }
 
+  Widget _totalAmount(context,) {
+    return Consumer<Carts>(
+      builder: (context, cartsVal, child) => Container(
+        margin: const EdgeInsets.symmetric(horizontal: 30.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Total",
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            Text(
+              'Rs.${cartsVal.totalAmount}',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4!
+                  .copyWith(color: Theme.of(context).accentColor),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _promoCode(context) {
     return Container(
       decoration: BoxDecoration(
@@ -64,19 +92,20 @@ class CartScreen extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 30.0),
       child: TextField(
         decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(left: 20, top: 12),
-            hintText: "Promo Code",
-            border: UnderlineInputBorder(
-              borderSide: BorderSide.none,
-            ),
-            suffixIcon: _applyBtn(context)),
+          contentPadding: EdgeInsets.only(left: 30, top: 16),
+          hintText: "Promo Code",
+          border: UnderlineInputBorder(
+            borderSide: BorderSide.none,
+          ),
+          suffixIcon: _applyBtn(context),
+        ),
       ),
     );
   }
 
   Widget _applyBtn(context) {
     return Container(
-      height: 45,
+      height: 55,
       child: ElevatedButton(
         style: ButtonStyle(
           elevation: MaterialStateProperty.all<double>(5),
@@ -98,7 +127,7 @@ class CartScreen extends StatelessWidget {
         },
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: 10.0,
+            horizontal: 6.0,
           ),
           child: Text(
             "Apply",
@@ -113,8 +142,9 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _checkoutBtn(context) {
+  Widget _checkoutBtn(context, ) {
     return CircularButton(
+      height: 65,
       title: "Checkout",
       bgColor: Theme.of(context).primaryColorDark,
       fgColor: Theme.of(context).cardColor,
@@ -122,16 +152,14 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _cartItems(context) {
+  Widget _cartItems(context, _carts) {
     return ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 30.0),
+      padding: EdgeInsets.symmetric(horizontal: 30.0),
       itemCount: _carts.cartItems.length,
       itemBuilder: (context, index) {
         return ChangeNotifierProvider<Cart>.value(
           value: _carts.cartItems[index],
-      
-            child: CartItemCard(),
-         
+          child: CartItemCard(),
         );
       },
     );

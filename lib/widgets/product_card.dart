@@ -9,7 +9,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _homeControllerState = Provider.of<HomeController>(context);
-    final product = Provider.of<Product>(context, listen: false);
+    final product = Provider.of<Product>(context, );
     
     return Container(
       child: Stack(
