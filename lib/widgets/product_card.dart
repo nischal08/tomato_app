@@ -10,6 +10,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final _homeControllerState = Provider.of<HomeController>(context);
     final product = Provider.of<Product>(context, listen: false);
+    
     return Container(
       child: Stack(
         children: [
@@ -41,7 +42,7 @@ class ProductCard extends StatelessWidget {
 
   Widget _favBtn(context, isFav) {
     return Consumer<Product>(
-      builder: (_, prod, child) => IconButton(
+      builder: (context, prod, child) => IconButton(
         splashRadius: 1,
         onPressed: () {
           prod.toggleFavoriteStatus();

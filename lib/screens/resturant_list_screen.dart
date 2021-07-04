@@ -125,8 +125,7 @@ class ResturantListScreen extends StatelessWidget {
 
   _search(context) {
     return Consumer<RestaurantController>(
-      builder: (context, resturantCont, _) => 
-      Container(
+      builder: (context, resturantCont, _) => Container(
         padding: EdgeInsets.symmetric(
           horizontal: 30,
         ),
@@ -151,6 +150,7 @@ class ResturantListScreen extends StatelessWidget {
   }
 
   TextField _searchBar(context) {
+   
     return TextField(
       decoration: InputDecoration(
         hintText: "Search",

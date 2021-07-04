@@ -127,23 +127,27 @@ class ProductDetailScreen extends StatelessWidget {
   Widget _transactionBtn(context) {
     return Row(
       children: [
-        CircularButton(
-          fgColor: kColorWhiteText,
-          title: "Buy Now",
-          bgColor: Theme.of(context).accentColor,
-          onPressed: () async {
-            await _homeContrstate.onBottomNavClick(2);
-          },
+        Expanded(
+          child: CircularButton(
+            fgColor: kColorWhiteText,
+            title: "Buy Now",
+            bgColor: Theme.of(context).accentColor,
+            onPressed: () async {
+              await _homeContrstate.onBottomNavClick(2);
+            },
+          ),
         ),
         SizedBox(
           width: 15,
         ),
-        CircularButton(
-            title: "Add To Cart",
-            bgColor: Theme.of(context).primaryColorDark,
-            onPressed: () async {
-              await _homeContrstate.onBottomNavClick(2);
-            }),
+        Expanded(
+          child: CircularButton(
+              title: "Add To Cart",
+              bgColor: Theme.of(context).primaryColorDark,
+              onPressed: () async {
+                await _homeContrstate.onBottomNavClick(2);
+              }),
+        ),
       ],
     );
   }

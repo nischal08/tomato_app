@@ -18,25 +18,23 @@ class CircularButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: MaterialButton(
-        height: 50,
-        
-        
-        
-        elevation: 5.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        onPressed: onPressed,
-        color: bgColor,
-        child: Text(
-          title,
-          style: GoogleFonts.raleway(
-            color: fgColor ?? kColorWhiteText,
-            fontWeight: FontWeight.w600,
-            fontSize: 17,
-          ),
+    return MaterialButton(
+      height: 50,
+      
+      
+      
+      elevation: 5.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(50),
+      ),
+      onPressed: onPressed,
+      color: bgColor,
+      child: Text(
+        title,
+        style: GoogleFonts.raleway(
+          color: fgColor ?? kColorWhiteText,
+          fontWeight: FontWeight.w600,
+          fontSize: 17,
         ),
       ),
     );
