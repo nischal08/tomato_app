@@ -47,9 +47,11 @@ class ResturantListScreen extends StatelessWidget {
               context,
             ),
             SizedBox(
-              height: 20,
+              height: 15,
             ),
-            Expanded(child: _vender()),
+            Expanded(
+              child: _vender(),
+            ),
           ],
         ),
       ),
@@ -59,6 +61,9 @@ class ResturantListScreen extends StatelessWidget {
   Widget _vender() {
     return ListView(
       children: [
+        SizedBox(
+          height: 5,
+        ),
         for (int i = 0; i < 8; i++)
           GestureDetector(
             onTap: () {
