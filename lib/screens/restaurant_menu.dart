@@ -53,7 +53,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
               height: 20,
             ),
             _venderInfo(),
-             SizedBox(
+            SizedBox(
               height: 10,
             ),
             _productList(context, productData),
@@ -67,8 +67,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
     return Expanded(
       child: ListView.builder(
         itemCount: productData.items.length,
-        itemBuilder: (context, index) =>
-            ChangeNotifierProvider<Product>.value(
+        itemBuilder: (context, index) => ChangeNotifierProvider<Product>.value(
           value: productData.items[index],
           child: ProductCard(),
         ),
@@ -93,7 +92,10 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
 
   GestureDetector _backBtn() {
     return GestureDetector(
-      onTap: () => _homeControllerState.onChangeWidget(0),
+      onTap: () {
+        Navigator.of(context).pop();
+        // return _homeControllerState.onChangeWidget(0);
+      },
       child: Icon(
         Icons.arrow_back_ios,
         size: 30,

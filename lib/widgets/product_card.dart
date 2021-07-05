@@ -4,18 +4,29 @@ import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/models/product.dart';
+import 'package:tomato_app/screens/product_detail_screen.dart';
 
 class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _homeControllerState = Provider.of<HomeController>(context);
-    final product = Provider.of<Product>(context, );
-    
+    final product = Provider.of<Product>(
+      context,
+    );
+
     return Container(
       child: Stack(
         children: [
           GestureDetector(
-            onTap: () => _homeControllerState.onChangeWidget(2),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProductDetailScreen( product: product,),
+                ),
+              );
+              // return _homeControllerState.onChangeWidget(2);
+            },
             child: Container(
               child: _card(context, product),
             ),
@@ -42,16 +53,19 @@ class ProductCard extends StatelessWidget {
 
   Widget _favBtn(context, isFav) {
     return Consumer<Product>(
-      builder: (context, prod, child) => IconButton(
-        splashRadius: 1,
-        onPressed: () {
-          prod.toggleFavoriteStatus();
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        },
-        icon: Icon(
-          isFav ? Icons.favorite : Icons.favorite_border,
-          size: 22,
-          color: Theme.of(context).accentColor,
+      builder: (context, prod, child) => Material(
+        color: Colors.transparent,
+        child: IconButton(
+          splashRadius: 1,
+          onPressed: () {
+            prod.toggleFavoriteStatus();
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          },
+          icon: Icon(
+            isFav ? Icons.favorite : Icons.favorite_border,
+            size: 22,
+            color: Theme.of(context).accentColor,
+          ),
         ),
       ),
     );

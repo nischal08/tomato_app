@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/restaurant_controller.dart';
+import 'package:tomato_app/screens/restaurant_menu.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
 
 import '../widgets/restaurant_card.dart';
@@ -50,7 +51,7 @@ class ResturantListScreen extends StatelessWidget {
               height: 15,
             ),
             Expanded(
-              child: _vender(),
+              child: _vender(context),
             ),
           ],
         ),
@@ -58,7 +59,7 @@ class ResturantListScreen extends StatelessWidget {
     );
   }
 
-  Widget _vender() {
+  Widget _vender(context) {
     return ListView(
       children: [
         SizedBox(
@@ -67,7 +68,12 @@ class ResturantListScreen extends StatelessWidget {
         for (int i = 0; i < 8; i++)
           GestureDetector(
             onTap: () {
-              _homeControllerState.onChangeWidget(1);
+              // _homeControllerState.onChangeWidget(1);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RestaurantMenu(),
+                  ));
             },
             child: RestaurantCard(
                 // favFood: "Pizza",

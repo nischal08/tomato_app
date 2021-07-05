@@ -52,7 +52,7 @@ class CartScreen extends StatelessWidget {
             child: _checkoutBtn(context),
           ),
           SizedBox(
-            height: 20,
+            height: 20+MediaQuery.of(context).padding.bottom,
           ),
         ],
       ),
@@ -85,19 +85,20 @@ class CartScreen extends StatelessWidget {
 
   Widget _promoCode(context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(40),
-        color: Colors.white,
-      ),
+     
       margin: const EdgeInsets.symmetric(horizontal: 30.0),
-      child: TextField(
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(left: 30, top: 16),
-          hintText: "Promo Code",
-          border: UnderlineInputBorder(
-            borderSide: BorderSide.none,
+      child: Material(
+       borderRadius: BorderRadius.circular(40),
+       color: Colors.white,
+        child: TextField(
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.only(left: 30, top: 16),
+            hintText: "Promo Code",
+            border: UnderlineInputBorder(
+              borderSide: BorderSide.none,
+            ),
+            suffixIcon: _applyBtn(context),
           ),
-          suffixIcon: _applyBtn(context),
         ),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/product_detail_controller.dart';
+import 'package:tomato_app/models/product.dart';
 import 'package:tomato_app/widgets/each_product_box.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
 import 'package:tomato_app/widgets/circular_button.dart';
@@ -11,6 +12,10 @@ import 'package:tomato_app/widgets/circular_button.dart';
 class ProductDetailScreen extends StatelessWidget {
   late ProductDetailController _prodDetailContr;
   late HomeController _homeContrstate;
+
+  final Product product;
+
+  ProductDetailScreen({Key? key, required this.product}) : super(key: key);
 
   bool _checkBigDeviceSize(context) {
     return MediaQuery.of(context).size.height > 530 ? true : false;
@@ -32,7 +37,9 @@ class ProductDetailScreen extends StatelessWidget {
         child: Column(
           children: [
             _upperContainer(context),
-            Expanded(child: _lowerContainer(context)),
+            Expanded(
+              child: _lowerContainer(context),
+            ),
           ],
         ),
       ),
@@ -43,10 +50,10 @@ class ProductDetailScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(40),
-            topRight: Radius.circular(40),
-          ),
+          // borderRadius: BorderRadius.only(
+          //   topLeft: Radius.circular(40),
+          //   topRight: Radius.circular(40),
+          // ),
           color: Theme.of(context).cardColor),
       child: Column(
         children: [
@@ -58,7 +65,12 @@ class ProductDetailScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 _productInfoRow(context),
                 SizedBox(
-                  height: _checkBigDeviceSize(context) ? 40 : 20,
+                  // height: _checkBigDeviceSize(context) ? 20 : 40,
+                  height: 20,
+                ),
+                _venderInfo(context),
+                SizedBox(
+                  height: 20,
                 ),
                 _transactionBtn(context),
                 SizedBox(
@@ -72,22 +84,83 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
+  Widget _venderInfo(context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(8),
+              height: 50,
+              width: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Theme.of(context).primaryColor,
+              ),
+              child: Image.asset(
+                'assets/venders/kfc-chicken.png',
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Chin Club",
+                  style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+                Text(
+                  '3.1 km from you',
+                  style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                        color: Colors.black54,
+                        fontWeight: FontWeight.w400,
+                      ),
+                ),
+              ],
+            )
+          ],
+        ),
+        Container(
+          child: Row(
+            children: [
+              for (var i = 0; i < 5; i++)
+                Icon(
+                  Icons.star_rounded,
+                  size: 16,
+                  color: Colors.amber.shade700,
+                )
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _upperContainer(context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: Column(
         children: [
-          SizedBox(
-            height: 10,
-          ),
-          _appbarAction(context),
-          _productImage(),
-          SizedBox(
-            height: 12,
-          ),
-          _productQuantity(),
-          SizedBox(
-            height: 12,
+          Stack(
+            children: [
+              _productImage(),
+              Container(
+                height: 345,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _appbarAction(context),
+                    _productQuantity(),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -106,21 +179,23 @@ class ProductDetailScreen extends StatelessWidget {
         _eachProductInfo(
           context,
           key: "Price",
-          value: "650 ",
+          value: "Rs.${product.price.toStringAsFixed(0)} ",
         ),
         _eachProductInfo(
           context,
-          key: "Weight",
-          value: "450 gm",
+          key: "Rating",
+          value: "${product.rating}",
         ),
       ],
     );
   }
 
   Widget _productImage() {
-    return Image.asset(
-      'assets/foods/polopizza.png',
-      height: 250,
+    return Image.network(
+      product.image,
+      height: 350,
+      fit: BoxFit.cover,
+      width: double.infinity,
     );
   }
 
@@ -158,7 +233,10 @@ class ProductDetailScreen extends StatelessWidget {
       children: [
         IconButton(
           onPressed: () => _prodDetailContr.onDecrQuantity(),
-          icon: Icon(Icons.remove),
+          icon: Icon(
+            Icons.remove,
+            color: Colors.white,
+          ),
         ),
         EachProductBox(
           label: _prodDetailContr.currentQuantity.toString(),
@@ -166,7 +244,10 @@ class ProductDetailScreen extends StatelessWidget {
         ),
         IconButton(
           onPressed: () => _prodDetailContr.onIncrQuantity(),
-          icon: Icon(Icons.add),
+          icon: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
         ),
       ],
     );
@@ -237,24 +318,32 @@ class ProductDetailScreen extends StatelessWidget {
   }
 
   Widget _appbarAction(context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        CustomIconButton(
-          paddingLeft: 9,
-          icon: Icons.arrow_back_ios,
-          onPressed: () {
-            _homeContrstate.onChangeWidget(1);
-          },
-        ),
-        CustomIconButton(
-          onPressed: () async {
-            await _homeContrstate.onBottomNavClick(2);
-            // Navigator.pushNamed(context, HomeScreen.routeName);
-          },
-          icon: Icons.shopping_bag_outlined,
-        ),
-      ],
+    return Container(
+      padding: const EdgeInsets.only(
+        left: 30.0,
+        right: 30.0,
+        top: 10,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CustomIconButton(
+            paddingLeft: 9,
+            icon: Icons.arrow_back_ios,
+            onPressed: () {
+              Navigator.of(context).pop();
+              // _homeContrstate.onChangeWidget(1);
+            },
+          ),
+          CustomIconButton(
+            onPressed: () async {
+              await _homeContrstate.onBottomNavClick(2);
+              // Navigator.pushNamed(context, HomeScreen.routeName);
+            },
+            icon: Icons.shopping_bag_outlined,
+          ),
+        ],
+      ),
     );
   }
 
@@ -262,7 +351,7 @@ class ProductDetailScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Text(
-        "Pepperoni Pizza",
+        product.name,
         style: GoogleFonts.raleway(
           fontSize: 22,
           fontWeight: FontWeight.w600,
