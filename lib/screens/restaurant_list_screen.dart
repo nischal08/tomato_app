@@ -9,7 +9,8 @@ import 'package:tomato_app/widgets/custom_icon_button.dart';
 import '../widgets/restaurant_card.dart';
 
 // ignore: must_be_immutable
-class ResturantListScreen extends StatelessWidget {
+class RestaurantListScreen extends StatelessWidget {
+  static const routeName = '/restaurant-list';
   late TextTheme _themeData;
   late RestaurantController _restaurantControllerState;
   late HomeController _homeControllerState;
@@ -69,11 +70,9 @@ class ResturantListScreen extends StatelessWidget {
           GestureDetector(
             onTap: () {
               // _homeControllerState.onChangeWidget(1);
-              Navigator.push(
+              Navigator.pushNamed(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => RestaurantMenu(),
-                  ));
+                 RestaurantMenu.routeName);
             },
             child: RestaurantCard(
                 // favFood: "Pizza",

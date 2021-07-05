@@ -1,8 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tomato_app/screens/food_screen.dart';
 import 'package:tomato_app/screens/cart_screen.dart';
-import 'package:tomato_app/screens/resturant_list_screen.dart';
+import 'package:tomato_app/screens/restaurant_list_screen.dart';
 
 class HomeController extends ChangeNotifier {
   int widgetIndex = 0;
@@ -19,7 +20,7 @@ class HomeController extends ChangeNotifier {
   }
 
   List _screensList = [
-    ResturantListScreen(),
+    RestaurantListScreen(),
     FoodScreen(),
     CartScreen(),
   ];
@@ -32,7 +33,7 @@ class HomeController extends ChangeNotifier {
   var bottomNavItemData = {
     Icon(Icons.food_bank_outlined): 'Restaurant',
     Icon(Icons.fastfood_outlined): 'Food',
-    Icon(Icons.local_dining_outlined): 'Order',
+    Icon(CupertinoIcons.cart): 'Cart',
   };
 
   int _bottomNavIndex = 0;

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tomato_app/controller/food_controller.dart';
 
 class FoodScreen extends StatelessWidget {
+  static const routeName = "/food-category";
   @override
   Widget build(BuildContext context) {
     FoodController _foodStateController = Provider.of<FoodController>(

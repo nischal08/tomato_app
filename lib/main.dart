@@ -4,9 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/controller/food_controller.dart';
+import 'package:tomato_app/screens/cart_screen.dart';
+import 'package:tomato_app/screens/food_screen.dart';
 import 'package:tomato_app/screens/home.dart';
 import 'package:tomato_app/screens/login_screen.dart';
+import 'package:tomato_app/screens/product_detail_screen.dart';
 import 'package:tomato_app/screens/register_screen.dart';
+import 'package:tomato_app/screens/restaurant_list_screen.dart';
+import 'package:tomato_app/screens/restaurant_menu.dart';
 import 'package:tomato_app/screens/welcome_screen.dart';
 
 import 'controller/home_controller.dart';
@@ -49,6 +54,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Tomato',
         theme: ThemeData(
           cardColor: Colors.white,
@@ -76,7 +82,12 @@ class MyApp extends StatelessWidget {
           HomeScreen.routeName: (context) => HomeScreen(),
           WelcomeScreen.routeName: (context) => WelcomeScreen(),
           LoginScreen.routeName: (context) => LoginScreen(),
-          RegisterScreen.routeName: (context) => RegisterScreen()
+          RegisterScreen.routeName: (context) => RegisterScreen(),
+          CartScreen.routeName:(context)=>CartScreen(),
+          RestaurantMenu.routeName:(context)=>RestaurantMenu(),
+          RestaurantListScreen.routeName:(context)=>RestaurantListScreen(),
+          ProductDetailScreen.routeName:(context)=>ProductDetailScreen(),
+          FoodScreen.routeName:(context)=>FoodScreen()
         },
       ),
     );

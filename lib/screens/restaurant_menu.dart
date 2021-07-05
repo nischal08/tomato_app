@@ -8,6 +8,7 @@ import 'package:tomato_app/models/product.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
 class RestaurantMenu extends StatefulWidget {
+  static const routeName = '/restaurant-menu';
   @override
   _RestaurantMenuState createState() => _RestaurantMenuState();
 }
@@ -43,6 +44,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
   Widget _body(context, productData) {
     return SafeArea(
       child: Container(
+        color: Theme.of(context).canvasColor,
         child: Column(
           children: [
             SizedBox(

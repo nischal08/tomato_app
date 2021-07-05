@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _homeControllerState = Provider.of<HomeController>(context);
-    final product = Provider.of<Product>(
+    final Product product = Provider.of<Product>(
       context,
     );
 
@@ -19,12 +20,8 @@ class ProductCard extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProductDetailScreen( product: product,),
-                ),
-              );
+              Navigator.pushNamed(context, ProductDetailScreen.routeName,
+                  arguments: product);
               // return _homeControllerState.onChangeWidget(2);
             },
             child: Container(
@@ -35,8 +32,8 @@ class ProductCard extends StatelessWidget {
             right: 40,
             top: 1,
             child: GestureDetector(
-              onTap: () async {
-                await _homeControllerState.onBottomNavClick(2);
+              onTap: () {
+                // await _homeControllerState.onBottomNavClick(2);
               },
               child: _addtoCart(context),
             ),
@@ -73,14 +70,14 @@ class ProductCard extends StatelessWidget {
 
   Widget _addtoCart(context) {
     return Container(
-      padding: EdgeInsets.all(6),
+      padding: EdgeInsets.all(5),
       decoration: BoxDecoration(
         color: Theme.of(context).accentColor,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(
-        Icons.shopping_cart_outlined,
-        size: 18,
+        CupertinoIcons.cart_badge_plus,
+        size: 20,
         color: Theme.of(context).cardColor,
       ),
     );
@@ -100,57 +97,65 @@ class ProductCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              _itemImage(context, product),
-              SizedBox(
-                width: 20,
-              ),
-              Flexible(
-                fit: FlexFit.loose,
-                child: _info(context, product),
-              ),
-            ],
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            _itemImage(context, product),
+            SizedBox(
+              width: 20,
+            ),
+            Flexible(
+              fit: FlexFit.loose,
+              child: _info(context, product),
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget _itemImage(context, product) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.35,
-      padding: EdgeInsets.all(5),
-      child: Image.network(
-        product.image!,
-        fit: BoxFit.cover,
+    return ClipPath(
+      clipper: ShapeBorderClipper(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          bottomLeft: Radius.circular(15),
+        )),
+      ),
+      child: Container(
+       height: double.infinity,
+        width: MediaQuery.of(context).size.width * 0.38,
+        // padding: EdgeInsets.all(5),
+        child: Image.network(
+          product.image!,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
 
   Widget _info(context, product) {
     return Container(
+      padding: EdgeInsets.symmetric(vertical: 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _rating(context, product),
-          SizedBox(height: 4),
+          SizedBox(height: 8),
           _title(context, product),
           _type(context, product),
-          SizedBox(height: 4),
+          SizedBox(height: 8),
           _price(context, product)
         ],
       ),
     );
   }
 
-  Widget _price(context, product) {
+  Widget _price(context,Product product) {
     return Text(
-      "Rs.${product.price}",
+      "Rs.${product.price.toStringAsFixed(0)}",
       style: GoogleFonts.openSans(
         fontSize: 16,
         fontWeight: FontWeight.w600,
@@ -173,7 +178,7 @@ class ProductCard extends StatelessWidget {
           Icon(
             Icons.star_rounded,
             size: 22,
-            color: kColorAmber,
+            color: KColorRatingColor,
           )
         ],
       ),
@@ -185,7 +190,7 @@ class ProductCard extends StatelessWidget {
       product.name!,
       overflow: TextOverflow.fade,
       softWrap: false,
-      style: Theme.of(context).textTheme.subtitle1,
+      style: Theme.of(context).textTheme.headline6,
     );
   }
 

@@ -40,7 +40,7 @@ class RestaurantCard extends StatelessWidget {
                         SizedBox(width: 1),
                         Icon(
                           Icons.star_rounded,
-                          color: kColorAmber,
+                          color: KColorRatingColor,
                           size: 22,
                         )
                       ],

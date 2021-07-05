@@ -10,19 +10,19 @@ import 'package:tomato_app/widgets/custom_icon_button.dart';
 import 'package:tomato_app/widgets/circular_button.dart';
 
 class ProductDetailScreen extends StatelessWidget {
+  static const routeName = '/product-detail';
   late ProductDetailController _prodDetailContr;
   late HomeController _homeContrstate;
 
-  final Product product;
-
-  ProductDetailScreen({Key? key, required this.product}) : super(key: key);
+  late Product product;
 
   bool _checkBigDeviceSize(context) {
-    return MediaQuery.of(context).size.height > 530 ? true : false;
+    return MediaQuery.of(context).size.height > 500 ? true : false;
   }
 
   @override
   Widget build(BuildContext context) {
+    product = ModalRoute.of(context)!.settings.arguments as Product;
     _prodDetailContr = Provider.of<ProductDetailController>(context);
     _homeContrstate = Provider.of<HomeController>(context);
     return Scaffold(
@@ -65,7 +65,6 @@ class ProductDetailScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 _productInfoRow(context),
                 SizedBox(
-                  // height: _checkBigDeviceSize(context) ? 20 : 40,
                   height: 20,
                 ),
                 _venderInfo(context),
@@ -133,7 +132,7 @@ class ProductDetailScreen extends StatelessWidget {
                 Icon(
                   Icons.star_rounded,
                   size: 16,
-                  color: Colors.amber.shade700,
+                  color: KColorRatingColor,
                 )
             ],
           ),
@@ -148,9 +147,9 @@ class ProductDetailScreen extends StatelessWidget {
         children: [
           Stack(
             children: [
-              _productImage(),
+              _productImage(context),
               Container(
-                height: 345,
+                height: _checkBigDeviceSize(context) ? 345 : 295,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -190,10 +189,10 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _productImage() {
+  Widget _productImage(context) {
     return Image.network(
       product.image,
-      height: 350,
+       height: _checkBigDeviceSize(context) ? 350 : 250,
       fit: BoxFit.cover,
       width: double.infinity,
     );
