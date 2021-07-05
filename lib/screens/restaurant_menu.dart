@@ -53,6 +53,9 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
               height: 20,
             ),
             _venderInfo(),
+             SizedBox(
+              height: 10,
+            ),
             _productList(context, productData),
           ],
         ),

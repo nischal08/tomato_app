@@ -43,7 +43,7 @@ class CartScreen extends StatelessWidget {
           SizedBox(
             height: 40,
           ),
-          _totalAmount(context, ),
+          _totalAmount( ),
           SizedBox(
             height: 30,
           ),
@@ -59,9 +59,9 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _totalAmount(context,) {
+  Widget _totalAmount() {
     return Consumer<Carts>(
-      builder: (context, cartsVal, child) => Container(
+      builder: (context, cartsVal, _) => Container(
         margin: const EdgeInsets.symmetric(horizontal: 30.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

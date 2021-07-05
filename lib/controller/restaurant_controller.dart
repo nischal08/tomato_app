@@ -19,10 +19,11 @@ class RestaurantController extends ChangeNotifier {
   String get userImgUrl => _userImageUrl;
 
   Map<String, dynamic> _categoryList = {
-    "All": null,
-    "Fast food": "assets/foods/pizzapieces.png",
-    "Bakery": "assets/foods/pancake.png",
-    "Drinks": "assets/foods/beverage.png",
+    "All": "assets/category/all.png",
+    "Fast food": "assets/category/fast-food.png",
+    "Pizza": "assets/category/pizza.png",
+    "Bakery": "assets/category/bakery.png",
+    "Drinks": "assets/category/drinks.png",
   };
   // ignore: unnecessary_getters_setters
   Map get categoryList => _categoryList;

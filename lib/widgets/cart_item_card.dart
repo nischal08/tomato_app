@@ -97,7 +97,7 @@ class CartItemCard extends StatelessWidget {
                 ),
               ),
               trailing: SizedBox(
-                width: 100,
+                width: 110,
                 child: _productQuantity(),
               ),
               contentPadding: EdgeInsets.zero,
@@ -113,7 +113,7 @@ class CartItemCard extends StatelessWidget {
                     .copyWith(fontWeight: FontWeight.w500),
               ),
               subtitle: Text(
-                "\$${_cart.price * _cart.quantity}",
+                "\$${_cart.price}",
                 style: Theme.of(context)
                     .textTheme
                     .headline6!
@@ -129,9 +129,10 @@ class CartItemCard extends StatelessWidget {
         return Row(
           children: [
             SizedBox(
-              width: 30,
+              width: 35,
               height: 30,
               child: EachProductBox(
+                borderRadius: 50,
                 icon: Icons.remove,
                 onPressed: () {
                   _cart.onDecrQuantity();
@@ -153,9 +154,10 @@ class CartItemCard extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 30,
+              width: 35,
               height: 30,
               child: EachProductBox(
+                borderRadius: 50,
                 icon: Icons.add,
                 onPressed: () {
                   _cart.onIncrQuantity();

@@ -5,13 +5,16 @@ class CustomIconButton extends StatelessWidget {
   final Function? onPressed;
   final double? paddingLeft;
   final double? paddingRight;
+  final double? elevation;
 
   var _themeData;
-  CustomIconButton(
-      {this.onPressed,
-      required this.icon,
-      this.paddingLeft,
-      this.paddingRight});
+  CustomIconButton({
+    required this.icon,
+    this.onPressed,
+    this.paddingLeft,
+    this.paddingRight,
+    this.elevation,
+  });
   @override
   Widget build(BuildContext context) {
     _themeData = Theme.of(context);
@@ -21,7 +24,7 @@ class CustomIconButton extends StatelessWidget {
         height: 50,
       ),
       child: RawMaterialButton(
-        elevation: 4,
+        elevation: elevation ?? 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),

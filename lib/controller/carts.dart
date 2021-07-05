@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tomato_app/models/cart.dart';
 import 'package:tomato_app/models/product.dart';
 
-class Carts extends ChangeNotifier {
+class Carts with ChangeNotifier {
   List<Cart> _cartItems = [
     Cart(
       colorFlag: true,
@@ -83,7 +83,6 @@ class Carts extends ChangeNotifier {
     _cartItems.forEach((item) {
       total += item.products.price * item.quantity;
     });
-
     return total;
   }
 }

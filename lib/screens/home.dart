@@ -6,7 +6,7 @@ import 'package:tomato_app/screens/product_detail_screen.dart';
 import 'package:tomato_app/screens/restaurant_menu.dart';
 
 class HomeScreen extends StatelessWidget {
-    static const routeName = "/";
+    static const routeName = "/home";
   HomeController? _homeControllerState;
   @override
   Widget build(BuildContext context) {

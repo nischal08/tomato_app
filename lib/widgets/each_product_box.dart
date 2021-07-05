@@ -9,7 +9,10 @@ class EachProductBox extends StatelessWidget {
   final String? label;
   final onPressed;
   final bool isSelected;
+  final double? borderRadius;
+
   EachProductBox({
+    this.borderRadius,
     this.icon,
     this.label,
     required this.onPressed,
@@ -27,7 +30,7 @@ class EachProductBox extends StatelessWidget {
           margin: EdgeInsets.only(right: 4),
           decoration: BoxDecoration(
             boxShadow: [kBoxShadowSmallBtn],
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(borderRadius ?? 10),
             color:
                 isSelected ? Theme.of(context).accentColor : _theme.cardColor,
           ),
@@ -48,4 +51,3 @@ class EachProductBox extends StatelessWidget {
         ));
   }
 }
-
