@@ -9,17 +9,17 @@ import 'package:tomato_app/widgets/circular_button.dart';
 
 class CartScreen extends StatelessWidget {
   static const routeName = "/cart";
-  
+
   late TextTheme _themeData;
 
   @override
   Widget build(BuildContext context) {
     _themeData = Theme.of(context).textTheme;
- Carts   _carts = Provider.of<Carts>(context);
-    return _body(context,_carts );
+  
+    return _body(context, );
   }
 
-  Widget _body(context, _carts ) {
+  Widget _body(context, ) {
     return Container(
       color: Theme.of(context).canvasColor,
       height: MediaQuery.of(context).size.height,
@@ -34,7 +34,7 @@ class CartScreen extends StatelessWidget {
             height: 20,
           ),
           Expanded(
-            child: _cartItems(context,_carts),
+            child: _cartItems(context),
           ),
           SizedBox(
             height: 15,
@@ -43,7 +43,7 @@ class CartScreen extends StatelessWidget {
           SizedBox(
             height: 40,
           ),
-          _totalAmount( ),
+          _totalAmount(context,),
           SizedBox(
             height: 30,
           ),
@@ -52,16 +52,16 @@ class CartScreen extends StatelessWidget {
             child: _checkoutBtn(context),
           ),
           SizedBox(
-            height: 20+MediaQuery.of(context).padding.bottom,
+            height: 20 + MediaQuery.of(context).padding.bottom,
           ),
         ],
       ),
     );
   }
 
-  Widget _totalAmount() {
-    return Consumer<Carts>(
-      builder: (context, cartsVal, _) => Container(
+  Widget _totalAmount(context,) {
+    return 
+      Container(
         margin: const EdgeInsets.symmetric(horizontal: 30.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,7 +71,7 @@ class CartScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.headline4,
             ),
             Text(
-              'Rs.${cartsVal.totalAmount}',
+              'Rs.${Provider.of<Carts>(context).totalAmount}',
               style: Theme.of(context)
                   .textTheme
                   .headline4!
@@ -79,17 +79,16 @@ class CartScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      )
+    ;
   }
 
   Widget _promoCode(context) {
     return Container(
-     
       margin: const EdgeInsets.symmetric(horizontal: 30.0),
       child: Material(
-       borderRadius: BorderRadius.circular(40),
-       color: Colors.white,
+        borderRadius: BorderRadius.circular(40),
+        color: Colors.white,
         child: TextField(
           decoration: InputDecoration(
             contentPadding: EdgeInsets.only(left: 30, top: 16),
@@ -143,7 +142,9 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _checkoutBtn(context, ) {
+  Widget _checkoutBtn(
+    context,
+  ) {
     return CircularButton(
       height: 65,
       title: "Checkout",
@@ -153,16 +154,18 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _cartItems(context, _carts) {
-    return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 30.0),
-      itemCount: _carts.cartItems.length,
-      itemBuilder: (context, index) {
-        return ChangeNotifierProvider<Cart>.value(
-          value: _carts.cartItems[index],
-          child: CartItemCard(),
-        );
-      },
+  Widget _cartItems(context) {
+    return Consumer<Carts>(
+      builder: (context, carts, child) => ListView.builder(
+        padding: EdgeInsets.symmetric(horizontal: 30.0),
+        itemCount: carts.cartItems.length,
+        itemBuilder: (context, index) {
+          return ChangeNotifierProvider<Cart>.value(
+            value: carts.cartItems[index],
+            child: CartItemCard(),
+          );
+        },
+      ),
     );
   }
 

@@ -78,6 +78,15 @@ class Carts with ChangeNotifier {
 
   set cartItems(value) => this._cartItems = value;
 
+  void toggleDownQuantity(Cart cart) {
+    cart.onDecrQuantity();
+    notifyListeners();
+  }
+  void toggleUpQuantity(Cart cart) {
+    cart.onIncrQuantity();
+    notifyListeners();
+  }
+
   double get totalAmount {
     double total = 0.0;
     _cartItems.forEach((item) {

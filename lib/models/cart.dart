@@ -23,7 +23,7 @@ class Cart with ChangeNotifier {
     quantity++;
     price = products.price * quantity;
     colorFlag = true;
-    notifyListeners();
+    
   }
 
   onDecrQuantity() {
@@ -31,7 +31,7 @@ class Cart with ChangeNotifier {
       quantity--;
       price = products.price * quantity;
       colorFlag = false;
-      notifyListeners();
+     
     }
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
+import 'package:tomato_app/controller/carts.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/models/cart.dart';
 
@@ -16,7 +17,7 @@ class CartItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     _themeData = Theme.of(context).textTheme;
     _homeControllerState = Provider.of<HomeController>(context);
-    _cart = Provider.of<Cart>(context);
+    _cart = Provider.of<Cart>(context, listen: false);
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -81,51 +82,49 @@ class CartItemCard extends StatelessWidget {
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-       margin: EdgeInsets.only(bottom: 10),
+      margin: EdgeInsets.only(bottom: 10),
       child: ListTile(
-      
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              leading: Padding(
-                padding: const EdgeInsets.only(left:10.0),
-                child: CircleAvatar(
-                  radius: 27,
-                  backgroundImage: NetworkImage(
-                    _cart.imageUrl,
-                  ),
-                ),
-              ),
-              trailing: SizedBox(
-                width: 110,
-                child: _productQuantity(),
-              ),
-              contentPadding: EdgeInsets.zero,
-              onTap: () {
-                // _homeControllerState.onChangeWidget(2);
-              },
-    
-              title: Text(
-                _cart.title,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .copyWith(fontWeight: FontWeight.w500),
-              ),
-              subtitle: Text(
-                "\$${_cart.price}",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .copyWith(color: Theme.of(context).accentColor),
-              ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 10.0),
+          child: CircleAvatar(
+            radius: 27,
+            backgroundImage: NetworkImage(
+              _cart.imageUrl,
             ),
+          ),
+        ),
+        trailing: SizedBox(
+          width: 110,
+          child: _productQuantity(_cart),
+        ),
+        contentPadding: EdgeInsets.zero,
+        onTap: () {
+          // _homeControllerState.onChangeWidget(2);
+        },
+        title: Text(
+          _cart.title,
+          style: Theme.of(context)
+              .textTheme
+              .headline6!
+              .copyWith(fontWeight: FontWeight.w500),
+        ),
+        subtitle: Text(
+          "\$${_cart.price}",
+          style: Theme.of(context)
+              .textTheme
+              .headline6!
+              .copyWith(color: Theme.of(context).accentColor),
+        ),
+      ),
     );
   }
 
-  Widget _productQuantity() {
-    return Consumer<Cart>(
-      builder: (context, cart, _) {
+  Widget _productQuantity(_cart) {
+    return Consumer<Carts>(
+      builder: (context, carts, _) {
         return Row(
           children: [
             SizedBox(
@@ -135,9 +134,9 @@ class CartItemCard extends StatelessWidget {
                 borderRadius: 50,
                 icon: Icons.remove,
                 onPressed: () {
-                  _cart.onDecrQuantity();
+                  carts.toggleDownQuantity(_cart);
                 },
-                isSelected: !cart.colorFlag,
+                isSelected: !_cart.colorFlag,
               ),
             ),
             Container(
@@ -146,7 +145,7 @@ class CartItemCard extends StatelessWidget {
               alignment: Alignment.center,
               margin: EdgeInsets.only(right: 4),
               child: Text(
-                cart.quantity.toString(),
+                _cart.quantity.toString(),
                 style: GoogleFonts.robotoSlab(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
@@ -160,7 +159,7 @@ class CartItemCard extends StatelessWidget {
                 borderRadius: 50,
                 icon: Icons.add,
                 onPressed: () {
-                  _cart.onIncrQuantity();
+                  carts.toggleUpQuantity(_cart);
                 },
                 isSelected: _cart.colorFlag,
               ),
