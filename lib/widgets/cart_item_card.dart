@@ -12,7 +12,7 @@ class CartItemCard extends StatelessWidget {
   late HomeController _homeControllerState;
   late Cart _cart;
   late TextTheme _themeData;
-
+  
   @override
   Widget build(BuildContext context) {
     _themeData = Theme.of(context).textTheme;

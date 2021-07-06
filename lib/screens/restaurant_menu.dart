@@ -71,7 +71,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
         itemCount: productData.items.length,
         itemBuilder: (context, index) => ChangeNotifierProvider<Product>.value(
           value: productData.items[index],
-          child: ProductCard(),
+          child: ProductCard(context),
         ),
       ),
     );

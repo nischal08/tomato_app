@@ -15,11 +15,17 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _themeData = Theme.of(context).textTheme;
-  
-    return _body(context, );
+
+    return Scaffold(
+      body: _body(
+        context,
+      ),
+    );
   }
 
-  Widget _body(context, ) {
+  Widget _body(
+    context,
+  ) {
     return Container(
       color: Theme.of(context).canvasColor,
       height: MediaQuery.of(context).size.height,
@@ -43,7 +49,9 @@ class CartScreen extends StatelessWidget {
           SizedBox(
             height: 40,
           ),
-          _totalAmount(context,),
+          _totalAmount(
+            context,
+          ),
           SizedBox(
             height: 30,
           ),
@@ -59,28 +67,28 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _totalAmount(context,) {
-    return 
-      Container(
-        margin: const EdgeInsets.symmetric(horizontal: 30.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Total",
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            Text(
-              'Rs.${Provider.of<Carts>(context).totalAmount}',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4!
-                  .copyWith(color: Theme.of(context).accentColor),
-            ),
-          ],
-        ),
-      )
-    ;
+  Widget _totalAmount(
+    context,
+  ) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 30.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Total",
+            style: Theme.of(context).textTheme.headline4,
+          ),
+          Text(
+            'Rs.${Provider.of<Carts>(context).totalAmount}',
+            style: Theme.of(context)
+                .textTheme
+                .headline4!
+                .copyWith(color: Theme.of(context).accentColor),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _promoCode(context) {
@@ -156,16 +164,47 @@ class CartScreen extends StatelessWidget {
 
   Widget _cartItems(context) {
     return Consumer<Carts>(
-      builder: (context, carts, child) => ListView.builder(
-        padding: EdgeInsets.symmetric(horizontal: 30.0),
-        itemCount: carts.cartItems.length,
-        itemBuilder: (context, index) {
-          return ChangeNotifierProvider<Cart>.value(
-            value: carts.cartItems[index],
-            child: CartItemCard(),
-          );
-        },
-      ),
+      builder: (context, carts, child) => carts.cartItems.isEmpty
+          ? Container(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Image.asset(
+                      'assets/images/empty-cart.png',
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    "Your cart is empty",
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    """You have no items in your shopping cart.
+                  Let's go buy something!
+                  """,
+                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                          color: Colors.grey.shade600,
+                        ),
+                  ),
+                ],
+              ),
+            )
+          : ListView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 30.0),
+              itemCount: carts.cartItems.length,
+              itemBuilder: (context, index) {
+                return ChangeNotifierProvider<Cart>.value(
+                  value: carts.cartItems[index],
+                  child: CartItemCard(),
+                );
+              },
+            ),
     );
   }
 

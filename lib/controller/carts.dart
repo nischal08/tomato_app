@@ -4,75 +4,23 @@ import 'package:tomato_app/models/product.dart';
 
 class Carts with ChangeNotifier {
   List<Cart> _cartItems = [
-    Cart(
-      colorFlag: true,
-      quantity: 1,
-      products: Product(
-        image:
-            "https://bsansar.sgp1.digitaloceanspaces.com/2019/08/Big-B-Burger-2.jpg",
-        name: "Burger",
-        price: 230.0,
-        rating: 4.4,
-        type: "FastFood",
-        // isFavorite: false,
-      ),
-      price: 230.0,
-      title: "Burger",
-      imageUrl:
-          "https://bsansar.sgp1.digitaloceanspaces.com/2019/08/Big-B-Burger-2.jpg",
-    ),
-    Cart(
-      colorFlag: true,
-      quantity: 1,
-      products: Product(
-        image:
-            "https://bsansar.sgp1.digitaloceanspaces.com/2019/08/Big-B-Burger-2.jpg",
-        name: "Burger",
-        price: 230.0,
-        rating: 4.4,
-        type: "FastFood",
-        // isFavorite: false,
-      ),
-      price: 230.0,
-      title: "Burger",
-      imageUrl:
-          "https://bsansar.sgp1.digitaloceanspaces.com/2019/08/Big-B-Burger-2.jpg",
-    ),
-    Cart(
-      colorFlag: true,
-      quantity: 1,
-      products: Product(
-        image:
-            "https://bsansar.sgp1.digitaloceanspaces.com/2019/08/Big-B-Burger-2.jpg",
-        name: "Burger",
-        price: 230.0,
-        rating: 4.4,
-        type: "FastFood",
-        // isFavorite: false,
-      ),
-      price: 230.0,
-      title: "Burger",
-      imageUrl:
-          "https://bsansar.sgp1.digitaloceanspaces.com/2019/08/Big-B-Burger-2.jpg",
-    ),
-    Cart(
-      colorFlag: true,
-      quantity: 1,
-      products: Product(
-        image:
-            "https://bsansar.sgp1.digitaloceanspaces.com/2019/08/Big-B-Burger-2.jpg",
-        name: "Burger",
-        price: 230.0,
-        rating: 4.4,
-        type: "FastFood",
-        // isFavorite: false,
-      ),
-      price: 230.0,
-      title: "Burger",
-      imageUrl:
-          "https://bsansar.sgp1.digitaloceanspaces.com/2019/08/Big-B-Burger-2.jpg",
-    )
+    
   ];
+
+  void addItemToCart({
+    colorFlag = true,
+    quantity = 1,
+    required Product product,
+  }) {
+    _cartItems.add(Cart(
+        imageUrl: product.image,
+        price: product.price,
+        products: product,
+        title: product.name,
+        colorFlag: colorFlag,
+        quantity: 1));
+    notifyListeners();
+  }
 
   get cartItems => this._cartItems;
 
@@ -82,6 +30,7 @@ class Carts with ChangeNotifier {
     cart.onDecrQuantity();
     notifyListeners();
   }
+
   void toggleUpQuantity(Cart cart) {
     cart.onIncrQuantity();
     notifyListeners();

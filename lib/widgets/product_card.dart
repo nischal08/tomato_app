@@ -3,11 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
+import 'package:tomato_app/controller/carts.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/models/product.dart';
 import 'package:tomato_app/screens/product_detail_screen.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
+  final BuildContext ctx;
+
+  ProductCard(this.ctx);
+
+  @override
+  _ProductCardState createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  bool _isitemAdded = false;
+
   @override
   Widget build(BuildContext context) {
     final _homeControllerState = Provider.of<HomeController>(context);
@@ -34,6 +46,18 @@ class ProductCard extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 // await _homeControllerState.onBottomNavClick(2);
+                Provider.of<Carts>(context, listen: false)
+                    .addItemToCart(product: product);
+                setState(() {
+                _isitemAdded = true;
+                  
+                });
+                
+                // ScaffoldMessenger.of(ctx).showSnackBar(
+                //   SnackBar(
+                //     content: Text("Item added to cart"),
+                //   ),
+                // );
               },
               child: _addtoCart(context),
             ),
@@ -76,7 +100,9 @@ class ProductCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(
-        CupertinoIcons.cart_badge_plus,
+        _isitemAdded
+            ? CupertinoIcons.check_mark
+            : CupertinoIcons.cart_badge_plus,
         size: 20,
         color: Theme.of(context).cardColor,
       ),
@@ -124,7 +150,7 @@ class ProductCard extends StatelessWidget {
         )),
       ),
       child: Container(
-       height: double.infinity,
+        height: double.infinity,
         width: MediaQuery.of(context).size.width * 0.38,
         // padding: EdgeInsets.all(5),
         child: Image.network(
@@ -153,7 +179,7 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Widget _price(context,Product product) {
+  Widget _price(context, Product product) {
     return Text(
       "Rs.${product.price.toStringAsFixed(0)}",
       style: GoogleFonts.openSans(

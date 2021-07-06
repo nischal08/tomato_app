@@ -79,6 +79,7 @@ class RestaurantListScreen extends StatelessWidget {
                 // title: "PizzaHut",
                 // rating: 4.5,
                 // networkUrl: 'assets/venders/pizzahut.png',
+               
                 ),
           ),
       ],
