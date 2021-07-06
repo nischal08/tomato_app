@@ -213,7 +213,7 @@ class _ProductCardState extends State<ProductCard> {
 
   Widget _title(context, product) {
     return Text(
-      product.name!,
+      product.title!,
       overflow: TextOverflow.fade,
       softWrap: false,
       style: Theme.of(context).textTheme.headline6,

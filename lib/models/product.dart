@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 class Product with ChangeNotifier {
   final double rating;
-  final String name;
+  final String title;
   final String type;
   final double price;
   final String image;
@@ -11,7 +11,7 @@ class Product with ChangeNotifier {
   Product({
     required this.image,
     required this.rating,
-    required this.name,
+    required this.title,
     required this.type,
     required this.price,
     this.isFavorite = false,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
+import 'package:tomato_app/controller/carts.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/product_detail_controller.dart';
 import 'package:tomato_app/models/product.dart';
@@ -192,7 +193,7 @@ class ProductDetailScreen extends StatelessWidget {
   Widget _productImage(context) {
     return Image.network(
       product.image,
-       height: _checkBigDeviceSize(context) ? 350 : 250,
+      height: _checkBigDeviceSize(context) ? 350 : 250,
       fit: BoxFit.cover,
       width: double.infinity,
     );
@@ -206,8 +207,13 @@ class ProductDetailScreen extends StatelessWidget {
             fgColor: kColorWhiteText,
             title: "Buy Now",
             bgColor: Theme.of(context).accentColor,
-            onPressed: () async {
-              await _homeContrstate.onBottomNavClick(2);
+            onPressed: ()  {
+              // await _homeContrstate.onBottomNavClick(2);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Buying process is not available now."),
+                ),
+              );
             },
           ),
         ),
@@ -218,8 +224,14 @@ class ProductDetailScreen extends StatelessWidget {
           child: CircularButton(
               title: "Add To Cart",
               bgColor: Theme.of(context).primaryColorDark,
-              onPressed: () async {
-                await _homeContrstate.onBottomNavClick(2);
+              onPressed: ()  {
+                // await _homeContrstate.onBottomNavClick(2);
+                Provider.of<Carts>(context,listen:false).addItemToCart(product: product);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("${product.title} is added to cart."),
+                  ),
+                );
               }),
         ),
       ],
@@ -350,7 +362,7 @@ class ProductDetailScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Text(
-        product.name,
+        product.title,
         style: GoogleFonts.raleway(
           fontSize: 22,
           fontWeight: FontWeight.w600,

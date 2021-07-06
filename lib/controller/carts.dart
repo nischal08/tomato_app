@@ -16,7 +16,7 @@ class Carts with ChangeNotifier {
         imageUrl: product.image,
         price: product.price,
         products: product,
-        title: product.name,
+        title: product.title,
         colorFlag: colorFlag,
         quantity: 1));
     notifyListeners();
