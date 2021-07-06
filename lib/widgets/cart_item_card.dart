@@ -9,15 +9,13 @@ import 'package:tomato_app/models/cart.dart';
 import 'each_product_box.dart';
 
 class CartItemCard extends StatelessWidget {
-  late HomeController _homeControllerState;
+  late Carts _carts;
   late Cart _cart;
-  late TextTheme _themeData;
-  
+
   @override
   Widget build(BuildContext context) {
-    _themeData = Theme.of(context).textTheme;
-    _homeControllerState = Provider.of<HomeController>(context);
     _cart = Provider.of<Cart>(context, listen: false);
+    _carts = Provider.of<Carts>(context);
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -61,6 +59,7 @@ class CartItemCard extends StatelessWidget {
             );
           },
           onDismissed: (direction) {
+            _carts.removeCartItem(_cart);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 backgroundColor: Theme.of(context).errorColor,

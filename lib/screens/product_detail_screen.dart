@@ -13,7 +13,7 @@ import 'package:tomato_app/widgets/circular_button.dart';
 class ProductDetailScreen extends StatelessWidget {
   static const routeName = '/product-detail';
   late ProductDetailController _prodDetailContr;
-  late HomeController _homeContrstate;
+   late HomeController _homeCtrlrstate;
 
   late Product product;
 
@@ -25,7 +25,7 @@ class ProductDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     product = ModalRoute.of(context)!.settings.arguments as Product;
     _prodDetailContr = Provider.of<ProductDetailController>(context);
-    _homeContrstate = Provider.of<HomeController>(context);
+    _homeCtrlrstate = Provider.of<HomeController>(context);
     return Scaffold(
       body: _body(context),
     );
@@ -207,7 +207,7 @@ class ProductDetailScreen extends StatelessWidget {
             fgColor: kColorWhiteText,
             title: "Buy Now",
             bgColor: Theme.of(context).accentColor,
-            onPressed: ()  {
+            onPressed: () {
               // await _homeContrstate.onBottomNavClick(2);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -222,17 +222,19 @@ class ProductDetailScreen extends StatelessWidget {
         ),
         Expanded(
           child: CircularButton(
-              title: "Add To Cart",
-              bgColor: Theme.of(context).primaryColorDark,
-              onPressed: ()  {
-                // await _homeContrstate.onBottomNavClick(2);
-                Provider.of<Carts>(context,listen:false).addItemToCart(product: product);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text("${product.title} is added to cart."),
-                  ),
-                );
-              }),
+            title: "Add To Cart",
+            bgColor: Theme.of(context).primaryColorDark,
+            onPressed: () {
+              // await _homeContrstate.onBottomNavClick(2);
+              Provider.of<Carts>(context, listen: false).addCartItem(
+                  product: product, quantity: _prodDetailContr.currentQuantity);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("${product.title} is added to cart."),
+                ),
+              );
+            },
+          ),
         ),
       ],
     );
@@ -343,13 +345,11 @@ class ProductDetailScreen extends StatelessWidget {
             icon: Icons.arrow_back_ios,
             onPressed: () {
               Navigator.of(context).pop();
-              // _homeContrstate.onChangeWidget(1);
             },
           ),
           CustomIconButton(
-            onPressed: () async {
-              await _homeContrstate.onBottomNavClick(2);
-              // Navigator.pushNamed(context, HomeScreen.routeName);
+            onPressed: () {
+              _homeCtrlrstate.onChangeTabView(2);
             },
             icon: Icons.shopping_bag_outlined,
           ),

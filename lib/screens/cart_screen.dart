@@ -158,43 +158,20 @@ class CartScreen extends StatelessWidget {
       title: "Checkout",
       bgColor: Theme.of(context).primaryColorDark,
       fgColor: Theme.of(context).cardColor,
-      onPressed: () {},
+      onPressed: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("This features will be avaiable soon"),
+          ),
+        );
+      },
     );
   }
 
   Widget _cartItems(context) {
     return Consumer<Carts>(
       builder: (context, carts, child) => carts.cartItems.isEmpty
-          ? Container(
-              padding: EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Image.asset(
-                      'assets/images/empty-cart.png',
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Text(
-                    "Your cart is empty",
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                    """You have no items in your shopping cart.
-                  Let's go buy something!
-                  """,
-                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                          color: Colors.grey.shade600,
-                        ),
-                  ),
-                ],
-              ),
-            )
+          ? _cartIsEmpty(context)
           : ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 30.0),
               itemCount: carts.cartItems.length,
@@ -206,6 +183,41 @@ class CartScreen extends StatelessWidget {
               },
             ),
     );
+  }
+
+  Container _cartIsEmpty(BuildContext context) {
+    return Container(
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Image.asset(
+                    'assets/images/empty-cart.png',
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                Text(
+                  "Your cart is empty",
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Expanded(
+                  child: Text(
+                    """You have no items in your shopping cart.
+                  Let's go buy something!
+                  """,
+                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                          color: Colors.grey.shade600,
+                        ),
+                  ),
+                ),
+              ],
+            ),
+          );
   }
 
   _text() {

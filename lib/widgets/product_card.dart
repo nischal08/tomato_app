@@ -47,7 +47,7 @@ class _ProductCardState extends State<ProductCard> {
               onTap: () {
                 // await _homeControllerState.onBottomNavClick(2);
                 Provider.of<Carts>(context, listen: false)
-                    .addItemToCart(product: product);
+                    .addCartItem(product: product);
                 setState(() {
                 _isitemAdded = true;
                   

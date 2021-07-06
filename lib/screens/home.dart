@@ -11,10 +11,10 @@ import 'package:tomato_app/screens/restaurant_menu.dart';
 
 class HomeScreen extends StatelessWidget {
   static const routeName = "/home";
-  HomeController? _homeControllerState;
+  late HomeController _homeController;
   @override
   Widget build(BuildContext context) {
-    _homeControllerState = Provider.of<HomeController>(context);
+    _homeController = Provider.of<HomeController>(context);
     Map<String, Widget Function(BuildContext)> _routeMap = {
       CartScreen.routeName: (context) => CartScreen(),
       RestaurantMenu.routeName: (context) => RestaurantMenu(),
@@ -24,77 +24,61 @@ class HomeScreen extends StatelessWidget {
     };
     return CupertinoTabScaffold(
       resizeToAvoidBottomInset: true,
-        tabBar: CupertinoTabBar(
-
-          // border: Border(
-          //     top: BorderSide(
-          //         color: Colors.grey, width: 0.5, style: BorderStyle.solid)),
-          activeColor: Theme.of(context).primaryColor,
-          inactiveColor: Theme.of(context).primaryColorDark.withOpacity(0.4),
-          items: [
-            for (var key in _homeControllerState!.bottomNavItemData.keys)
-              BottomNavigationBarItem(
-                
-                icon: key,
-                label: _homeControllerState!.bottomNavItemData[key],
-              ),
-          ],
-        ),
-        tabBuilder: (context, index) {
-          switch (index) {
-            case 0:
-              return CupertinoTabView(
-                routes: _routeMap,
-                builder: (context) {
-                  return CupertinoPageScaffold(child: RestaurantListScreen());
-                },
-              );
-            case 1:
-              return CupertinoTabView(
-                 routes: _routeMap,
-                builder: (context) {
-                  return CupertinoPageScaffold(child: FoodScreen());
-                },
-              );
-            case 2:
-              return CupertinoTabView(
-                 routes: _routeMap,
-                builder: (context) {
-                  return CupertinoPageScaffold(child: CartScreen());
-                },
-              );
-            default:
-              return CupertinoTabView(
-                 routes: _routeMap,
-                builder: (context) {
-                  return CupertinoPageScaffold(child: RestaurantListScreen());
-                },
-              );
-          }
+      tabBar: CupertinoTabBar(
+        onTap: (index) {
+          _homeController.onChangeTabView(index);
+        },
+        activeColor: Theme.of(context).primaryColor,
+        inactiveColor: Theme.of(context).primaryColorDark.withOpacity(0.4),
+        items: [
+          for (var key in _homeController.bottomNavItemData.keys)
+            BottomNavigationBarItem(
+              // activeIcon: Icon(Icons.restaurant),
+              icon: key,
+              label: _homeController.bottomNavItemData[key],
+            ),
+        ],
+      ),
+      tabBuilder: (context, _) {
+        switch (_homeController.currentTabIndex) {
+          case 0:
+            return CupertinoTabView(
+              routes: _routeMap,
+              builder: (context) {
+                return CupertinoPageScaffold(
+                  child: RestaurantListScreen(),
+                );
+              },
+            );
+          case 1:
+            return CupertinoTabView(
+              routes: _routeMap,
+              builder: (context) {
+                return CupertinoPageScaffold(
+                  child: FoodScreen(),
+                );
+              },
+            );
+          case 2:
+            return CupertinoTabView(
+              routes: _routeMap,
+              builder: (context) {
+                return CupertinoPageScaffold(
+                  child: CartScreen(),
+                );
+              },
+            );
+          default:
+            return CupertinoTabView(
+              routes: _routeMap,
+              builder: (context) {
+                return CupertinoPageScaffold(
+                  child: RestaurantListScreen(),
+                );
+              },
+            );
         }
-        // extendBodyBehindAppBar: true,
-        // body: IndexedStack(
-        //   index: _homeControllerState!.widgetIndex,
-        //   children: [
-        //     _homeControllerState!.screensList[_homeControllerState!.bottomNavIndex],
-        //     RestaurantMenu(),
-        //     ProductDetailScreen(),
-        //   ],
-        // ),
-        // bottomNavigationBar: BottomNavigationBar(
-        //   elevation: 8,
-        //   currentIndex: _homeControllerState!.bottomNavIndex,
-        //   items: [
-        //     for (var key in _homeControllerState!.bottomNavItemData.keys)
-        //       BottomNavigationBarItem(
-        //         icon: key,
-        //         label: _homeControllerState!.bottomNavItemData[key],
-        //       ),
-        //   ],
-        //   selectedItemColor: Theme.of(context).primaryColor,
-        //   unselectedItemColor:  Theme.of(context).primaryColorDark.withOpacity(0.4),
-        //   onTap: _homeControllerState!.onBottomNavClick,
-        // ),
-        );
+      },
+    );
   }
 }
