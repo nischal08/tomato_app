@@ -32,11 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Duration(seconds: 2),
     );
 
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        ));
+    Navigator.pushNamed(context, HomeScreen.routeName);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: Duration(milliseconds: 1500),
@@ -64,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: showSpinner
           ? Center(
               child: CircularProgressIndicator(
-                color: Theme.of(context).primaryColor,
+                color:Colors.grey,
               ),
             )
           : Container(
