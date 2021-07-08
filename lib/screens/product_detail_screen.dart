@@ -38,9 +38,7 @@ class ProductDetailScreen extends StatelessWidget {
         child: Column(
           children: [
             _upperContainer(context),
-            Expanded(
-              child: _lowerContainer(context),
-            ),
+            Expanded(child: _lowerContainer(context)),
           ],
         ),
       ),
@@ -49,6 +47,7 @@ class ProductDetailScreen extends StatelessWidget {
 
   Widget _lowerContainer(context) {
     return Container(
+      // height: MediaQuery.of(context).size.height*0.60-MediaQuery.of(context).padding.bottom-kBottomNavigationBarHeight,
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       decoration: BoxDecoration(
           // borderRadius: BorderRadius.only(
@@ -332,28 +331,18 @@ class ProductDetailScreen extends StatelessWidget {
 
   Widget _appbarAction(context) {
     return Container(
+      alignment: Alignment.topLeft,
       padding: const EdgeInsets.only(
         left: 30.0,
-        right: 30.0,
+        
         top: 10,
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          CustomIconButton(
-            paddingLeft: 9,
-            icon: Icons.arrow_back_ios,
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          CustomIconButton(
-            onPressed: () {
-              _homeCtrlrstate.onChangeTabView(2);
-            },
-            icon: Icons.shopping_bag_outlined,
-          ),
-        ],
+      child: CustomIconButton(
+        paddingLeft: 9,
+        icon: Icons.arrow_back_ios,
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
       ),
     );
   }

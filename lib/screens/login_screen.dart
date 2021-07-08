@@ -19,37 +19,63 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool changebuttonAnimation = false;
-  // bool showSpinner = false;
+  bool showSpinner = false;
   Future<void> _onClickLoginBtn() async {
     // setState(() {
     //   changebuttonAnimation = true;
     // });
 
-    // showSpinner = true;
+    setState(() {
+      showSpinner = true;
+    });
+    await Future.delayed(
+      Duration(seconds: 2),
+    );
 
-    // await Future.delayed(
-    //   Duration(seconds: 3),
-    // );
     Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => HomeScreen(),
         ));
-    // showSpinner = false;
-    setState(() {});
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: Duration(milliseconds: 1500),
+        backgroundColor: Colors.white.withOpacity(0.9),
+        content: Container(
+          height: 60,
+          alignment: Alignment.center,
+          child: Text(
+            "You logged in. Thank You",
+            style: Theme.of(context).textTheme.headline5!.copyWith(
+                  color: Theme.of(context).accentColor,
+                ),
+          ),
+        ),
+      ),
+    );
+    setState(() {
+      showSpinner = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Stack(children: [
-          SingleChildScrollView(child: GeneralBackgroundImage()),
-          SingleChildScrollView(child: _body(context, changebuttonAnimation)),
-        ]),
-      ),
+      body: showSpinner
+          ? Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).primaryColor,
+              ),
+            )
+          : Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Stack(children: [
+                SingleChildScrollView(child: GeneralBackgroundImage()),
+                SingleChildScrollView(
+                    child: _body(context, changebuttonAnimation)),
+              ]),
+            ),
     );
   }
 
@@ -173,8 +199,7 @@ back """,
                         },
                         title: "Sign up",
                         bgColor: Colors.white,
-                        fgColor:
-                            Theme.of(context).primaryColorDark,
+                        fgColor: Theme.of(context).primaryColorDark,
                       ),
                     )
                   ],
