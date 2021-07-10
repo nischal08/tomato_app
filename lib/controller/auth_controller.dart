@@ -24,10 +24,11 @@ class AuthController extends ChangeNotifier {
     try {
       response = await ApiCall.signIn(email, password);
     } catch (e) {
+      print("!!! Error from login server => $e");
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                content: Text('Error!!! ${e.toString()}'),
+                content: Text('Invalid Login'),
                 actions: [
                   TextButton(
                     onPressed: () {

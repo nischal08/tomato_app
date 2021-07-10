@@ -5,8 +5,10 @@ class ProductDetailController extends ChangeNotifier {
   int currentProductSize = 0;
   int currentQuantity = 1;
   bool colorFlag = true;
- 
 
+  void onChangeQntyToDefVal() {
+    currentQuantity = 1;
+      }
 
   onIncrQuantity() {
     currentQuantity++;

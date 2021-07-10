@@ -13,7 +13,7 @@ import 'package:tomato_app/widgets/circular_button.dart';
 class ProductDetailScreen extends StatelessWidget {
   static const routeName = '/product-detail';
   late ProductDetailController _prodDetailContr;
-   late HomeController _homeCtrlrstate;
+  late HomeController _homeCtrlrstate;
 
   late Product product;
 
@@ -224,9 +224,10 @@ class ProductDetailScreen extends StatelessWidget {
             title: "Add To Cart",
             bgColor: Theme.of(context).primaryColorDark,
             onPressed: () {
-              // await _homeContrstate.onBottomNavClick(2);
               Provider.of<Carts>(context, listen: false).addCartItem(
                   product: product, quantity: _prodDetailContr.currentQuantity);
+              Provider.of<ProductDetailController>(context, listen: false)
+                  .onChangeQntyToDefVal();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text("${product.title} is added to cart."),
@@ -334,7 +335,6 @@ class ProductDetailScreen extends StatelessWidget {
       alignment: Alignment.topLeft,
       padding: const EdgeInsets.only(
         left: 30.0,
-        
         top: 10,
       ),
       child: CustomIconButton(
