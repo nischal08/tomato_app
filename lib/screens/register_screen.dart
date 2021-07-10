@@ -18,11 +18,28 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  late TextEditingController _emailController;
+  late TextEditingController _nameController;
+  late TextEditingController _passwordController;
   bool changebuttonAnimation = false;
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
+  final FocusNode _nameFocusNode = FocusNode();
 
   bool showSpinner = false;
+  Map<String, String> _authData = {
+    'name': '',
+    'email': '',
+    'password': '',
+  };
 
-  Future<void> _onClickRegisterBtn() async {
+  _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
+  }
+
+  Future<void> _submit() async {
     // setState(() {
     //   changebuttonAnimation = true;
     // });
@@ -43,7 +60,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 60,
           alignment: Alignment.center,
           child: Text(
-            "You have been registered. Welcome Unknown User",textAlign: TextAlign.center,
+            "You have been registered. Welcome Unknown User",
+            textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headline5!.copyWith(
                   color: Theme.of(context).accentColor,
                 ),
@@ -58,19 +76,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _nameController = TextEditingController();
+    _passwordController = TextEditingController();
+    _emailController = TextEditingController();
     return Scaffold(
       body: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Stack(children: [
-                SingleChildScrollView(child: GeneralBackgroundImage()),
-               showSpinner
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Stack(children: [
+          SingleChildScrollView(child: GeneralBackgroundImage()),
+          showSpinner
               ? Center(
-                  child: CircularProgressIndicator(color: Colors.grey,),
+                  child: CircularProgressIndicator(
+                    color: Colors.grey,
+                  ),
                 )
-              :  SingleChildScrollView(child: _body(context)),
-              ]),
-            ),
+              : SingleChildScrollView(child: _body(context)),
+        ]),
+      ),
     );
   }
 
@@ -111,6 +134,22 @@ Account """,
                       height: 60,
                     ),
                     GeneralTextField(
+                       onSave: (value) {
+                         //Save it
+                       },
+                      focusNode: _nameFocusNode,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (value) {
+                        _authData['name'] = value;
+                      },
+                      keywordType: TextInputType.name,
+                      validate: (String value) {
+                        if (value.isEmpty) {
+                          return 'Name is empty';
+                        }
+                      },
+                      onClickPsToggle: () {},
+                      controller: _nameController,
                       labelText: "Name",
                       obscureText: false,
                       preferIcon: Icons.person_outline,
@@ -120,6 +159,23 @@ Account """,
                       height: 30,
                     ),
                     GeneralTextField(
+                      onSave: (value) {
+
+                           //Save it
+                      },
+                      focusNode: _emailFocusNode,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (value) {
+                        _authData['email'] = value;
+                      },
+                      keywordType: TextInputType.emailAddress,
+                      validate: (String value) {
+                        if (value.isEmpty || !value.contains("@")) {
+                          return 'Invalid email!';
+                        }
+                      },
+                      onClickPsToggle: () {},
+                      controller: _emailController,
                       labelText: "Email",
                       obscureText: false,
                       preferIcon: Icons.email_outlined,
@@ -129,6 +185,22 @@ Account """,
                       height: 30,
                     ),
                     GeneralTextField(
+                      onSave: (value) {
+                        //Save it
+                      },
+                      focusNode: _passwordFocusNode,
+                      textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (value) {
+                        _authData['password'] = value;
+                      },
+                      keywordType: TextInputType.visiblePassword,
+                      validate: (String value) {
+                        if (value.isEmpty || value.length < 5) {
+                          return 'Password is too short';
+                        }
+                      },
+                      onClickPsToggle: () {},
+                      controller: _passwordController,
                       labelText: "Password",
                       obscureText: true,
                       preferIcon: Icons.lock_outline,
@@ -140,9 +212,7 @@ Account """,
                     SizedBox(
                       height: 55,
                       child: GeneralElevatedButton(
-                        onPressed: () {
-                          _onClickRegisterBtn();
-                        },
+                        onPressed: _submit,
                         title: "Sign up",
                         bgColor: Theme.of(context).primaryColorDark,
                         fgColor: Colors.white.withOpacity(0.9),

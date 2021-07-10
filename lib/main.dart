@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:tomato_app/controller/auth_controller.dart';
 import 'package:tomato_app/controller/food_controller.dart';
 import 'package:tomato_app/screens/cart_screen.dart';
 import 'package:tomato_app/screens/food_screen.dart';
@@ -50,6 +51,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => Products(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AuthController(),
         ),
       ],
       child: MaterialApp(

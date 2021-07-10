@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
   late HomeController _homeController;
   @override
   Widget build(BuildContext context) {
-    _homeController = Provider.of<HomeController>(context);
+    _homeController = Provider.of<HomeController>(context,listen: false);
     Map<String, Widget Function(BuildContext)> _routeMap = {
       CartScreen.routeName: (context) => CartScreen(),
       RestaurantMenu.routeName: (context) => RestaurantMenu(),
