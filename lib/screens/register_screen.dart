@@ -24,11 +24,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final FocusNode _passwordFocusNode = FocusNode();
   final FocusNode _fnFocusNode = FocusNode();
   final FocusNode _lnFocusNode = FocusNode();
-    final GlobalKey<FormState> _formKey = GlobalKey();
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   bool showSpinner = false;
   Map<String, String> _authData = {
-    'name': '',
+    'fn': '',
+    'ls': '',
     'email': '',
     'password': '',
   };
@@ -39,7 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     FocusScope.of(context).requestFocus(nextFocus);
   }
 
-   _onSubmit() {
+  _onSubmit() {
     if (!_formKey.currentState!.validate()) {
       // Invalid!
       return;
@@ -47,10 +48,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _formKey.currentState!.save();
     print("onSubmit form Login page !!!!");
     print(_authData);
-    Provider.of<AuthController>(context, listen: false).onClickLoginBtn(
+    Provider.of<AuthController>(context, listen: false).onClickRegisterBtn( 
       context,
       email: _authData['email']!,
       password: _authData['password']!,
+      firstname: _authData['fn']!,
+      lastname: _authData['ln']!,
     );
   }
 
@@ -59,19 +62,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-            decoration: BoxDecoration(
-              image: kGeneralBackgroundImage,
-            ),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: showSpinner
+          decoration: BoxDecoration(
+            image: kGeneralBackgroundImage,
+          ),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Consumer<AuthController>(
+            builder: (_, auth, __) => auth.showRegisterSpinner
                 ? Center(
                     child: CircularProgressIndicator(
                       color: Colors.grey,
                     ),
                   )
-            : _body(context),
-            ),
+                : _body(context),
+          ),
+        ),
       ),
     );
   }
@@ -116,12 +121,13 @@ Account """,
                       ),
                       GeneralTextField(
                         onSave: (value) {
-                          //Save it
+                          _authData['fn'] = value;
                         },
                         focusNode: _fnFocusNode,
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (value) {
-                          _authData['fn'] = value;
+                          _fieldFocusChange(
+                              context, _fnFocusNode, _lnFocusNode);
                         },
                         keywordType: TextInputType.name,
                         validate: (String value) {
@@ -129,8 +135,7 @@ Account """,
                             return 'First name is empty';
                           }
                         },
-                        onClickPsToggle: () {},
-                   
+                        onClickPsToggle: null,
                         labelText: "First Name",
                         obscureText: false,
                         preferIcon: Icons.person_outline,
@@ -141,12 +146,13 @@ Account """,
                       ),
                       GeneralTextField(
                         onSave: (value) {
-                          //Save it
+                          _authData['ln'] = value;
                         },
                         focusNode: _lnFocusNode,
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (value) {
-                          _authData['ln'] = value;
+                          _fieldFocusChange(
+                              context, _lnFocusNode, _emailFocusNode);
                         },
                         keywordType: TextInputType.name,
                         validate: (String value) {
@@ -154,8 +160,7 @@ Account """,
                             return 'Last name is empty';
                           }
                         },
-                        onClickPsToggle: () {},
-                   
+                        onClickPsToggle: null,
                         labelText: "Last Name",
                         obscureText: false,
                         preferIcon: Icons.person_outline,
@@ -166,12 +171,13 @@ Account """,
                       ),
                       GeneralTextField(
                         onSave: (value) {
-                          //Save it
+                          _authData['email'] = value;
                         },
                         focusNode: _emailFocusNode,
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (value) {
-                          _authData['email'] = value;
+                          _fieldFocusChange(
+                              context, _emailFocusNode, _passwordFocusNode);
                         },
                         keywordType: TextInputType.emailAddress,
                         validate: (String value) {
@@ -179,8 +185,7 @@ Account """,
                             return 'Invalid email!';
                           }
                         },
-                        onClickPsToggle: () {},
-                      
+                        onClickPsToggle: null,
                         labelText: "Email Address",
                         obscureText: false,
                         preferIcon: Icons.email_outlined,
@@ -191,12 +196,13 @@ Account """,
                       ),
                       GeneralTextField(
                         onSave: (value) {
-                          //Save it
+                         _authData['password'] = value;
                         },
                         focusNode: _passwordFocusNode,
                         textInputAction: TextInputAction.done,
                         onFieldSubmitted: (value) {
-                          _authData['password'] = value;
+                         _passwordFocusNode.unfocus();
+                          _onSubmit();
                         },
                         keywordType: TextInputType.visiblePassword,
                         validate: (String value) {
@@ -204,8 +210,7 @@ Account """,
                             return 'Password is too short';
                           }
                         },
-                        onClickPsToggle: () {},
-                     
+                        onClickPsToggle: null,
                         labelText: "Password",
                         obscureText: true,
                         preferIcon: Icons.lock_outline,
