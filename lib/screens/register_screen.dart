@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tomato_app/contants/color_properties.dart';
+import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/screens/home.dart';
 import 'package:tomato_app/screens/login_screen.dart';
 import 'package:tomato_app/widgets/curve_painter_register.dart';
-import 'package:tomato_app/widgets/general_background_image.dart';
 import 'package:tomato_app/widgets/general_elevated_button.dart';
 import 'package:tomato_app/widgets/general_text_button.dart';
 import 'package:tomato_app/widgets/general_textfield.dart';
@@ -80,19 +80,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _passwordController = TextEditingController();
     _emailController = TextEditingController();
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Stack(children: [
-          SingleChildScrollView(child: GeneralBackgroundImage()),
-          showSpinner
-              ? Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.grey,
-                  ),
-                )
-              : SingleChildScrollView(child: _body(context)),
-        ]),
+      body: SingleChildScrollView(
+        child: Container(
+            decoration: BoxDecoration(
+              image: kGeneralBackgroundImage,
+            ),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: showSpinner
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.grey,
+                    ),
+                  )
+                // : Text(
+                //     "Register",
+                //   )
+            : _body(context),
+            ),
       ),
     );
   }
@@ -134,9 +139,9 @@ Account """,
                       height: 60,
                     ),
                     GeneralTextField(
-                       onSave: (value) {
-                         //Save it
-                       },
+                      onSave: (value) {
+                        //Save it
+                      },
                       focusNode: _nameFocusNode,
                       textInputAction: TextInputAction.next,
                       onFieldSubmitted: (value) {
@@ -160,8 +165,7 @@ Account """,
                     ),
                     GeneralTextField(
                       onSave: (value) {
-
-                           //Save it
+                        //Save it
                       },
                       focusNode: _emailFocusNode,
                       textInputAction: TextInputAction.next,

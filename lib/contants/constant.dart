@@ -41,3 +41,14 @@ const kTextFieldDecoration = InputDecoration(
     borderRadius: BorderRadius.all(Radius.circular(10.0)),
   ),
 );
+
+DecorationImage kGeneralBackgroundImage = DecorationImage(
+  colorFilter: ColorFilter.mode(
+    Colors.red,
+    BlendMode.hue,
+  ),
+  fit: BoxFit.cover,
+  image: AssetImage(
+    "assets/images/background.jpg",
+  ),
+);

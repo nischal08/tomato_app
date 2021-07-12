@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
+import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/auth_controller.dart';
 import 'package:tomato_app/screens/register_screen.dart';
-import 'package:tomato_app/widgets/general_background_image.dart';
 import 'package:tomato_app/widgets/general_text_button.dart';
 import 'package:tomato_app/widgets/general_textfield.dart';
 import 'package:tomato_app/widgets/curve_painter_login.dart';
@@ -54,28 +54,26 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController = TextEditingController();
 
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: [
-            SingleChildScrollView(child: GeneralBackgroundImage()),
-            Consumer<AuthController>(
-              builder: (context, auth, child) {
-                return auth.showSpinner
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.grey,
-                        ),
-                      )
-                    : SingleChildScrollView(
-                        child: _body(
-                          context,
-                        ),
-                      );
-              },
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            image: kGeneralBackgroundImage,
+          ),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Consumer<AuthController>(
+            builder: (__, auth, _) {
+              return auth.showSpinner
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.grey,
+                      ),
+                    )
+                  : _body(
+                      context,
+                    );
+            },
+          ),
         ),
       ),
     );
@@ -83,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Container _body(BuildContext context) {
     return Container(
+      
       color: Colors.black26.withOpacity(0.50),
       width: double.infinity,
       height: MediaQuery.of(context).size.height,

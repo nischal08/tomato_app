@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tomato_app/contants/color_properties.dart';
-import 'package:tomato_app/widgets/general_background_image.dart';
+import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/widgets/general_elevated_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -13,14 +13,12 @@ class WelcomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         physics: NeverScrollableScrollPhysics(),
         child: Container(
+          decoration: BoxDecoration(
+            image: kGeneralBackgroundImage,
+          ),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child: Stack(
-            children: [
-              GeneralBackgroundImage(),
-              _infoBody(context),
-            ],
-          ),
+          child: _infoBody(context),
         ),
       ),
     );
@@ -79,10 +77,9 @@ class WelcomeScreen extends StatelessWidget {
           SizedBox(
             height: 55,
             child: GeneralElevatedButton(
-             onPressed: () {
+              onPressed: () {
                 Navigator.pushNamed(context, '/register');
               },
-
               title: "Sign up",
               fgColor: Colors.white,
               bgColor: Theme.of(context).primaryColorDark,
