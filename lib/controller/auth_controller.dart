@@ -1,50 +1,28 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tomato_app/api/api_call.dart';
 import 'package:tomato_app/models/login_response.dart';
 import 'package:tomato_app/screens/home.dart';
 
 class AuthController extends ChangeNotifier {
-  bool passwordVisibility = false;
-  bool changebuttonAnimation = false;
-  bool showSpinner = false;
-
-  void onTogglePasswordVisibility() {
-    print("password visbilty !!!");
-    passwordVisibility = !passwordVisibility;
-    notifyListeners();
-  }
-
+  bool showLoginSpinner = false;
   Future<void> onClickLoginBtn(context,
       {required String email, required String password}) async {
-    showSpinner = true;
+    showLoginSpinner = true;
     notifyListeners();
-    late LoginResponse response;
-    try {
-      response = await ApiCall.signIn(email, password);
-    } catch (e) {
-      print("!!! Error from login server => $e");
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                content: Text('Invalid Login'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      showSpinner = false;
-                      notifyListeners();
-                    },
-                    child: Text("Okay"),
-                  )
-                ],
-              ));
-    }
-    if (response.success == true) {
+    late Response response;
+try{
+    response = await ApiCall.signIn(email, password);
+
+    if (json.decode(response.body)["success"] as bool == true) {
+      LoginResponse successResponse = LoginResponse.fromJson(response.body);
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      preferences.setString("accessToken", response.data.accessToken);
-      preferences.setString("refreshToken", response.data.refreshToken);
+      preferences.setString("accessToken", successResponse.data.accessToken);
+      preferences.setString("refreshToken", successResponse.data.refreshToken);
       // print("preferences !!!! ${preferences.getString("accessToken")}");
       Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -55,7 +33,7 @@ class AuthController extends ChangeNotifier {
             height: 60,
             alignment: Alignment.center,
             child: Text(
-              response.message,
+              successResponse.message,
               style: Theme.of(context).textTheme.headline5!.copyWith(
                     color: Theme.of(context).accentColor,
                   ),
@@ -63,9 +41,43 @@ class AuthController extends ChangeNotifier {
           ),
         ),
       );
+    } else {
+      var errMessage = json.decode(response.body)["message"];
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                content: Text(errMessage),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      showLoginSpinner = false;
+                      notifyListeners();
+                    },
+                    child: Text("Okay"),
+                  )
+                ],
+              ));
     }
 
-    showSpinner = false;
+    showLoginSpinner = false;
     notifyListeners();
+  }catch( e){
+showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                content: Text(e.toString()),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      showLoginSpinner = false;
+                      notifyListeners();
+                    },
+                    child: Text("Okay"),
+                  )
+                ],
+              ));
+  }
   }
 }

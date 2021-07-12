@@ -2,10 +2,9 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:tomato_app/api/api_endpoints.dart';
-import 'package:tomato_app/models/login_response.dart';
 
 class ApiCall {
-  static Future<LoginResponse> signIn(String email, String password) async {
+  static Future<Response> signIn(String email, String password) async {
     String url =
         "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/auth/login";
     print(url);
@@ -19,7 +18,7 @@ class ApiCall {
         body: jsonData,
       );
 
-      return LoginResponse.fromJson(response.body);
+      return response;
     } catch (e) {
       print(e.toString());
       throw e;

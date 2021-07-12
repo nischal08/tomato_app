@@ -5,8 +5,7 @@ class GeneralTextField extends StatelessWidget {
   final IconData? suffixIcon;
   final IconData preferIcon;
   final bool obscureText;
-  final TextEditingController controller;
-  final VoidCallback onClickPsToggle;
+   VoidCallback? onClickPsToggle;
   final TextInputType keywordType;
   final Function validate;
   final Function onFieldSubmitted;
@@ -20,8 +19,7 @@ class GeneralTextField extends StatelessWidget {
     required this.suffixIcon,
     required this.preferIcon,
     required this.obscureText,
-    required this.controller,
-    required this.onClickPsToggle,
+     this.onClickPsToggle,
     required this.keywordType,
     required this.validate,
     required this.onFieldSubmitted,
@@ -39,7 +37,7 @@ class GeneralTextField extends StatelessWidget {
       onFieldSubmitted: (newValue) => onFieldSubmitted(newValue),
       validator: (value) => validate(value),
       keyboardType: keywordType,
-      controller: controller,
+      // controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.only(

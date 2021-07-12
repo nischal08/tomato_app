@@ -27,6 +27,16 @@ class _LoginScreenState extends State<LoginScreen> {
     'password': '',
   };
 
+  bool passwordVisibility = false;
+  bool changebuttonAnimation = false;
+ 
+
+  void onTogglePasswordVisibility() {
+    print("password visbilty !!!");
+    passwordVisibility = !passwordVisibility;
+    setState(() {});
+  }
+
   _fieldFocusChange(
       BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
     currentFocus.unfocus();
@@ -61,19 +71,20 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child: Consumer<AuthController>(
-            builder: (__, auth, _) {
-              return auth.showSpinner
-                  ? Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.grey,
-                      ),
-                    )
-                  : _body(
-                      context,
-                    );
-            },
-          ),
+          child: 
+          
+           Consumer<AuthController>(
+             builder: (_, auth, __) => 
+             auth.showLoginSpinner
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.grey,
+                    ),
+                  )
+                : _body(
+                    context,
+                  ),
+           ),
         ),
       ),
     );
@@ -81,7 +92,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Container _body(BuildContext context) {
     return Container(
-      
       color: Colors.black26.withOpacity(0.50),
       width: double.infinity,
       height: MediaQuery.of(context).size.height,
@@ -138,8 +148,8 @@ back """,
                             return 'Invalid email!';
                           }
                         },
-                        onClickPsToggle: () {},
-                        controller: _emailController,
+                        onClickPsToggle: null,
+                        // controller: _emailController,
                         labelText: "Email Address",
                         obscureText: false,
                         preferIcon: Icons.email_outlined,
@@ -148,8 +158,7 @@ back """,
                       SizedBox(
                         height: 30,
                       ),
-                      Consumer<AuthController>(
-                        builder: (_, auth, __) => GeneralTextField(
+                     GeneralTextField(
                           onSave: (String value) {
                             _authData['password'] = value;
                           },
@@ -165,19 +174,16 @@ back """,
                               return 'Password is too short';
                             }
                           },
-                          controller: _passwordController,
+                          // controller: _passwordController,
                           labelText: "Password",
-                          obscureText: auth.passwordVisibility ? false : true,
+                          obscureText: passwordVisibility ? false : true,
                           preferIcon: Icons.lock_outline,
-                          onClickPsToggle: () {
-                            Provider.of<AuthController>(context, listen: false)
-                                .onTogglePasswordVisibility();
-                          },
-                          suffixIcon: auth.passwordVisibility
+                          onClickPsToggle: onTogglePasswordVisibility,
+                          suffixIcon: passwordVisibility
                               ? Icons.visibility_outlined
                               : Icons.visibility_off_outlined,
                         ),
-                      ),
+                      
                       SizedBox(
                         height: 8,
                       ),
