@@ -5,12 +5,12 @@ class GeneralTextField extends StatelessWidget {
   final IconData? suffixIcon;
   final IconData preferIcon;
   final bool obscureText;
-   VoidCallback? onClickPsToggle;
+  VoidCallback? onClickPsToggle;
   final TextInputType keywordType;
   final Function validate;
   final Function onFieldSubmitted;
   final TextInputAction textInputAction;
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
   final Function onSave;
 
   GeneralTextField({
@@ -19,12 +19,12 @@ class GeneralTextField extends StatelessWidget {
     required this.suffixIcon,
     required this.preferIcon,
     required this.obscureText,
-     this.onClickPsToggle,
+    this.onClickPsToggle,
     required this.keywordType,
     required this.validate,
     required this.onFieldSubmitted,
     required this.textInputAction,
-    required this.focusNode,
+    this.focusNode,
     required this.onSave,
   }) : super(key: key);
 
@@ -44,12 +44,14 @@ class GeneralTextField extends StatelessWidget {
           top: 13.0,
         ),
         hintText: labelText,
-        suffixIcon: IconButton(
-          onPressed: onClickPsToggle,
-          icon: Icon(
-            suffixIcon,
-          ),
-        ),
+        suffixIcon: suffixIcon != null
+            ? IconButton(
+                onPressed: onClickPsToggle,
+                icon: Icon(
+                  suffixIcon,
+                ),
+              )
+            : null,
         prefixIcon: Container(
           width: 25,
           child: Row(

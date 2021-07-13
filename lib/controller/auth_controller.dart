@@ -8,6 +8,7 @@ import 'package:tomato_app/api/api_call.dart';
 import 'package:tomato_app/models/login_response.dart';
 import 'package:tomato_app/models/register_response.dart';
 import 'package:tomato_app/screens/home.dart';
+import 'package:tomato_app/screens/verification-screen.dart';
 
 class AuthController extends ChangeNotifier {
   bool showLoginSpinner = false;
@@ -91,7 +92,7 @@ class AuthController extends ChangeNotifier {
     required String firstname,
     required String lastname,
   }) async {
-    showLoginSpinner = true;
+    showRegisterSpinner = true;
     notifyListeners();
     late Response response;
     try {
@@ -103,29 +104,28 @@ class AuthController extends ChangeNotifier {
       );
 
       if (json.decode(response.body)["success"] as bool == true) {
-        RegisterResponse successResponse = RegisterResponse.fromJson(response.body);
+        RegisterResponse successResponse =
+            RegisterResponse.fromJson(response.body);
         SharedPreferences preferences = await SharedPreferences.getInstance();
-        // preferences.setString("accessToken", successResponse.data.accessToken);
-        // preferences.setString(
-        //     "refreshToken", successResponse.data.refreshToken);
-        // print("preferences !!!! ${preferences.getString("accessToken")}");
-        // Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(
-        //     duration: Duration(milliseconds: 1500),
-        //     backgroundColor: Colors.white.withOpacity(0.9),
-        //     content: Container(
-        //       height: 60,
-        //       alignment: Alignment.center,
-        //       child: Text(
-        //         successResponse.message,
-        //         style: Theme.of(context).textTheme.headline5!.copyWith(
-        //               color: Theme.of(context).accentColor,
-        //             ),
-        //       ),
-        //     ),
-        //   ),
-        // );
+        print(successResponse.data.verificationCode);
+
+        Navigator.pushReplacementNamed(context, VerificationScreen.routeName,arguments:email);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(milliseconds: 1500),
+            backgroundColor: Colors.white.withOpacity(0.9),
+            content: Container(
+              height: 60,
+              alignment: Alignment.center,
+              child: Text(
+                successResponse.message,
+                style: Theme.of(context).textTheme.headline5!.copyWith(
+                      color: Theme.of(context).accentColor,
+                    ),
+              ),
+            ),
+          ),
+        );
       } else {
         var errMessage = json.decode(response.body)["message"];
         showDialog(
@@ -145,7 +145,7 @@ class AuthController extends ChangeNotifier {
                 ));
       }
 
-      showLoginSpinner = false;
+      showRegisterSpinner = false;
       notifyListeners();
     } catch (e) {
       showDialog(

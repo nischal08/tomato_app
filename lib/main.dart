@@ -12,6 +12,7 @@ import 'package:tomato_app/screens/product_detail_screen.dart';
 import 'package:tomato_app/screens/register_screen.dart';
 import 'package:tomato_app/screens/restaurant_list_screen.dart';
 import 'package:tomato_app/screens/restaurant_menu.dart';
+import 'package:tomato_app/screens/verification-screen.dart';
 import 'package:tomato_app/screens/welcome_screen.dart';
 
 import 'controller/home_controller.dart';
@@ -90,7 +91,8 @@ class MyApp extends StatelessWidget {
           RestaurantMenu.routeName:(context)=>RestaurantMenu(),
           RestaurantListScreen.routeName:(context)=>RestaurantListScreen(),
           ProductDetailScreen.routeName:(context)=>ProductDetailScreen(),
-          FoodScreen.routeName:(context)=>FoodScreen()
+          FoodScreen.routeName:(context)=>FoodScreen(),
+          VerificationScreen.routeName:(context)=>VerificationScreen(),
         },
       ),
     );
