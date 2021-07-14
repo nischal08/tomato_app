@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/contants/constant.dart';
-import 'package:tomato_app/controller/auth_controller.dart';
+import 'package:tomato_app/controller/auth.dart';
 import 'package:tomato_app/screens/register_screen.dart';
 import 'package:tomato_app/widgets/general_text_button.dart';
 import 'package:tomato_app/widgets/general_textfield.dart';
@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _formKey.currentState!.save();
     print("onSubmit form Login page !!!!");
     print(_authData);
-    Provider.of<AuthController>(context, listen: false).loginUser(
+    Provider.of<Auth>(context, listen: false).loginUser(
       context,
       email: _authData['email']!,
       password: _authData['password']!,
@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
           height: MediaQuery.of(context).size.height,
           child: 
           
-           Consumer<AuthController>(
+           Consumer<Auth>(
              builder: (_, auth, __) => 
              auth.showLoginSpinner
                 ? Center(

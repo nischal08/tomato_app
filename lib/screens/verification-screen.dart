@@ -3,7 +3,7 @@ import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
-import 'package:tomato_app/controller/auth_controller.dart';
+import 'package:tomato_app/controller/auth.dart';
 import 'package:tomato_app/widgets/general_elevated_button.dart';
 import 'package:tomato_app/widgets/general_text_button.dart';
 import 'package:tomato_app/widgets/general_textfield.dart';
@@ -14,15 +14,15 @@ class VerificationScreen extends StatelessWidget {
   late String verificationCode;
   late FocusNode _codeFocusNode;
 
- final GlobalKey<FormState> _formKey = GlobalKey();
+  final GlobalKey<FormState> _formKey = GlobalKey();
   void _onSubmit(context) {
-if (!_formKey.currentState!.validate()) {
+    if (!_formKey.currentState!.validate()) {
       // Invalid!
       return;
     }
     _formKey.currentState!.save();
 
-    Provider.of<AuthController>(context, listen: false).verifyUser(
+    Provider.of<Auth>(context, listen: false).verifyUser(
       context,
       password: _userCredential['password']!.trim(),
       email: _userCredential['email']!.trim(),
@@ -37,7 +37,11 @@ if (!_formKey.currentState!.validate()) {
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
     // print(number + "userId" + userRegisteredId);
     return Scaffold(
-      body: _body(context),
+      body: Provider.of<Auth>(context).showVerifyCodeSpinner
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : _body(context),
     );
   }
 
@@ -109,7 +113,7 @@ if (!_formKey.currentState!.validate()) {
           height: 30,
         ),
         Form(
-        key: _formKey,
+          key: _formKey,
           child: _otpTextField(context),
         ),
         SizedBox(
@@ -129,7 +133,7 @@ if (!_formKey.currentState!.validate()) {
       width: double.infinity,
       child: GeneralElevatedButton(
         onPressed: () => _onSubmit(context),
-        title:  "Send",
+        title: "Send",
         fgColor: Colors.white,
         bgColor: Theme.of(context).primaryColorDark,
       ),

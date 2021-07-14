@@ -10,16 +10,16 @@ import 'package:tomato_app/models/login_response.dart';
 import 'package:tomato_app/models/register_response.dart';
 import 'package:tomato_app/screens/home.dart';
 import 'package:tomato_app/screens/verification-screen.dart';
+import 'package:tomato_app/widgets/reusable_widget.dart';
 
-class AuthController extends ChangeNotifier {
+class Auth extends ChangeNotifier {
   bool showLoginSpinner = false;
   bool showRegisterSpinner = false;
   bool showVerifyCodeSpinner = false;
 
-
-
   Future<void> loginUser(context,
       {required String email, required String password}) async {
+  
     showLoginSpinner = true;
     notifyListeners();
     late Response response;
@@ -41,16 +41,17 @@ class AuthController extends ChangeNotifier {
         // print("preferences !!!! ${preferences.getString("accessToken")}");
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         ScaffoldMessenger.of(context)
-            .showSnackBar(_generalSnackBar(successResponse.message, context));
+            .showSnackBar(generalSnackBar(successResponse.message, context));
       } else {
         var errMessage = json.decode(response.body)["message"];
-        _generalAlertDialog(context, errMessage);
+        generalAlertDialog(context, errMessage);
       }
 
       showLoginSpinner = false;
+   
       notifyListeners();
     } catch (e) {
-      _generalAlertDialog(context, e.toString());
+      generalAlertDialog(context, e.toString());
     }
   }
 
@@ -90,16 +91,16 @@ class AuthController extends ChangeNotifier {
         Navigator.pushReplacementNamed(context, VerificationScreen.routeName,
             arguments: _userCerdential);
         ScaffoldMessenger.of(context)
-            .showSnackBar(_generalSnackBar(successResponse.message, context));
+            .showSnackBar(generalSnackBar(successResponse.message, context));
       } else {
         var errMessage = json.decode(response.body)["message"];
-        _generalAlertDialog(context, errMessage);
+        generalAlertDialog(context, errMessage);
       }
 
       showRegisterSpinner = false;
       notifyListeners();
     } catch (e) {
-      _generalAlertDialog(context, e.toString());
+      generalAlertDialog(context, e.toString());
     }
   }
 
@@ -119,60 +120,28 @@ class AuthController extends ChangeNotifier {
     };
     print("From on clickSendCode AuthCon!!!=>" + email + password + code);
     try {
-      response = await ApiCall.postApi(
+      response = await ApiCall.putApi(
         jsonData: jsonData,
         url: url,
       );
+
       var responseBody = json.decode(response.body);
       if (responseBody["success"] as bool == true) {
         ScaffoldMessenger.of(context).showSnackBar(
-          _generalSnackBar(responseBody["message"], context),
+          generalSnackBar(responseBody["message"], context),
         );
-        // onClickLoginBtn(context, email: email, password: password);
+        loginUser(context, email: email, password: password);
       } else {
         var errMessage = responseBody["message"];
-        _generalAlertDialog(context, errMessage);
+        generalAlertDialog(context, errMessage);
       }
 
       showVerifyCodeSpinner = false;
       notifyListeners();
     } catch (e) {
-      _generalAlertDialog(context, e.toString());
+      generalAlertDialog(context, e.toString());
     }
   }
 
-  SnackBar _generalSnackBar(successMessage, context) {
-    return SnackBar(
-      duration: Duration(milliseconds: 1500),
-      backgroundColor: Colors.white.withOpacity(0.9),
-      content: Container(
-        height: 60,
-        alignment: Alignment.center,
-        child: Text(
-          successMessage,
-          style: Theme.of(context).textTheme.headline5!.copyWith(
-                color: Theme.of(context).accentColor,
-              ),
-        ),
-      ),
-    );
-  }
-
-  Future<dynamic> _generalAlertDialog(context, errMessage) {
-    return showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              content: Text(errMessage),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    showLoginSpinner = false;
-                    notifyListeners();
-                  },
-                  child: Text("Okay"),
-                )
-              ],
-            ));
-  }
+ 
 }

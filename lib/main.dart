@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:tomato_app/controller/auth_controller.dart';
+import 'package:tomato_app/controller/auth.dart';
 import 'package:tomato_app/controller/food_controller.dart';
 import 'package:tomato_app/screens/cart_screen.dart';
 import 'package:tomato_app/screens/food_screen.dart';
@@ -19,7 +19,7 @@ import 'controller/home_controller.dart';
 import 'controller/carts.dart';
 import 'controller/product_detail_controller.dart';
 import 'controller/products.dart';
-import 'controller/restaurant_controller.dart';
+import 'controller/restaurants.dart';
 
 void main() {
   runApp(MyApp());
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           create: (_) => HomeController(),
         ),
         ChangeNotifierProvider(
-          create: (_) => RestaurantController(),
+          create: (_) => Restaurants(),
         ),
         ChangeNotifierProvider(
           create: (_) => ProductDetailController(),
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
           create: (_) => Products(),
         ),
         ChangeNotifierProvider(
-          create: (_) => AuthController(),
+          create: (_) => Auth(),
         ),
       ],
       child: MaterialApp(

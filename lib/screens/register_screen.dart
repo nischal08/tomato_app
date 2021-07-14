@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/contants/constant.dart';
-import 'package:tomato_app/controller/auth_controller.dart';
+import 'package:tomato_app/controller/auth.dart';
 import 'package:tomato_app/screens/login_screen.dart';
 import 'package:tomato_app/widgets/curve_painter_register.dart';
 import 'package:tomato_app/widgets/general_elevated_button.dart';
@@ -48,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _formKey.currentState!.save();
     print("onSubmit form Login page !!!!");
     print(_authData);
-    Provider.of<AuthController>(context, listen: false).registerUser( 
+    Provider.of<Auth>(context, listen: false).registerUser( 
       context,
       email: _authData['email']!,
       password: _authData['password']!,
@@ -67,7 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child: Consumer<AuthController>(
+          child: Consumer<Auth>(
             builder: (_, auth, __) => auth.showRegisterSpinner
                 ? Center(
                     child: CircularProgressIndicator(

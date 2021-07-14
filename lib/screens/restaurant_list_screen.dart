@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/home_controller.dart';
-import 'package:tomato_app/controller/restaurant_controller.dart';
+import 'package:tomato_app/controller/restaurants.dart';
 import 'package:tomato_app/screens/restaurant_menu.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
 
@@ -12,13 +12,13 @@ import '../widgets/restaurant_card.dart';
 class RestaurantListScreen extends StatelessWidget {
   static const routeName = '/restaurant-list';
   late TextTheme _themeData;
-  late RestaurantController _restaurantControllerState;
+  late Restaurants _restaurantControllerState;
   late HomeController _homeControllerState;
   @override
   Widget build(BuildContext context) {
     _themeData = Theme.of(context).textTheme;
     _homeControllerState = Provider.of<HomeController>(context);
-    _restaurantControllerState = Provider.of<RestaurantController>(context);
+    _restaurantControllerState = Provider.of<Restaurants>(context);
     return Scaffold(
       // backgroundColor: Theme.of(context).canvasColor,
       body: _body(
@@ -132,7 +132,7 @@ class RestaurantListScreen extends StatelessWidget {
   }
 
   _search(context) {
-    return Consumer<RestaurantController>(
+    return Consumer<Restaurants>(
       builder: (context, resturantCont, _) => Container(
         height: 50,
         padding: EdgeInsets.symmetric(
