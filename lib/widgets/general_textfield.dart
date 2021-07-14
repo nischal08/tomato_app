@@ -12,6 +12,7 @@ class GeneralTextField extends StatelessWidget {
   final TextInputAction textInputAction;
   final FocusNode? focusNode;
   final Function onSave;
+  final TextEditingController? controller;
 
   GeneralTextField({
     Key? key,
@@ -26,11 +27,13 @@ class GeneralTextField extends StatelessWidget {
     required this.textInputAction,
     this.focusNode,
     required this.onSave,
+    this.controller,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       onSaved: (newValue) => onSave(newValue),
       focusNode: focusNode,
       textInputAction: textInputAction,

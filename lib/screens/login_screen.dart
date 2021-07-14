@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _formKey.currentState!.save();
     print("onSubmit form Login page !!!!");
     print(_authData);
-    Provider.of<AuthController>(context, listen: false).onClickLoginBtn(
+    Provider.of<AuthController>(context, listen: false).loginUser(
       context,
       email: _authData['email']!,
       password: _authData['password']!,

@@ -10,18 +10,32 @@ import 'package:tomato_app/widgets/general_textfield.dart';
 
 class VerificationScreen extends StatelessWidget {
   static const routeName = "register/verfication";
-  late String userMail;
+  late Map _userCredential;
   late String verificationCode;
+  late FocusNode _codeFocusNode;
 
-  late AuthController _authController;
+ final GlobalKey<FormState> _formKey = GlobalKey();
+  void _onSubmit(context) {
+if (!_formKey.currentState!.validate()) {
+      // Invalid!
+      return;
+    }
+    _formKey.currentState!.save();
 
-  void _onSubmit() {}
+    Provider.of<AuthController>(context, listen: false).verifyUser(
+      context,
+      password: _userCredential['password']!.trim(),
+      email: _userCredential['email']!.trim(),
+      code: verificationCode.trim(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    userMail = ModalRoute.of(context)!.settings.arguments as String;
+    _codeFocusNode = FocusNode();
+    _userCredential =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
     // print(number + "userId" + userRegisteredId);
-    _authController = Provider.of<AuthController>(context);
     return Scaffold(
       body: _body(context),
     );
@@ -61,35 +75,43 @@ class VerificationScreen extends StatelessWidget {
       children: [
         Text(
           "Email Verification",
-          style: Theme.of(context).textTheme.headline6!.copyWith(
-                color: kColorBlackText,
-              ),
+          style: Theme.of(context)
+              .textTheme
+              .headline5!
+              .copyWith(color: kColorBlackText, fontWeight: FontWeight.bold),
         ),
         SizedBox(
-          height: 10,
+          height: 25,
         ),
         Container(
           // width: MediaQuery.of(context).size.width*0.80,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 "Enter the Verification Code sent to ",
-                // softWrap: false,
-                // style: Theme.of(context).textTheme.subtitle2,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              SizedBox(
+                height: 5,
               ),
               Text(
-                userMail,
-                style: TextStyle(fontWeight: FontWeight.w700),
+                _userCredential["email"],
+                style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
               )
             ],
           ),
         ),
         SizedBox(
-          height: 20,
+          height: 30,
         ),
-        _otpTextField(context),
+        Form(
+        key: _formKey,
+          child: _otpTextField(context),
+        ),
         SizedBox(
           height: 30,
         ),
@@ -106,8 +128,8 @@ class VerificationScreen extends StatelessWidget {
       height: 55,
       width: double.infinity,
       child: GeneralElevatedButton(
-        onPressed: _onSubmit,
-        title: "Send",
+        onPressed: () => _onSubmit(context),
+        title:  "Send",
         fgColor: Colors.white,
         bgColor: Theme.of(context).primaryColorDark,
       ),
@@ -122,15 +144,16 @@ class VerificationScreen extends StatelessWidget {
           onSave: (String value) {
             verificationCode = value;
           },
-          focusNode: null,
+          focusNode: _codeFocusNode,
           textInputAction: TextInputAction.done,
           onFieldSubmitted: (value) {
-            // _onSubmit();
+            _codeFocusNode.unfocus();
+            _onSubmit(context);
           },
           keywordType: TextInputType.text,
           validate: (String value) {
-            if (value.isEmpty || value.length < 5) {
-              return 'Password is too short';
+            if (value.isEmpty || value.length < 20) {
+              return 'Code is too short';
             }
           },
           // controller: _passwordController,

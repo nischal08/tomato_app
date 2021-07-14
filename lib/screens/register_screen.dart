@@ -48,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _formKey.currentState!.save();
     print("onSubmit form Login page !!!!");
     print(_authData);
-    Provider.of<AuthController>(context, listen: false).onClickRegisterBtn( 
+    Provider.of<AuthController>(context, listen: false).registerUser( 
       context,
       email: _authData['email']!,
       password: _authData['password']!,
