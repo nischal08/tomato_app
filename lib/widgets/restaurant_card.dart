@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+
 import 'package:tomato_app/contants/color_properties.dart';
 
 class RestaurantCard extends StatelessWidget {
-  const RestaurantCard({Key? key}) : super(key: key);
+  final String title;
+final double? rating ;
+final String? networkUrl;
+final String? favFood;
+  
+  RestaurantCard({
+    Key? key,
+    required this.title,
+     this.rating,
+     this.networkUrl,
+     this.favFood,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,20 +33,20 @@ class RestaurantCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Image.asset(
-                "assets/venders/pizzahut.png",
+                networkUrl??"assets/venders/pizzahut.png",
                 height: 100,
               ),
               Container(
                 height: 100,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                 mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Row(
                       children: [
                         Text(
-                          "4.6",
+                       rating!=null?  "$rating": "4.6",
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                         SizedBox(width: 1),
@@ -47,14 +59,14 @@ class RestaurantCard extends StatelessWidget {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      "Pizza",
+                      title,
                       style: Theme.of(context).textTheme.subtitle1!.copyWith(
                             fontWeight: FontWeight.w500,
                           ),
                     ),
                     SizedBox(height: 2),
                     Text(
-                      "Mostly Pizza",
+                      favFood ?? "Pizza",
                       style: Theme.of(context).textTheme.subtitle2!.copyWith(
                             fontWeight: FontWeight.w200,
                           ),

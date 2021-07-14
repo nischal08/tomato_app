@@ -12,13 +12,13 @@ import '../widgets/restaurant_card.dart';
 class RestaurantListScreen extends StatelessWidget {
   static const routeName = '/restaurant-list';
   late TextTheme _themeData;
-  late Restaurants _restaurantControllerState;
+  late Restaurants _restaurants;
   late HomeController _homeControllerState;
   @override
   Widget build(BuildContext context) {
     _themeData = Theme.of(context).textTheme;
     _homeControllerState = Provider.of<HomeController>(context);
-    _restaurantControllerState = Provider.of<Restaurants>(context);
+    _restaurants = Provider.of<Restaurants>(context);
     return Scaffold(
       // backgroundColor: Theme.of(context).canvasColor,
       body: _body(
@@ -66,7 +66,6 @@ class RestaurantListScreen extends StatelessWidget {
         SizedBox(
           height: 5,
         ),
-        for (int i = 0; i < 8; i++)
           GestureDetector(
             onTap: () {
               // _homeControllerState.onChangeWidget(1);
@@ -75,10 +74,7 @@ class RestaurantListScreen extends StatelessWidget {
                  RestaurantMenu.routeName);
             },
             child: RestaurantCard(
-                // favFood: "Pizza",
-                // title: "PizzaHut",
-                // rating: 4.5,
-                // networkUrl: 'assets/venders/pizzahut.png',
+               title: "title",
                
                 ),
           ),
@@ -108,7 +104,7 @@ class RestaurantListScreen extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(50),
         child: Image.network(
-          _restaurantControllerState.userImgUrl,
+          _restaurants.userImgUrl,
           fit: BoxFit.cover,
         ),
       ),
@@ -153,7 +149,7 @@ class RestaurantListScreen extends StatelessWidget {
         CustomIconButton(
           elevation: 1,
           icon: Icons.search,
-          onPressed: () => _restaurantControllerState.ontoggleSearchbar(),
+          onPressed: () => _restaurants.ontoggleSearchbar(),
         )
       ],
     );
@@ -218,17 +214,17 @@ class RestaurantListScreen extends StatelessWidget {
       ),
       height: 100,
       child: ListView(scrollDirection: Axis.horizontal, children: [
-        for (var key in _restaurantControllerState.categoryList.keys)
+        for (var key in _restaurants.categoryList.keys)
           Transform.translate(
             offset: Offset(
-                0, _restaurantControllerState.categoryKey == key ? -10 : 0),
+                0, _restaurants.categoryKey == key ? -10 : 0),
             child: Container(
               padding: EdgeInsets.only(top: 10),
               margin: const EdgeInsets.only(right: 30),
               child: _eachCategory(
                 context,
                 label: key,
-                assetUrl: _restaurantControllerState.categoryList[key],
+                assetUrl: _restaurants.categoryList[key],
               ),
             ),
           ),
@@ -243,7 +239,7 @@ class RestaurantListScreen extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: () {
-        _restaurantControllerState.onClickCategory(currentKey: label);
+        _restaurants.onClickCategory(currentKey: label);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -254,7 +250,7 @@ class RestaurantListScreen extends StatelessWidget {
             decoration: BoxDecoration(
                 // boxShadow: [kBoxShadowMeduimChipCard],
                 borderRadius: BorderRadius.circular(25),
-                color: _restaurantControllerState.categoryKey == label
+                color: _restaurants.categoryKey == label
                     ? Theme.of(context).primaryColor
                     : Theme.of(context).cardColor),
             child: SizedBox(
@@ -262,7 +258,7 @@ class RestaurantListScreen extends StatelessWidget {
               child: Image.asset(
                 assetUrl,
                 fit: BoxFit.fitHeight,
-                color: _restaurantControllerState.categoryKey == label
+                color: _restaurants.categoryKey == label
                     ? kColorWhiteText
                     : kColorBlackText,
               ),

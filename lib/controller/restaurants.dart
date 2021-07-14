@@ -5,9 +5,11 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
 import 'package:tomato_app/api/api_call.dart';
 import 'package:tomato_app/api/api_endpoints.dart';
+import 'package:tomato_app/models/restaurant_list_model.dart';
 import 'package:tomato_app/widgets/reusable_widget.dart';
 
 class Restaurants extends ChangeNotifier {
+  List items = [];
   bool toggleSearchbar = false;
   bool showSpinner = false;
   void ontoggleSearchbar() {
@@ -44,19 +46,23 @@ class Restaurants extends ChangeNotifier {
     notifyListeners();
     late Response response;
     String url =
-        "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/auth/verify";
+        "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/restaurants?projection=name image address&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1";
     print(url);
 
-    print("From on getRestaurantList AuthCon!!!" );
+    print("From on getRestaurantList AuthCon!!!");
     try {
       response = await ApiCall.getApi(
         url,
       );
 
       var responseBody = json.decode(response.body);
-      if (responseBody["success"] as bool == true) {
+      if (responseBody["success"] == true) {
+        RestaurantListModel listResponse =
+            RestaurantListModel.fromJson(response.body);
+        items.add(listResponse.data);
+        print(items);
         ScaffoldMessenger.of(context).showSnackBar(
-          generalSnackBar(responseBody["message"], context),
+          generalSnackBar(listResponse.message, context),
         );
       } else {
         var errMessage = responseBody["message"];
