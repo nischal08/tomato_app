@@ -25,7 +25,7 @@ final String? favFood;
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         elevation: 5,
-        margin: EdgeInsets.only(bottom: 20),
+        margin: EdgeInsets.only(bottom: 10,top:10),
         color: Theme.of(context).cardColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 15),

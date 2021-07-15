@@ -3,17 +3,38 @@ import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/restaurants.dart';
+import 'package:tomato_app/models/restaurant_list_model.dart' as rlModel;
 import 'package:tomato_app/screens/restaurant_menu.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
 
 import '../widgets/restaurant_card.dart';
 
 // ignore: must_be_immutable
-class RestaurantListScreen extends StatelessWidget {
+class RestaurantListScreen extends StatefulWidget {
   static const routeName = '/restaurant-list';
+
+  @override
+  _RestaurantListScreenState createState() => _RestaurantListScreenState();
+}
+
+class _RestaurantListScreenState extends State<RestaurantListScreen> {
   late TextTheme _themeData;
+
   late Restaurants _restaurants;
+
   late HomeController _homeControllerState;
+
+  @override
+  void initState() {
+    _getRestaurants(context);
+    super.initState();
+  }
+
+  _getRestaurants(context) async {
+    await Provider.of<Restaurants>(context, listen: false)
+        .getRestaurantList(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     _themeData = Theme.of(context).textTheme;
@@ -52,7 +73,11 @@ class RestaurantListScreen extends StatelessWidget {
               height: 15,
             ),
             Expanded(
-              child: _vender(context),
+              child: _restaurants.items.isEmpty
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : _vender(context),
             ),
           ],
         ),
@@ -61,24 +86,25 @@ class RestaurantListScreen extends StatelessWidget {
   }
 
   Widget _vender(context) {
-    return ListView(
-      children: [
-        SizedBox(
-          height: 5,
+    return Consumer<Restaurants>(
+      builder: (__, Restaurants restaurants, _) => RefreshIndicator(
+        onRefresh: () => _getRestaurants(context),
+        child: ListView.builder(
+          itemCount: restaurants.items[0].length,
+          itemBuilder: (context, index) {
+            rlModel.Data restaurantData = restaurants.items[0][index];
+            return GestureDetector(
+              onTap: () {
+                // _homeControllerState.onChangeWidget(1);
+                Navigator.pushNamed(context, RestaurantMenu.routeName);
+              },
+              child: RestaurantCard(
+                title: restaurantData.name,
+              ),
+            );
+          },
         ),
-          GestureDetector(
-            onTap: () {
-              // _homeControllerState.onChangeWidget(1);
-              Navigator.pushNamed(
-                  context,
-                 RestaurantMenu.routeName);
-            },
-            child: RestaurantCard(
-               title: "title",
-               
-                ),
-          ),
-      ],
+      ),
     );
   }
 
@@ -216,8 +242,7 @@ class RestaurantListScreen extends StatelessWidget {
       child: ListView(scrollDirection: Axis.horizontal, children: [
         for (var key in _restaurants.categoryList.keys)
           Transform.translate(
-            offset: Offset(
-                0, _restaurants.categoryKey == key ? -10 : 0),
+            offset: Offset(0, _restaurants.categoryKey == key ? -10 : 0),
             child: Container(
               padding: EdgeInsets.only(top: 10),
               margin: const EdgeInsets.only(right: 30),
