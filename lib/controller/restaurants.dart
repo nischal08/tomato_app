@@ -9,7 +9,7 @@ import 'package:tomato_app/models/restaurant_list_model.dart';
 import 'package:tomato_app/widgets/reusable_widget.dart';
 
 class Restaurants extends ChangeNotifier {
-  List items = [];
+  List<Data> items = [];
   bool toggleSearchbar = false;
   bool showSpinner = false;
   void ontoggleSearchbar() {
@@ -59,7 +59,10 @@ class Restaurants extends ChangeNotifier {
       if (responseBody["success"] == true) {
         RestaurantListModel listResponse =
             RestaurantListModel.fromJson(response.body);
-        items.add(listResponse.data);
+        items.clear();
+        notifyListeners();
+        items = listResponse.data;
+        notifyListeners();
         print(items);
         ScaffoldMessenger.of(context).showSnackBar(
           generalSnackBar(listResponse.message, context),

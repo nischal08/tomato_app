@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:tomato_app/models/cart.dart';
-import 'package:tomato_app/models/product.dart';
+import 'package:tomato_app/models/product_list.dart';
+
 
 class Carts with ChangeNotifier {
   List<Cart> _cartItems = [];
 
-  void addCartItem({colorFlag = true, quantity = 1, required Product product}) {
+  void addCartItem(
+      {colorFlag = true, quantity = 1, required Datum product}) {
     _cartItems.add(
       Cart(
-          imageUrl: product.image,
-          price: product.price,
           product: product,
-          title: product.title,
+          // imageUrl: product.image,
+          price: product.price,
+          title: product.name,
           colorFlag: colorFlag,
           quantity: quantity),
     );

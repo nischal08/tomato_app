@@ -48,7 +48,8 @@ class RestaurantListModel {
 
   String toJson() => json.encode(toMap());
 
-  factory RestaurantListModel.fromJson(String source) => RestaurantListModel.fromMap(json.decode(source));
+  factory RestaurantListModel.fromJson(String source) =>
+      RestaurantListModel.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -58,20 +59,20 @@ class RestaurantListModel {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is RestaurantListModel &&
-      other.success == success &&
-      other.message == message &&
-      listEquals(other.data, data) &&
-      other.totalData == totalData;
+        other.success == success &&
+        other.message == message &&
+        listEquals(other.data, data) &&
+        other.totalData == totalData;
   }
 
   @override
   int get hashCode {
     return success.hashCode ^
-      message.hashCode ^
-      data.hashCode ^
-      totalData.hashCode;
+        message.hashCode ^
+        data.hashCode ^
+        totalData.hashCode;
   }
 }
 
@@ -131,20 +132,17 @@ class Data {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is Data &&
-      listEquals(other.image, image) &&
-      other.id == id &&
-      other.name == name &&
-      listEquals(other.address, address);
+        listEquals(other.image, image) &&
+        other.id == id &&
+        other.name == name &&
+        listEquals(other.address, address);
   }
 
   @override
   int get hashCode {
-    return image.hashCode ^
-      id.hashCode ^
-      name.hashCode ^
-      address.hashCode;
+    return image.hashCode ^ id.hashCode ^ name.hashCode ^ address.hashCode;
   }
 }
 
@@ -191,16 +189,17 @@ class Addres {
   factory Addres.fromJson(String source) => Addres.fromMap(json.decode(source));
 
   @override
-  String toString() => 'Addres(type: $type, coordinates: $coordinates, _id: $id)';
+  String toString() =>
+      'Addres(type: $type, coordinates: $coordinates, _id: $id)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is Addres &&
-      other.type == type &&
-      listEquals(other.coordinates, coordinates) &&
-      other.id == id;
+        other.type == type &&
+        listEquals(other.coordinates, coordinates) &&
+        other.id == id;
   }
 
   @override

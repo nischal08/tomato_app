@@ -4,39 +4,40 @@ import 'package:tomato_app/contants/color_properties.dart';
 
 class RestaurantCard extends StatelessWidget {
   final String title;
-final double? rating ;
-final String? networkUrl;
-final String? favFood;
-  
+  final double? rating;
+  final String? networkUrl;
+  final String? favFood;
+
   RestaurantCard({
     Key? key,
     required this.title,
-     this.rating,
-     this.networkUrl,
-     this.favFood,
+    this.rating,
+    this.networkUrl,
+    this.favFood,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 30,
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          15,
+        ),
       ),
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        elevation: 5,
-        margin: EdgeInsets.only(bottom: 10,top:10),
-        color: Theme.of(context).cardColor,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Image.asset(
-                networkUrl??"assets/venders/pizzahut.png",
+      elevation: 5,
+      color: Theme.of(context).cardColor,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        child: Row(
+          children: [
+            Expanded(
+              child: Image.asset(
+                networkUrl ?? "assets/venders/pizzahut.png",
                 height: 100,
               ),
-              Container(
+            ),
+            Flexible(
+              child: Container(
                 height: 100,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +47,7 @@ final String? favFood;
                     Row(
                       children: [
                         Text(
-                       rating!=null?  "$rating": "4.6",
+                          rating != null ? "$rating" : "4.6",
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                         SizedBox(width: 1),
@@ -73,9 +74,9 @@ final String? favFood;
                     ),
                   ],
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );

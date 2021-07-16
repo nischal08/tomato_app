@@ -5,7 +5,7 @@ import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/carts.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/product_detail_controller.dart';
-import 'package:tomato_app/models/product.dart';
+import 'package:tomato_app/models/product_list.dart' as prod;
 import 'package:tomato_app/widgets/each_product_box.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
 import 'package:tomato_app/widgets/circular_button.dart';
@@ -15,7 +15,7 @@ class ProductDetailScreen extends StatelessWidget {
   late ProductDetailController _prodDetailContr;
   late HomeController _homeCtrlrstate;
 
-  late Product product;
+  late prod.Datum product;
 
   bool _checkBigDeviceSize(context) {
     return MediaQuery.of(context).size.height > 500 ? true : false;
@@ -23,7 +23,8 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    product = ModalRoute.of(context)!.settings.arguments as Product;
+    product = ModalRoute.of(context)!.settings.arguments as prod.Datum;
+
     _prodDetailContr = Provider.of<ProductDetailController>(context);
     _homeCtrlrstate = Provider.of<HomeController>(context);
     return Scaffold(
@@ -183,15 +184,15 @@ class ProductDetailScreen extends StatelessWidget {
         _eachProductInfo(
           context,
           key: "Rating",
-          value: "${product.rating}",
+          value: "${4.5}",
         ),
       ],
     );
   }
 
   Widget _productImage(context) {
-    return Image.network(
-      product.image,
+    return Image.asset(
+      "assets/foods/burger.png",
       height: _checkBigDeviceSize(context) ? 350 : 250,
       fit: BoxFit.cover,
       width: double.infinity,
@@ -230,7 +231,7 @@ class ProductDetailScreen extends StatelessWidget {
                   .onChangeQntyToDefVal();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text("${product.title} is added to cart."),
+                  content: Text("${product.name} is added to cart."),
                 ),
               );
             },
@@ -351,7 +352,7 @@ class ProductDetailScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Text(
-        product.title,
+        product.name,
         style: GoogleFonts.raleway(
           fontSize: 22,
           fontWeight: FontWeight.w600,

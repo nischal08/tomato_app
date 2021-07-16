@@ -90,8 +90,8 @@ class CartItemCard extends StatelessWidget {
           padding: const EdgeInsets.only(left: 10.0),
           child: CircleAvatar(
             radius: 27,
-            backgroundImage: NetworkImage(
-              _cart.imageUrl,
+            backgroundImage: AssetImage(
+              "assets/foods/burger.png",
             ),
           ),
         ),

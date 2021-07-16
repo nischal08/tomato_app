@@ -90,16 +90,26 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
       builder: (__, Restaurants restaurants, _) => RefreshIndicator(
         onRefresh: () => _getRestaurants(context),
         child: ListView.builder(
-          itemCount: restaurants.items[0].length,
+          itemCount: restaurants.items.length,
           itemBuilder: (context, index) {
-            rlModel.Data restaurantData = restaurants.items[0][index];
-            return GestureDetector(
-              onTap: () {
-                // _homeControllerState.onChangeWidget(1);
-                Navigator.pushNamed(context, RestaurantMenu.routeName);
-              },
-              child: RestaurantCard(
-                title: restaurantData.name,
+            rlModel.Data restaurantData = restaurants.items[index];
+            return Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 30,
+              ),
+              margin: EdgeInsets.symmetric(vertical: 10),
+              child: InkWell(
+                onTap: () {
+                  // _homeControllerState.onChangeWidget(1);
+                  Navigator.pushNamed(
+                    context,
+                    RestaurantMenu.routeName,
+                    arguments: restaurantData.id,
+                  );
+                },
+                child: RestaurantCard(
+                  title: restaurantData.name,
+                ),
               ),
             );
           },

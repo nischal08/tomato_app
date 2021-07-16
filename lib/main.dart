@@ -14,7 +14,6 @@ import 'package:tomato_app/screens/restaurant_list_screen.dart';
 import 'package:tomato_app/screens/restaurant_menu.dart';
 import 'package:tomato_app/screens/verification-screen.dart';
 import 'package:tomato_app/screens/welcome_screen.dart';
-
 import 'controller/home_controller.dart';
 import 'controller/carts.dart';
 import 'controller/product_detail_controller.dart';
