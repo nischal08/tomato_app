@@ -43,7 +43,7 @@ class Restaurants extends ChangeNotifier {
 
   Future<void> getRestaurantList(context) async {
     showSpinner = true;
-    notifyListeners();
+    
     late Response response;
     String url =
         "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/restaurants?projection=name image address&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1";
@@ -57,12 +57,12 @@ class Restaurants extends ChangeNotifier {
 
       var responseBody = json.decode(response.body);
       if (responseBody["success"] == true) {
+     
         RestaurantListModel listResponse =
             RestaurantListModel.fromJson(response.body);
-        items.clear();
-        notifyListeners();
+       
         items = listResponse.data;
-        notifyListeners();
+       
         print(items);
         ScaffoldMessenger.of(context).showSnackBar(
           generalSnackBar(listResponse.message, context),

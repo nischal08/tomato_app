@@ -125,7 +125,7 @@ Account """,
                         },
                         focusNode: _fnFocusNode,
                         textInputAction: TextInputAction.next,
-                        onFieldSubmitted: (value) {
+                        onFieldSubmit: (value) {
                           _fieldFocusChange(
                               context, _fnFocusNode, _lnFocusNode);
                         },
@@ -150,7 +150,7 @@ Account """,
                         },
                         focusNode: _lnFocusNode,
                         textInputAction: TextInputAction.next,
-                        onFieldSubmitted: (value) {
+                        onFieldSubmit: (value) {
                           _fieldFocusChange(
                               context, _lnFocusNode, _emailFocusNode);
                         },
@@ -175,7 +175,7 @@ Account """,
                         },
                         focusNode: _emailFocusNode,
                         textInputAction: TextInputAction.next,
-                        onFieldSubmitted: (value) {
+                        onFieldSubmit: (value) {
                           _fieldFocusChange(
                               context, _emailFocusNode, _passwordFocusNode);
                         },
@@ -200,7 +200,7 @@ Account """,
                         },
                         focusNode: _passwordFocusNode,
                         textInputAction: TextInputAction.done,
-                        onFieldSubmitted: (value) {
+                        onFieldSubmit: (value) {
                          _passwordFocusNode.unfocus();
                           _onSubmit();
                         },

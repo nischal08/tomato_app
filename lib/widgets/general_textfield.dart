@@ -8,7 +8,7 @@ class GeneralTextField extends StatelessWidget {
   VoidCallback? onClickPsToggle;
   final TextInputType keywordType;
   final Function validate;
-  final Function onFieldSubmitted;
+  final Function onFieldSubmit;
   final TextInputAction textInputAction;
   final FocusNode? focusNode;
   final Function onSave;
@@ -23,7 +23,7 @@ class GeneralTextField extends StatelessWidget {
     this.onClickPsToggle,
     required this.keywordType,
     required this.validate,
-    required this.onFieldSubmitted,
+    required this.onFieldSubmit,
     required this.textInputAction,
     this.focusNode,
     required this.onSave,
@@ -37,7 +37,7 @@ class GeneralTextField extends StatelessWidget {
       onSaved: (newValue) => onSave(newValue),
       focusNode: focusNode,
       textInputAction: textInputAction,
-      onFieldSubmitted: (newValue) => onFieldSubmitted(newValue),
+      onFieldSubmitted: (newValue) => onFieldSubmit(newValue),
       validator: (value) => validate(value),
       keyboardType: keywordType,
       // controller: controller,

@@ -32,7 +32,7 @@ class RestaurantCard extends StatelessWidget {
           children: [
             Expanded(
               child: Image.asset(
-                networkUrl ?? "assets/venders/pizzahut.png",
+                networkUrl ?? "assets/venders/bajeko.jpg",
                 height: 100,
               ),
             ),
@@ -67,7 +67,7 @@ class RestaurantCard extends StatelessWidget {
                     ),
                     SizedBox(height: 2),
                     Text(
-                      favFood ?? "Pizza",
+                      favFood ?? "All",
                       style: Theme.of(context).textTheme.subtitle2!.copyWith(
                             fontWeight: FontWeight.w200,
                           ),

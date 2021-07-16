@@ -19,7 +19,6 @@ class Auth extends ChangeNotifier {
 
   Future<void> loginUser(context,
       {required String email, required String password}) async {
-  
     showLoginSpinner = true;
     notifyListeners();
     late Response response;
@@ -38,6 +37,7 @@ class Auth extends ChangeNotifier {
         preferences.setString("accessToken", successResponse.data.accessToken);
         preferences.setString(
             "refreshToken", successResponse.data.refreshToken);
+        preferences.setBool("shoudShowOnboardingPage", false);
         // print("preferences !!!! ${preferences.getString("accessToken")}");
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         ScaffoldMessenger.of(context)
@@ -48,7 +48,7 @@ class Auth extends ChangeNotifier {
       }
 
       showLoginSpinner = false;
-   
+
       notifyListeners();
     } catch (e) {
       generalAlertDialog(context, e.toString());
@@ -142,6 +142,4 @@ class Auth extends ChangeNotifier {
       generalAlertDialog(context, e.toString());
     }
   }
-
- 
 }

@@ -150,7 +150,7 @@ class VerificationScreen extends StatelessWidget {
           },
           focusNode: _codeFocusNode,
           textInputAction: TextInputAction.done,
-          onFieldSubmitted: (value) {
+          onFieldSubmit: (value) {
             _codeFocusNode.unfocus();
             _onSubmit(context);
           },

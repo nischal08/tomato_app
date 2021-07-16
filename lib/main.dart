@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:tomato_app/controller/auth.dart';
 import 'package:tomato_app/controller/food_controller.dart';
 import 'package:tomato_app/screens/cart_screen.dart';
@@ -14,14 +16,25 @@ import 'package:tomato_app/screens/restaurant_list_screen.dart';
 import 'package:tomato_app/screens/restaurant_menu.dart';
 import 'package:tomato_app/screens/verification-screen.dart';
 import 'package:tomato_app/screens/welcome_screen.dart';
-import 'controller/home_controller.dart';
+
 import 'controller/carts.dart';
+import 'controller/home_controller.dart';
 import 'controller/product_detail_controller.dart';
 import 'controller/products.dart';
 import 'controller/restaurants.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  String? accessToken = sharedPreferences.getString("accessToken");
+  bool? shoudShowOnboardingPage =
+      sharedPreferences.getBool("shoudShowOnboardingPage") ?? true;
+  print(accessToken);
+  runApp(
+    MyApp(
+      shoudShowOnboardingPage: accessToken == null ? true : false,
+    ),
+  );
 
   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
   //   statusBarColor: Colors.purple,
@@ -29,6 +42,11 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  final bool? shoudShowOnboardingPage;
+  const MyApp({
+    Key? key,
+    required this.shoudShowOnboardingPage,
+  }) : super(key: key);
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -81,17 +99,20 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.red,
           accentColor: Colors.deepOrangeAccent,
         ),
+        initialRoute: shoudShowOnboardingPage!
+            ? WelcomeScreen.routeName
+            : HomeScreen.routeName,
         routes: {
           HomeScreen.routeName: (context) => HomeScreen(),
           WelcomeScreen.routeName: (context) => WelcomeScreen(),
           LoginScreen.routeName: (context) => LoginScreen(),
           RegisterScreen.routeName: (context) => RegisterScreen(),
-          CartScreen.routeName:(context)=>CartScreen(),
-          RestaurantMenu.routeName:(context)=>RestaurantMenu(),
-          RestaurantListScreen.routeName:(context)=>RestaurantListScreen(),
-          ProductDetailScreen.routeName:(context)=>ProductDetailScreen(),
-          FoodScreen.routeName:(context)=>FoodScreen(),
-          VerificationScreen.routeName:(context)=>VerificationScreen(),
+          CartScreen.routeName: (context) => CartScreen(),
+          RestaurantMenu.routeName: (context) => RestaurantMenu(),
+          RestaurantListScreen.routeName: (context) => RestaurantListScreen(),
+          ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
+          FoodScreen.routeName: (context) => FoodScreen(),
+          VerificationScreen.routeName: (context) => VerificationScreen(),
         },
       ),
     );

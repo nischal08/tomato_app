@@ -17,8 +17,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late TextEditingController _emailController;
-  late TextEditingController _passwordController;
   final GlobalKey<FormState> _formKey = GlobalKey();
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
@@ -29,7 +27,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool passwordVisibility = false;
   bool changebuttonAnimation = false;
- 
 
   void onTogglePasswordVisibility() {
     print("password visbilty !!!");
@@ -43,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
     FocusScope.of(context).requestFocus(nextFocus);
   }
 
-  _onSubmit() {
+  _onSubmit(context) {
     if (!_formKey.currentState!.validate()) {
       // Invalid!
       return;
@@ -60,9 +57,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -71,11 +65,8 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child: 
-          
-           Consumer<Auth>(
-             builder: (_, auth, __) => 
-             auth.showLoginSpinner
+          child: Consumer<Auth>(
+            builder: (_, auth, __) => auth.showLoginSpinner
                 ? Center(
                     child: CircularProgressIndicator(
                       color: Colors.grey,
@@ -84,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 : _body(
                     context,
                   ),
-           ),
+          ),
         ),
       ),
     );
@@ -138,7 +129,7 @@ back """,
                         },
                         focusNode: _emailFocusNode,
                         textInputAction: TextInputAction.next,
-                        onFieldSubmitted: () {
+                        onFieldSubmit: (_) {
                           _fieldFocusChange(
                               context, _emailFocusNode, _passwordFocusNode);
                         },
@@ -158,32 +149,31 @@ back """,
                       SizedBox(
                         height: 30,
                       ),
-                     GeneralTextField(
-                          onSave: (String value) {
-                            _authData['password'] = value;
-                          },
-                          focusNode: _passwordFocusNode,
-                          textInputAction: TextInputAction.done,
-                          onFieldSubmitted: (value) {
-                            _passwordFocusNode.unfocus();
-                            _onSubmit();
-                          },
-                          keywordType: TextInputType.visiblePassword,
-                          validate: (String value) {
-                            if (value.isEmpty || value.length < 5) {
-                              return 'Password is too short';
-                            }
-                          },
-                          // controller: _passwordController,
-                          labelText: "Password",
-                          obscureText: passwordVisibility ? false : true,
-                          preferIcon: Icons.lock_outline,
-                          onClickPsToggle: onTogglePasswordVisibility,
-                          suffixIcon: passwordVisibility
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined,
-                        ),
-                      
+                      GeneralTextField(
+                        onSave: (String value) {
+                          _authData['password'] = value;
+                        },
+                        focusNode: _passwordFocusNode,
+                        textInputAction: TextInputAction.done,
+                        onFieldSubmit: (_) {
+                          _passwordFocusNode.unfocus();
+                          _onSubmit(context);
+                        },
+                        keywordType: TextInputType.visiblePassword,
+                        validate: (String value) {
+                          if (value.isEmpty || value.length < 5) {
+                            return 'Password is too short';
+                          }
+                        },
+                        // controller: _passwordController,
+                        labelText: "Password",
+                        obscureText: passwordVisibility ? false : true,
+                        preferIcon: Icons.lock_outline,
+                        onClickPsToggle: onTogglePasswordVisibility,
+                        suffixIcon: passwordVisibility
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                      ),
                       SizedBox(
                         height: 8,
                       ),
@@ -210,7 +200,7 @@ back """,
                             8),
                         color: Theme.of(context).primaryColorDark,
                         child: InkWell(
-                          onTap: _onSubmit,
+                          onTap: ()=>_onSubmit(context),
                           child: AnimatedContainer(
                             alignment: Alignment.center,
                             duration: Duration(seconds: 2),

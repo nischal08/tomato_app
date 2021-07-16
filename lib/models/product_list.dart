@@ -2,7 +2,7 @@
 //
 //     final productListResponse = productListResponseFromMap(jsonString);
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
@@ -40,17 +40,19 @@ class ProductListResponse {
       };
 }
 
-class Datum with ChangeNotifier {
+class Datum with ChangeNotifier{
   Datum({
+    required this.ingredients,
     required this.id,
     required this.name,
     required this.reciepe,
     required this.category,
     required this.restaurant,
     required this.price,
-    this.isFavorite = false,
+    this.isFavorite=false,
   });
-  bool isFavorite;
+   bool isFavorite;
+  final List<String> ingredients;
   final String id;
   final String name;
   final String reciepe;
@@ -71,6 +73,7 @@ class Datum with ChangeNotifier {
   String toJson() => json.encode(toMap());
 
   factory Datum.fromMap(Map<String, dynamic> json) => Datum(
+        ingredients: List<String>.from(json["ingredients"].map((x) => x)),
         id: json["_id"],
         name: json["name"],
         reciepe: json["reciepe"],
@@ -80,6 +83,7 @@ class Datum with ChangeNotifier {
       );
 
   Map<String, dynamic> toMap() => {
+        "ingredients": List<dynamic>.from(ingredients.map((x) => x)),
         "_id": id,
         "name": name,
         "reciepe": reciepe,

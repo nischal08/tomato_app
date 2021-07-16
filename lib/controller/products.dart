@@ -13,10 +13,10 @@ class Products with ChangeNotifier {
   List<Datum> items = [];
   Future<void> getItems(context, {required String restaurantId}) async {
     showSpinner = true;
-    notifyListeners();
+    
     late Response response;
     String url =
-        "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/items?projection=name reciepe category restaurant price&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&restaurant=$restaurantId";
+        "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/items?projection=name reciepe ingredients category restaurant price&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&restaurant=$restaurantId";
     print(url);
 
     print("From on getItem in products!!!");
@@ -30,7 +30,7 @@ class Products with ChangeNotifier {
         ProductListResponse listResponse =
             ProductListResponse.fromJson(response.body);
         items = listResponse.data;
-        notifyListeners();
+       
         print(items);
         ScaffoldMessenger.of(context).showSnackBar(
           generalSnackBar(listResponse.message, context),

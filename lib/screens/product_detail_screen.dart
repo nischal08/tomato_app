@@ -78,6 +78,8 @@ class ProductDetailScreen extends StatelessWidget {
               ),
               SizedBox(height: 20),
               _ingredient(context),
+              SizedBox(height: 20),
+              _recipe(context),
               SizedBox(height: 30),
               _productInfoRow(context),
               SizedBox(
@@ -329,17 +331,47 @@ class ProductDetailScreen extends StatelessWidget {
           SizedBox(
             height: 8.0,
           ),
-          Text(
-            product.reciepe,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.raleway(
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-              color: Colors.black87.withOpacity(0.7),
-            ),
+        
+          Row(
+            children: [
+             for (String ingred in product.ingredients)  Text(
+                "${ingred}, ",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.raleway(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  color: Colors.black87.withOpacity(0.7),
+                ),
+              ),
+            ],
           ),
         ],
       ),
+    );
+  }
+  Widget _recipe(context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Recipe",
+          softWrap: false,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        SizedBox(
+          height: 8.0,
+        ),
+      
+        Text(
+          "${product.reciepe}, ",
+          textAlign: TextAlign.start,
+          style: GoogleFonts.raleway(
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+            color: Colors.black87.withOpacity(0.7),
+          ),
+        ),
+      ],
     );
   }
 
