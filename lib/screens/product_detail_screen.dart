@@ -28,58 +28,88 @@ class ProductDetailScreen extends StatelessWidget {
     _prodDetailContr = Provider.of<ProductDetailController>(context);
     _homeCtrlrstate = Provider.of<HomeController>(context);
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.only(
+            left: 10,
+            top: 10,
+          ),
+          child: _appbarAction(context),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: _body(context),
     );
   }
 
   Widget _body(context) {
-    return SafeArea(
-      child: Container(
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: [
-            _upperContainer(context),
-            Expanded(child: _lowerContainer(context)),
-          ],
-        ),
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      child: Column(
+        children: [
+          Expanded(flex:4, child: _upperContainer(context)),
+          _lowerContainer(context),
+        ],
       ),
     );
   }
 
   Widget _lowerContainer(context) {
-    return Container(
-      // height: MediaQuery.of(context).size.height*0.60-MediaQuery.of(context).padding.bottom-kBottomNavigationBarHeight,
-      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-      decoration: BoxDecoration(
-          // borderRadius: BorderRadius.only(
-          //   topLeft: Radius.circular(40),
-          //   topRight: Radius.circular(40),
-          // ),
-          color: Theme.of(context).cardColor),
-      child: Column(
-        children: [
-          _title(),
-          Expanded(
-            child: ListView(
-              children: [
-                _ingredient(context),
-                SizedBox(height: 20),
-                _productInfoRow(context),
-                SizedBox(
-                  height: 20,
+    return Expanded(flex:7,
+      child: Container(
+        // height: MediaQuery.of(context).size.height*0.60-MediaQuery.of(context).padding.bottom-kBottomNavigationBarHeight,
+        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+        decoration: BoxDecoration(
+            // borderRadius: BorderRadius.only(
+            //   topLeft: Radius.circular(40),
+            //   topRight: Radius.circular(40),
+            // ),
+            color: Theme.of(context).cardColor),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20),
+              Container(
+                width: double.infinity,
+                child: _title(),
+              ),
+              SizedBox(height: 20),
+              _ingredient(context),
+              SizedBox(height: 30),
+              _productInfoRow(context),
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.40,
+                      child: Text(
+                        "How many do you want? ",
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                    ),
+                    _productQuantity(),
+                  ],
                 ),
-                _venderInfo(context),
-                SizedBox(
-                  height: 20,
-                ),
-                _transactionBtn(context),
-                SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
+              ),
+              SizedBox(height: 30),
+              _venderInfo(context),
+              SizedBox(
+                height: 30,
+              ),
+              _transactionBtn(context),
+              SizedBox(
+                height: kBottomNavigationBarHeight+10,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -110,7 +140,7 @@ class ProductDetailScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Chin Club",
+                  product.restaurant.name,
                   style: Theme.of(context).textTheme.subtitle2!.copyWith(
                         fontWeight: FontWeight.w500,
                       ),
@@ -144,26 +174,7 @@ class ProductDetailScreen extends StatelessWidget {
 
   Widget _upperContainer(context) {
     return Container(
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              _productImage(context),
-              Container(
-                height: _checkBigDeviceSize(context) ? 345 : 295,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _appbarAction(context),
-                    _productQuantity(),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+      child: _productImage(context),
     );
   }
 
@@ -183,19 +194,19 @@ class ProductDetailScreen extends StatelessWidget {
         ),
         _eachProductInfo(
           context,
-          key: "Rating",
-          value: "${4.5}",
+          key: "Category",
+          value: product.category.name,
         ),
       ],
     );
   }
 
   Widget _productImage(context) {
-    return Image.asset(
-      "assets/foods/burger.png",
-      height: _checkBigDeviceSize(context) ? 350 : 250,
-      fit: BoxFit.cover,
-      width: double.infinity,
+    return Image.network(
+      "https://cdn.dnaindia.com/sites/default/files/styles/full/public/2017/09/27/612590-momos-092717.jpg",
+      // height: _checkBigDeviceSize(context) ? 350 : 250,
+      fit: BoxFit.fitHeight,
+      // width: double.infinity,
     );
   }
 
@@ -249,10 +260,11 @@ class ProductDetailScreen extends StatelessWidget {
           onPressed: () => _prodDetailContr.onDecrQuantity(),
           icon: Icon(
             Icons.remove,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
         EachProductBox(
+          isSelected: true,
           label: _prodDetailContr.currentQuantity.toString(),
           onPressed: () {},
         ),
@@ -260,7 +272,7 @@ class ProductDetailScreen extends StatelessWidget {
           onPressed: () => _prodDetailContr.onIncrQuantity(),
           icon: Icon(
             Icons.add,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
       ],
@@ -318,7 +330,7 @@ class ProductDetailScreen extends StatelessWidget {
             height: 8.0,
           ),
           Text(
-            "Salami, chilli peppers, tomatoes, oregano, basil",
+            product.reciepe,
             textAlign: TextAlign.center,
             style: GoogleFonts.raleway(
               fontWeight: FontWeight.w500,
@@ -333,11 +345,10 @@ class ProductDetailScreen extends StatelessWidget {
 
   Widget _appbarAction(context) {
     return Container(
-      alignment: Alignment.topLeft,
-      padding: const EdgeInsets.only(
-        left: 30.0,
-        top: 10,
-      ),
+      height: 50,
+      width: 50,
+      // alignment: Alignment.topLeft,
+
       child: CustomIconButton(
         paddingLeft: 9,
         icon: Icons.arrow_back_ios,
@@ -349,14 +360,12 @@ class ProductDetailScreen extends StatelessWidget {
   }
 
   Widget _title() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Text(
-        product.name,
-        style: GoogleFonts.raleway(
-          fontSize: 22,
-          fontWeight: FontWeight.w600,
-        ),
+    return Text(
+      product.name,
+      textAlign: TextAlign.center,
+      style: GoogleFonts.raleway(
+        fontSize: 22,
+        fontWeight: FontWeight.w600,
       ),
     );
   }
