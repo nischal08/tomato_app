@@ -38,7 +38,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
   _loadingData(context) async {
     String id = ModalRoute.of(context)!.settings.arguments as String;
     await Provider.of<Products>(context, listen: false)
-        .getItems(context, restaurantId: id);
+        .getRestaurantItems(context, restaurantId: id);
   }
 
   @override
@@ -80,13 +80,14 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
     );
   }
 
-  Widget _productList(context, Products productData) {
+  
+ Widget _productList(context, Products productData) {
     return Container(
       child: productData.showSpinner
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : productData.items.isEmpty
+          : productData.restaurantMenuItems.isEmpty
               ? Center(
                   child: Container(
                       width: MediaQuery.of(context).size.width * 0.60,
@@ -97,16 +98,15 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                       )),
                 )
               : ListView.builder(
-                  itemCount: productData.items.length,
+                  itemCount: productData.restaurantMenuItems.length,
                   itemBuilder: (context, index) =>
                       ChangeNotifierProvider<Datum>.value(
-                    value: productData.items[index],
+                    value: productData.restaurantMenuItems[index],
                     child: ProductCard(context),
                   ),
                 ),
     );
   }
-
   _customAppbar() {
     return Container(
       padding: EdgeInsets.symmetric(

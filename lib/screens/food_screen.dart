@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/products.dart';
 import 'package:tomato_app/models/category_model.dart';
+import 'package:tomato_app/models/product_list.dart' as prod;
+import 'package:tomato_app/widgets/product_card.dart';
 
 class FoodScreen extends StatefulWidget {
   static const routeName = "/food-category";
@@ -19,92 +21,153 @@ class _FoodScreenState extends State<FoodScreen> {
   }
 
   Future<void> _getCategory(context) async {
-    await Provider.of<Products>(context, listen: false).getCategory(context);
+    Provider.of<Products>(context, listen: false).getCategory(context);
+    await Provider.of<Products>(context, listen: false).getItemAsPerCategory(
+      context,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     Products _products = Provider.of<Products>(
       context,
-      listen: false,
     );
+    return Scaffold(
+      backgroundColor: Theme.of(context).canvasColor,
+      body: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).padding.top + 20,
+            ),
+            _greeting(context),
+            SizedBox(
+              height: 20,
+            ),
+            _category(
+              context,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Flexible(child: _productList(context, _products)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container _greeting(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: MediaQuery.of(context).padding.top + 20,
-          ),
-          Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Food at your service ",
-                  textAlign: TextAlign.start,
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  "Any food you like ",
-                  textAlign: TextAlign.start,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                        color: Theme.of(context).accentColor,
-                      ),
-                ),
-              ],
-            ),
+          Text(
+            "Food at your service ",
+            textAlign: TextAlign.start,
+            style: Theme.of(context).textTheme.headline5,
           ),
           SizedBox(
-            height: 30,
+            height: 5,
           ),
-          _category(context, _products),
-          SizedBox(
-            height: 30,
+          Text(
+            "Any food you like ",
+            textAlign: TextAlign.start,
+            style: Theme.of(context).textTheme.headline6!.copyWith(
+                  color: Theme.of(context).accentColor,
+                ),
           ),
         ],
       ),
     );
   }
 
-  Widget _category(context, _products) {
+  Widget _productList(context, Products productData) {
     return Container(
+      child: productData.itemAsCategorySpinner
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : productData.itemAsPerCategory.isEmpty
+              ? Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.60,
+                    child: Text(
+                      "This category has no food are unavailable!!",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                  ),
+                )
+              : MediaQuery.removePadding(
+                  removeTop: true,
+                  context: context,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: productData.itemAsPerCategory.length,
+                    itemBuilder: (context, index) =>
+                        ChangeNotifierProvider<prod.Datum>.value(
+                      value: productData.itemAsPerCategory[index],
+                      child: ProductCard(context),
+                    ),
+                  ),
+                ),
+    );
+  }
+
+  Widget _category(
+    context,
+  ) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: 30,
+      ),
       height: 100,
       child: Consumer<Products>(
-        builder: (__, _products, _) =>
-            ListView(scrollDirection: Axis.horizontal, children: [
-          for (var data in _products.categoryItems)
-            _products.categoryItems.isEmpty
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Transform.translate(
-                    offset:
-                        Offset(0, _products.categoryKey == data.name ? -10 : 0),
+        builder: (context, _products, child) => _products.categorySpinner
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : ListView.builder(
+                itemCount: _products.categoryItems.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  var categoryItem = _products.categoryItems[index];
+                  return Transform.translate(
+                    offset: Offset(0,
+                        _products.currentCategory == categoryItem.id ? -10 : 0),
                     child: Container(
                       padding: EdgeInsets.only(top: 10),
                       margin: const EdgeInsets.only(right: 30),
                       child: _eachCategory(context,
-                          label: data.name,
-                          assetUrl: _products.categoryList[data.name],
-                          products: _products),
+                          label: categoryItem.name,
+                          id: categoryItem.id,
+                          assetUrl: _products.categoryList[categoryItem.name],
+                          product: _products),
                     ),
-                  ),
-        ]),
+                  );
+                },
+              ),
       ),
     );
   }
 
-  Widget _eachCategory(context,
-      {required String assetUrl,
-      required String label,
-      required Products products}) {
+  Widget _eachCategory(
+    context, {
+    String? assetUrl,
+    required String id,
+    required Products product,
+    required String label,
+  }) {
     return GestureDetector(
       onTap: () {
-        products.onClickCategory(currentKey: label);
+        if (label == "All") {
+          product.onClickCategory(context, currentKey: id, isAll: true);
+        } else {
+          product.onClickCategory(context, currentKey: id, isAll: false);
+        }
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -115,15 +178,15 @@ class _FoodScreenState extends State<FoodScreen> {
             decoration: BoxDecoration(
                 // boxShadow: [kBoxShadowMeduimChipCard],
                 borderRadius: BorderRadius.circular(25),
-                color: products.categoryKey == label
+                color: product.currentCategory == id
                     ? Theme.of(context).primaryColor
                     : Theme.of(context).cardColor),
             child: SizedBox(
               height: 32,
               child: Image.asset(
-                assetUrl,
+                assetUrl!,
                 fit: BoxFit.fitHeight,
-                color: products.categoryKey == label
+                color: product.currentCategory == id
                     ? kColorWhiteText
                     : kColorBlackText,
               ),

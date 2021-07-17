@@ -26,7 +26,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   String? accessToken = sharedPreferences.getString("accessToken");
-  print(accessToken);
+  // print(accessToken);
   runApp(
     MyApp(
       shoudShowOnboardingPage: accessToken == null ? true : false,
