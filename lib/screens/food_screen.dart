@@ -22,9 +22,8 @@ class _FoodScreenState extends State<FoodScreen> {
 
   Future<void> _getCategory(context) async {
     Provider.of<Products>(context, listen: false).getCategory(context);
-    await Provider.of<Products>(context, listen: false).getItemAsPerCategory(
-      context,
-    );
+    await Provider.of<Products>(context, listen: false)
+        .getItemAsPerCategory(context);
   }
 
   @override

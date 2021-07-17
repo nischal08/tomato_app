@@ -72,12 +72,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
             SizedBox(
               height: 20,
             ),
-            // _category(
-            //   context,
-            // ),
-            // SizedBox(
-            //   height: 15,
-            // ),
+           
             Expanded(
               child: _restaurants.items.isEmpty
                   ? Center(
@@ -100,13 +95,13 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
           itemBuilder: (context, index) {
             rlModel.Datum restaurantData = restaurants.items[index];
             return Container(
+              
               padding: EdgeInsets.symmetric(
                 horizontal: 30,
               ),
               margin: EdgeInsets.symmetric(vertical: 6),
               child: InkWell(
                 onTap: () {
-                  // _homeControllerState.onChangeWidget(1);
                   Navigator.pushNamed(
                     context,
                     RestaurantMenu.routeName,

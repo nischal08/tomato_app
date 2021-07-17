@@ -7,7 +7,7 @@ import 'package:tomato_app/screens/register_screen.dart';
 import 'package:tomato_app/widgets/general_text_button.dart';
 import 'package:tomato_app/widgets/general_textfield.dart';
 import 'package:tomato_app/widgets/curve_painter_login.dart';
-import 'package:tomato_app/widgets/horizontal_line_between_word.dart';
+import 'package:tomato_app/widgets/straightLine_betw_word.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -231,7 +231,7 @@ back """,
                       SizedBox(
                         height: 10,
                       ),
-                      HorizontalLineBetweenWord(label: "or", height: 40),
+                      StraightLineBetwWord(label: "or", height: 40),
                       SizedBox(
                         height: 10,
                       ),

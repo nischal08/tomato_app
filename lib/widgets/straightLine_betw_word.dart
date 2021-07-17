@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class HorizontalLineBetweenWord extends StatelessWidget {
-  const HorizontalLineBetweenWord({
+class StraightLineBetwWord extends StatelessWidget {
+  const StraightLineBetwWord({
     required this.label,
     required this.height,
   });
