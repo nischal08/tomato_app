@@ -26,8 +26,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   String? accessToken = sharedPreferences.getString("accessToken");
-  bool? shoudShowOnboardingPage =
-      sharedPreferences.getBool("shoudShowOnboardingPage") ?? true;
   print(accessToken);
   runApp(
     MyApp(

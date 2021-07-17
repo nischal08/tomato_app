@@ -2,13 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/products.dart';
+import 'package:tomato_app/models/category_model.dart';
 
-class FoodScreen extends StatelessWidget {
+class FoodScreen extends StatefulWidget {
   static const routeName = "/food-category";
 
   @override
+  _FoodScreenState createState() => _FoodScreenState();
+}
+
+class _FoodScreenState extends State<FoodScreen> {
+  @override
+  void initState() {
+    _getCategory(context);
+    super.initState();
+  }
+
+  Future<void> _getCategory(context) async {
+    await Provider.of<Products>(context, listen: false).getCategory(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Products _products = Provider.of<Products>(context,
+    Products _products = Provider.of<Products>(
+      context,
       listen: false,
     );
     return Container(
@@ -17,7 +34,7 @@ class FoodScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: MediaQuery.of(context).padding.top+20,
+            height: MediaQuery.of(context).padding.top + 20,
           ),
           Container(
             child: Column(
@@ -41,11 +58,11 @@ class FoodScreen extends StatelessWidget {
               ],
             ),
           ),
-           SizedBox(
+          SizedBox(
             height: 30,
           ),
           _category(context, _products),
-           SizedBox(
+          SizedBox(
             height: 30,
           ),
         ],
@@ -53,40 +70,38 @@ class FoodScreen extends StatelessWidget {
     );
   }
 
-  Widget _category(
-    context,_products
-  ) {
+  Widget _category(context, _products) {
     return Container(
-     
       height: 100,
       child: Consumer<Products>(
-        builder: (context, _products, child) => 
-        ListView(scrollDirection: Axis.horizontal, children: [
-          for (var key in _products.categoryList.keys)
-            Transform.translate(
-              offset: Offset(0, _products.categoryKey == key ? -10 : 0),
-              child: Container(
-                padding: EdgeInsets.only(top: 10),
-                margin: const EdgeInsets.only(right: 30),
-                child: _eachCategory(
-                  context,
-                  label: key,
-                  assetUrl: _products.categoryList[key],
-                  products: _products
-                ),
-              ),
-            ),
+        builder: (__, _products, _) =>
+            ListView(scrollDirection: Axis.horizontal, children: [
+          for (var data in _products.categoryItems)
+            _products.categoryItems.isEmpty
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Transform.translate(
+                    offset:
+                        Offset(0, _products.categoryKey == data.name ? -10 : 0),
+                    child: Container(
+                      padding: EdgeInsets.only(top: 10),
+                      margin: const EdgeInsets.only(right: 30),
+                      child: _eachCategory(context,
+                          label: data.name,
+                          assetUrl: _products.categoryList[data.name],
+                          products: _products),
+                    ),
+                  ),
         ]),
       ),
     );
   }
 
-  Widget _eachCategory(
-    context, {
-    required String assetUrl,
-    required String label,
-   required Products products
-  }) {
+  Widget _eachCategory(context,
+      {required String assetUrl,
+      required String label,
+      required Products products}) {
     return GestureDetector(
       onTap: () {
         products.onClickCategory(currentKey: label);

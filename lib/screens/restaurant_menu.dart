@@ -4,7 +4,8 @@ import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/products.dart';
-import 'package:tomato_app/models/product_list.dart' as prod;
+import 'package:tomato_app/models/product_list.dart';
+import 'package:tomato_app/models/product_list.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
 class RestaurantMenu extends StatefulWidget {
@@ -98,7 +99,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
               : ListView.builder(
                   itemCount: productData.items.length,
                   itemBuilder: (context, index) =>
-                      ChangeNotifierProvider<prod.Datum>.value(
+                      ChangeNotifierProvider<Datum>.value(
                     value: productData.items[index],
                     child: ProductCard(context),
                   ),

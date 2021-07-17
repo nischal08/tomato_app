@@ -40,10 +40,16 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
     _themeData = Theme.of(context).textTheme;
     _homeControllerState = Provider.of<HomeController>(context);
     _restaurants = Provider.of<Restaurants>(context);
-    return Scaffold(
-      // backgroundColor: Theme.of(context).canvasColor,
-      body: _body(
-        context,
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+        Provider.of<Restaurants>(context,listen: false).ontoggleSearchbar();
+      },
+      child: Scaffold(
+        // backgroundColor: Theme.of(context).canvasColor,
+        body: _body(
+          context,
+        ),
       ),
     );
   }
@@ -97,7 +103,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
               padding: EdgeInsets.symmetric(
                 horizontal: 30,
               ),
-              margin: EdgeInsets.symmetric(vertical: 10),
+              margin: EdgeInsets.symmetric(vertical: 6),
               child: InkWell(
                 onTap: () {
                   // _homeControllerState.onChangeWidget(1);
