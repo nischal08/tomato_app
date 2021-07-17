@@ -3,7 +3,6 @@
 //     final productListResponse = productListResponseFromMap(jsonString);
 
 import 'package:flutter/cupertino.dart';
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 class ProductListResponse {

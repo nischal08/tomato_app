@@ -64,14 +64,14 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
             ),
             _search(context),
             SizedBox(
-              height: 15,
+              height: 20,
             ),
-            _category(
-              context,
-            ),
-            SizedBox(
-              height: 15,
-            ),
+            // _category(
+            //   context,
+            // ),
+            // SizedBox(
+            //   height: 15,
+            // ),
             Expanded(
               child: _restaurants.items.isEmpty
                   ? Center(
@@ -92,7 +92,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
         child: ListView.builder(
           itemCount: restaurants.items.length,
           itemBuilder: (context, index) {
-            rlModel.Data restaurantData = restaurants.items[index];
+            rlModel.Datum restaurantData = restaurants.items[index];
             return Container(
               padding: EdgeInsets.symmetric(
                 horizontal: 30,
@@ -108,6 +108,9 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                   );
                 },
                 child: RestaurantCard(
+                  networkUrl: restaurantData.image.isEmpty
+                      ? null
+                      : restaurantData.image[0],
                   title: restaurantData.name,
                 ),
               ),
@@ -238,80 +241,6 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
           style: _themeData.subtitle1!.copyWith(fontWeight: FontWeight.w100),
         ),
       ],
-    );
-  }
-
-  Widget _category(
-    context,
-  ) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 30,
-      ),
-      height: 100,
-      child: ListView(scrollDirection: Axis.horizontal, children: [
-        for (var key in _restaurants.categoryList.keys)
-          Transform.translate(
-            offset: Offset(0, _restaurants.categoryKey == key ? -10 : 0),
-            child: Container(
-              padding: EdgeInsets.only(top: 10),
-              margin: const EdgeInsets.only(right: 30),
-              child: _eachCategory(
-                context,
-                label: key,
-                assetUrl: _restaurants.categoryList[key],
-              ),
-            ),
-          ),
-      ]),
-    );
-  }
-
-  Widget _eachCategory(
-    context, {
-    required String assetUrl,
-    required String label,
-  }) {
-    return GestureDetector(
-      onTap: () {
-        _restaurants.onClickCategory(currentKey: label);
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 2, bottom: 3),
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-            decoration: BoxDecoration(
-                // boxShadow: [kBoxShadowMeduimChipCard],
-                borderRadius: BorderRadius.circular(25),
-                color: _restaurants.categoryKey == label
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).cardColor),
-            child: SizedBox(
-              height: 32,
-              child: Image.asset(
-                assetUrl,
-                fit: BoxFit.fitHeight,
-                color: _restaurants.categoryKey == label
-                    ? kColorWhiteText
-                    : kColorBlackText,
-              ),
-            ),
-          ),
-          Text(
-            label,
-            style: Theme.of(context)
-                .textTheme
-                .subtitle2!
-                .copyWith(color: kColorBlackText.withOpacity(0.6)
-                    // color: _restaurantControllerState.categoryKey == label
-                    //     ? Colors.white
-                    //     : Colors.black
-                    ),
-          ),
-        ],
-      ),
     );
   }
 }

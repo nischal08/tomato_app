@@ -1,12 +1,8 @@
+
+
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-
 class RestaurantListModel {
-  final bool success;
-  final String message;
-  final List<Data> data;
-  final int totalData;
   RestaurantListModel({
     required this.success,
     required this.message,
@@ -14,194 +10,90 @@ class RestaurantListModel {
     required this.totalData,
   });
 
-  RestaurantListModel copyWith({
-    bool? success,
-    String? message,
-    List<Data>? data,
-    int? totalData,
-  }) {
-    return RestaurantListModel(
-      success: success ?? this.success,
-      message: message ?? this.message,
-      data: data ?? this.data,
-      totalData: totalData ?? this.totalData,
-    );
-  }
+  final bool success;
+  final String message;
+  final List<Datum> data;
+  final int totalData;
 
-  Map<String, dynamic> toMap() {
-    return {
-      'success': success,
-      'message': message,
-      'data': data.map((x) => x.toMap()).toList(),
-      'totalData': totalData,
-    };
-  }
-
-  factory RestaurantListModel.fromMap(Map<String, dynamic> map) {
-    return RestaurantListModel(
-      success: map['success'],
-      message: map['message'],
-      data: List<Data>.from(map['data']?.map((x) => Data.fromMap(x))),
-      totalData: map['totalData']?.toInt(),
-    );
-  }
+  factory RestaurantListModel.fromJson(String str) =>
+      RestaurantListModel.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory RestaurantListModel.fromJson(String source) =>
-      RestaurantListModel.fromMap(json.decode(source));
+  factory RestaurantListModel.fromMap(Map<String, dynamic> json) =>
+      RestaurantListModel(
+        success: json["success"],
+        message: json["message"],
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromMap(x))),
+        totalData: json["totalData"],
+      );
 
-  @override
-  String toString() {
-    return 'RestaurantListModel(success: $success, message: $message, data: $data, totalData: $totalData)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is RestaurantListModel &&
-        other.success == success &&
-        other.message == message &&
-        listEquals(other.data, data) &&
-        other.totalData == totalData;
-  }
-
-  @override
-  int get hashCode {
-    return success.hashCode ^
-        message.hashCode ^
-        data.hashCode ^
-        totalData.hashCode;
-  }
+  Map<String, dynamic> toMap() => {
+        "success": success,
+        "message": message,
+        "data": List<dynamic>.from(data.map((x) => x.toMap())),
+        "totalData": totalData,
+      };
 }
 
-class Data {
-  final List<dynamic> image;
-  final String id;
-  final String name;
-  final List<Addres> address;
-  Data({
+class Datum {
+  Datum({
     required this.image,
     required this.id,
     required this.name,
     required this.address,
   });
 
-  Data copyWith({
-    List<dynamic>? image,
-    String? id,
-    String? name,
-    List<Addres>? address,
-  }) {
-    return Data(
-      image: image ?? this.image,
-      id: id ?? this.id,
-      name: name ?? this.name,
-      address: address ?? this.address,
-    );
-  }
+  final List<String> image;
+  final String id;
+  final String name;
+  final List<Address> address;
 
-  Map<String, dynamic> toMap() {
-    return {
-      'image': image,
-      '_id': id,
-      'name': name,
-      'address': address.map((x) => x.toMap()).toList(),
-    };
-  }
-
-  factory Data.fromMap(Map<String, dynamic> map) {
-    return Data(
-      image: List<dynamic>.from(map['image']),
-      id: map['_id'],
-      name: map['name'],
-      address: List<Addres>.from(map['address']?.map((x) => Addres.fromMap(x))),
-    );
-  }
+  factory Datum.fromJson(String str) => Datum.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Data.fromJson(String source) => Data.fromMap(json.decode(source));
+  factory Datum.fromMap(Map<String, dynamic> json) => Datum(
+        image: List<String>.from(json["image"].map((x) => x)),
+        id: json["_id"],
+        name: json["name"],
+        address:
+            List<Address>.from(json["address"].map((x) => Address.fromMap(x))),
+      );
 
-  @override
-  String toString() {
-    return 'Data(image: $image, _id: $id, name: $name, address: $address)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Data &&
-        listEquals(other.image, image) &&
-        other.id == id &&
-        other.name == name &&
-        listEquals(other.address, address);
-  }
-
-  @override
-  int get hashCode {
-    return image.hashCode ^ id.hashCode ^ name.hashCode ^ address.hashCode;
-  }
+  Map<String, dynamic> toMap() => {
+        "image": List<dynamic>.from(image.map((x) => x)),
+        "_id": id,
+        "name": name,
+        "address": List<dynamic>.from(address.map((x) => x.toMap())),
+      };
 }
 
-class Addres {
-  final String type;
-  final List<double> coordinates;
-  final String id;
-  Addres({
+class Address {
+  Address({
     required this.type,
     required this.coordinates,
     required this.id,
   });
 
-  Addres copyWith({
-    String? type,
-    List<double>? coordinates,
-    String? id,
-  }) {
-    return Addres(
-      type: type ?? this.type,
-      coordinates: coordinates ?? this.coordinates,
-      id: id ?? this.id,
-    );
-  }
+  final String type;
+  final List<double> coordinates;
+  final String id;
 
-  Map<String, dynamic> toMap() {
-    return {
-      'type': type,
-      'coordinates': coordinates,
-      '_id': id,
-    };
-  }
-
-  factory Addres.fromMap(Map<String, dynamic> map) {
-    return Addres(
-      type: map['type'],
-      coordinates: List<double>.from(map['coordinates']),
-      id: map['_id'],
-    );
-  }
+  factory Address.fromJson(String str) => Address.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Addres.fromJson(String source) => Addres.fromMap(json.decode(source));
+  factory Address.fromMap(Map<String, dynamic> json) => Address(
+        type: json["type"],
+        coordinates:
+            List<double>.from(json["coordinates"].map((x) => x.toDouble())),
+        id: json["_id"],
+      );
 
-  @override
-  String toString() =>
-      'Addres(type: $type, coordinates: $coordinates, _id: $id)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Addres &&
-        other.type == type &&
-        listEquals(other.coordinates, coordinates) &&
-        other.id == id;
-  }
-
-  @override
-  int get hashCode => type.hashCode ^ coordinates.hashCode ^ id.hashCode;
+  Map<String, dynamic> toMap() => {
+        "type": type,
+        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
+        "_id": id,
+      };
 }

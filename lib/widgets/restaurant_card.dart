@@ -31,8 +31,11 @@ class RestaurantCard extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: Image.asset(
-                networkUrl ?? "assets/venders/bajeko.jpg",
+              child:networkUrl!=null?Image.network(
+                  networkUrl!,
+                height: 100,
+              ): Image.asset(
+                  "assets/venders/bajeko.jpg",
                 height: 100,
               ),
             ),

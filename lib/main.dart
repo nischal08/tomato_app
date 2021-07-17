@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:tomato_app/controller/auth.dart';
-import 'package:tomato_app/controller/food_controller.dart';
 import 'package:tomato_app/screens/cart_screen.dart';
 import 'package:tomato_app/screens/food_screen.dart';
 import 'package:tomato_app/screens/home.dart';
@@ -63,9 +62,6 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => Carts(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => FoodController(),
         ),
         ChangeNotifierProvider(
           create: (_) => Products(),

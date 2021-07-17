@@ -35,13 +35,11 @@ class ApiCall {
     }
   }
 
-  static Future<Response> getApi(String url) async {
+  static Future<Response> getApi(String url, {Map<String,String>? headerValue}) async {
     print(url);
 
     try {
-      final Response response = await get(
-        Uri.parse(url),
-      );
+      final Response response = await get(Uri.parse(url), headers: headerValue);
 
       return response;
     } catch (e) {
