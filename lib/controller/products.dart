@@ -30,10 +30,16 @@ class Products with ChangeNotifier {
     "Drinks": "assets/category/drinks.png",
     "Dinner": "assets/category/dinner.png",
     "All": "assets/category/all.png",
-
   };
 
-  onClickCategory(context, {required String currentKey,bool isAll=false}) async {
+  bool toggleSearchbar = false;
+  void ontoggleSearchbar() {
+    toggleSearchbar = !toggleSearchbar;
+    notifyListeners();
+  }
+
+  onClickCategory(context,
+      {required String currentKey, bool isAll = false}) async {
     currentCategory = currentKey;
 
     notifyListeners();
@@ -46,7 +52,7 @@ class Products with ChangeNotifier {
 
   Future<void> getRestaurantItems(context,
       {required String restaurantId}) async {
-    categorySpinner = true;
+    showSpinner = true;
 
     late Response response;
     String url =
@@ -74,19 +80,22 @@ class Products with ChangeNotifier {
         generalAlertDialog(context, errMessage);
       }
 
-      categorySpinner = false;
+      showSpinner = false;
       notifyListeners();
     } catch (e) {
       generalAlertDialog(context, e.toString());
     }
   }
 
-  Future<void> getItemAsPerCategory(context,{bool isAll=false}) async {
+  Future<void> getItemAsPerCategory(context,
+      {bool isAll = false, String? searchWord}) async {
     itemAsCategorySpinner = true;
     late Response response;
-    String url =isAll? "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/items?projection=name reciepe ingredients category restaurant price&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&"
-        :
-        "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/items?projection=name reciepe ingredients category restaurant price&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&category=$currentCategory";
+    String url = searchWord != null
+        ? "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/items?pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&searchWord=$searchWord&projection=name reciepe ingredients category restaurant price"
+        : isAll
+            ? "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/items?projection=name reciepe ingredients category restaurant price&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&"
+            : "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/items?projection=name reciepe ingredients category restaurant price&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&category=$currentCategory";
     print(url);
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -104,8 +113,8 @@ class Products with ChangeNotifier {
             ProductListResponse.fromJson(response.body);
         itemAsPerCategory = listResponse.data;
 
-        print(restaurantMenuItems);
-        ScaffoldMessenger.of(context).showSnackBar(
+        // print(restaurantMenuItems);
+     if(searchWord==null)   ScaffoldMessenger.of(context).showSnackBar(
           generalSnackBar(listResponse.message, context),
         );
       } else {
@@ -147,7 +156,7 @@ class Products with ChangeNotifier {
             category.CategoryListResponse.fromJson(response.body);
         categoryItems = listResponse.data;
         print(categoryItems);
-         categorySpinner = false;
+        categorySpinner = false;
         notifyListeners();
 
         ScaffoldMessenger.of(context).showSnackBar(

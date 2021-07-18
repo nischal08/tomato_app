@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
+import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/products.dart';
-import 'package:tomato_app/models/category_model.dart';
 import 'package:tomato_app/models/product_list.dart' as prod;
+import 'package:tomato_app/widgets/custom_icon_button.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
 class FoodScreen extends StatefulWidget {
@@ -31,31 +32,87 @@ class _FoodScreenState extends State<FoodScreen> {
     Products _products = Provider.of<Products>(
       context,
     );
-    return Scaffold(
-      backgroundColor: Theme.of(context).canvasColor,
-      body: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).padding.top + 20,
-            ),
-            _greeting(context),
-            SizedBox(
-              height: 20,
-            ),
-            _category(
-              context,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Flexible(child: _productList(context, _products)),
-          ],
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+        Provider.of<Products>(context, listen: false).ontoggleSearchbar();
+      },
+      child: Scaffold(
+        backgroundColor: Theme.of(context).canvasColor,
+        body: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).padding.top + 30,
+              ),
+              _search(context),
+              SizedBox(
+                height: 20,
+              ),
+              _category(
+                context,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Flexible(child: _productList(context, _products)),
+            ],
+          ),
         ),
       ),
     );
   }
+
+  _search(context) {
+    return Consumer<Products>(
+      builder: (context, products, _) => Container(
+        height: 60,
+        padding: EdgeInsets.only(
+          right: 30,
+        ),
+        child: products.toggleSearchbar
+            ? _searchBar(context)
+            : _searchButtonTitle(products),
+      ),
+    );
+  }
+
+  Widget _searchButtonTitle(products) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _greeting(context),
+        CustomIconButton(
+          elevation: 1,
+          icon: Icons.search,
+          onPressed: () => products.ontoggleSearchbar(),
+        )
+      ],
+    );
+  }
+
+  Widget _searchBar(context) {
+    return Container(
+      
+padding: EdgeInsets.only(
+        left: 30,
+      ),
+      child: TextField(
+        decoration: kSearchBarDecoration,
+        onChanged: (word) {
+          Provider.of<Products>(context, listen: false)
+              .getItemAsPerCategory(context,searchWord: word);
+        },
+        onSubmitted: (word) {
+          Provider.of<Products>(context, listen: false)
+              .getItemAsPerCategory(context, searchWord: word);
+        },
+      ),
+    );
+  }
+
+  
 
   Container _greeting(BuildContext context) {
     return Container(

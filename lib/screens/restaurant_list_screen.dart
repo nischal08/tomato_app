@@ -43,7 +43,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
-        Provider.of<Restaurants>(context,listen: false).ontoggleSearchbar();
+        Provider.of<Restaurants>(context, listen: false).ontoggleSearchbar();
       },
       child: Scaffold(
         // backgroundColor: Theme.of(context).canvasColor,
@@ -72,7 +72,6 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
             SizedBox(
               height: 20,
             ),
-           
             Expanded(
               child: _restaurants.items.isEmpty
                   ? Center(
@@ -95,7 +94,6 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
           itemBuilder: (context, index) {
             rlModel.Datum restaurantData = restaurants.items[index];
             return Container(
-              
               padding: EdgeInsets.symmetric(
                 horizontal: 30,
               ),
@@ -195,36 +193,49 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
     );
   }
 
-  TextField _searchBar(context) {
-    return TextField(
-      decoration: InputDecoration(
-        fillColor: Colors.white,
-        filled: true,
-        hintText: "Search",
-        contentPadding: EdgeInsets.only(top: 5),
-        hintStyle: TextStyle(
-          color: kColorLightGrey,
-        ),
-        prefixIcon: Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Icon(Icons.search),
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: BorderSide(
-            color: kColorLightGrey!,
+  Widget _searchBar(context) {
+    return Container(
+      child: TextField(
+        decoration: InputDecoration(
+          enabled: true,
+          fillColor: Colors.white,
+          focusColor: Colors.white,
+          
+          filled: true,
+          hintText: "Search",
+          contentPadding: EdgeInsets.only(top: 5),
+          hintStyle: TextStyle(
+            color: kColorLightGrey,
+          ),
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Icon(Icons.search),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(
+              color: kColorLightGrey!,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide:
+                BorderSide(color: kColorLightGrey!.withOpacity(0.8), width: 1),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide:
+                BorderSide(color: Theme.of(context).accentColor, width: 1.2),
           ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide:
-              BorderSide(color: kColorLightGrey!.withOpacity(0.8), width: 1),
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide:
-              BorderSide(color: Theme.of(context).accentColor, width: 1.2),
-        ),
+        onChanged: (word) {
+          Provider.of<Restaurants>(context, listen: false)
+              .getRestaurantList(context, searchWord: word);
+        },
+        onSubmitted: (word) {
+          Provider.of<Restaurants>(context, listen: false)
+              .getRestaurantList(context, searchWord: word);
+        },
       ),
     );
   }

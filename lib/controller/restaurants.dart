@@ -22,12 +22,13 @@ class Restaurants extends ChangeNotifier {
   // ignore: unnecessary_getters_setters
   String get userImgUrl => _userImageUrl;
 
-  Future<void> getRestaurantList(context) async {
+  Future<void> getRestaurantList(context, {String? searchWord}) async {
     showSpinner = true;
-
+ if (searchWord == null) notifyListeners();
     late Response response;
-    String url =
-        "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/restaurants?projection=name image address&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1";
+    String url = searchWord != null
+        ? "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/restaurants?projection=name image address&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&searchWord=$searchWord"
+        : "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/restaurants?projection=name image address&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1";
     print(url);
 
     print("From on getRestaurantList AuthCon!!!");
@@ -41,10 +42,10 @@ class Restaurants extends ChangeNotifier {
         RestaurantListModel listResponse =
             RestaurantListModel.fromJson(response.body);
 
-        items=listResponse.data;
+        items = listResponse.data;
 
         print(listResponse.data);
-        ScaffoldMessenger.of(context).showSnackBar(
+      if(searchWord==null)  ScaffoldMessenger.of(context).showSnackBar(
           generalSnackBar(listResponse.message, context),
         );
       } else {
