@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/screens/cart_screen.dart';
 import 'package:tomato_app/screens/food_screen.dart';
+import 'package:tomato_app/screens/login_screen.dart';
 import 'package:tomato_app/screens/product_detail_screen.dart';
 
 import 'package:tomato_app/screens/restaurant_list_screen.dart';
@@ -17,29 +18,7 @@ class HomeScreen extends StatelessWidget {
     // await showDialog or Show add banners or whatever
     // then
     return false;
-    // showDialog(
-    //   context: context,
-    //   builder: (context) => AlertDialog(
-    //     title: Text("logout"),
-    //     actions: [
-    //       TextButton(
-    //         onPressed: () {
-    //           Navigator.of(context).pop(false);
-    //         },
-    //         child: Text("Cancel"),
-    //       ),
-    //       TextButton(
-    //         onPressed: () async {
-    //           SharedPreferences sharedPreferences =
-    //               await SharedPreferences.getInstance();
-    //           sharedPreferences.remove("accessToken");
-
-    //         },
-    //         child: Text("Okay"),
-    //       ),
-    //     ],
-    //   ),
-    // );
+   
   }
 
   @override
@@ -50,12 +29,13 @@ class HomeScreen extends StatelessWidget {
       RestaurantMenu.routeName: (context) => RestaurantMenu(),
       RestaurantListScreen.routeName: (context) => RestaurantListScreen(),
       ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
-      FoodScreen.routeName: (context) => FoodScreen()
+      FoodScreen.routeName: (context) => FoodScreen(),
     };
 
     return WillPopScope(
       onWillPop: () => _willPopCallback(context),
       child: CupertinoTabScaffold(
+
         resizeToAvoidBottomInset: true,
         tabBar: CupertinoTabBar(
           onTap: (index) {

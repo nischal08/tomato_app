@@ -11,6 +11,7 @@ import 'package:tomato_app/api/api_endpoints.dart';
 import 'package:tomato_app/models/login_response.dart';
 import 'package:tomato_app/models/user_response.dart';
 import 'package:tomato_app/screens/home.dart';
+import 'package:tomato_app/screens/login_screen.dart';
 import 'package:tomato_app/screens/verification-screen.dart';
 import 'package:tomato_app/widgets/reusable_widget.dart';
 
@@ -41,11 +42,14 @@ class Auth extends ChangeNotifier {
         preferences.setString(
             "refreshToken", successResponse.data.refreshToken);
 
-        String? token = preferences.getString("accessToken");
-        Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
+        Map<String, dynamic> decodedToken =
+            JwtDecoder.decode(successResponse.data.accessToken);
         preferences.setString("userId", decodedToken["_id"]);
-
+        print("User Data !!!");
         print(preferences.getString("userId"));
+        print(preferences.getString("accessToken"));
+        print(preferences.getString("refreshToken"));
+        print("User Data !!!");
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         ScaffoldMessenger.of(context)
             .showSnackBar(generalSnackBar(successResponse.message, context));
@@ -60,6 +64,14 @@ class Auth extends ChangeNotifier {
     } catch (e) {
       generalAlertDialog(context, e.toString());
     }
+  }
+
+  Future<void> logoutUser(context) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.remove("refreshToken");
+    pref.remove("accessToken");
+    pref.remove("userId");
+    Navigator.of(context, rootNavigator: true).pop();
   }
 
   Future<void> registerUser(
@@ -90,11 +102,10 @@ class Auth extends ChangeNotifier {
       response = await ApiCall.postApi(jsonData: jsonData, url: url);
 
       if (json.decode(response.body)["success"] as bool == true) {
-        UserResponse successResponse =
-            UserResponse.fromJson(response.body);
+        UserResponse successResponse = UserResponse.fromJson(response.body);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.setString("userId", successResponse.data.id);
-        
+
         Navigator.pushReplacementNamed(context, VerificationScreen.routeName,
             arguments: _userCerdential);
         ScaffoldMessenger.of(context)
@@ -131,8 +142,7 @@ class Auth extends ChangeNotifier {
       );
 
       if (json.decode(response.body)["success"] as bool == true) {
-        UserResponse successResponse =
-            UserResponse.fromJson(response.body);
+        UserResponse successResponse = UserResponse.fromJson(response.body);
 
         userInfoResponse = successResponse;
       } else {

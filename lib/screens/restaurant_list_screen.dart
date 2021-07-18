@@ -33,12 +33,10 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
   }
 
   _getRestaurants(context) async {
-    
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
-     Provider.of<Auth>(context, listen: false)
-        .getUserInfo(context);
-   
+    Provider.of<Auth>(context, listen: false).getUserInfo(context);
+
     await Provider.of<Restaurants>(context, listen: false)
         .getRestaurantList(context);
   }
@@ -158,12 +156,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
             onSelected: (int value) async {
               if (value == 1) {
                 print(Menus.logout);
-                SharedPreferences sharedPreferences =
-                    await SharedPreferences.getInstance();
-                sharedPreferences.remove("accessToken");
-                sharedPreferences.remove("refreshToken");
-                sharedPreferences.remove("userFirstName");
-                sharedPreferences.remove("userId");
+                Provider.of<Auth>(context, listen: false).logoutUser(context);
               } else {
                 print(Menus.profile);
               }
@@ -184,30 +177,18 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
     );
   }
 
-  _userProfileImg() {
-    return Container(
-      height: 45,
-      width: 45,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(50),
-        child: Image.network(
-          _restaurants.userImgUrl,
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
-  }
-
+  
   Widget _greeting(context) {
     return Consumer<Auth>(
-      builder:(context, auth, __) =>  
-      RichText(
+      builder: (context, auth, __) => RichText(
         text: TextSpan(
           text: "Good Morning, ",
           style: _themeData.headline6,
           children: [
             TextSpan(
-              text: auth.userInfoResponse==null?"Loading...":auth.userInfoResponse!.data.firstname ,
+              text: auth.userInfoResponse == null
+                  ? "Loading..."
+                  : auth.userInfoResponse!.data.firstname,
               style: _themeData.headline6!
                   .copyWith(color: Theme.of(context).primaryColor),
             ),
