@@ -92,7 +92,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                   child: Container(
                       width: MediaQuery.of(context).size.width * 0.60,
                       child: Text(
-                        "This restaurants is coming soon!!",
+                        "This restaurant is coming soon!!",
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headline5,
                       )),

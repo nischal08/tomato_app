@@ -36,7 +36,9 @@ class RestaurantCard extends StatelessWidget {
             width: 20,
           ),
           _image(),
-          SizedBox(width: 20,),
+          SizedBox(
+            width: 30,
+          ),
           _info(context),
         ],
       ),
@@ -81,23 +83,22 @@ class RestaurantCard extends StatelessWidget {
 
   Widget _image() {
     return Container(
-      width: 120,
-      child: networkUrl != null
-          ? CircleAvatar(
-              radius: 55,
+      child:networkUrl != null?
+           CircleAvatar(
+              radius: 50,
+              backgroundColor: Colors.white,
+              backgroundImage:  NetworkImage(
+                networkUrl!,
+              )
+           ):
+           CircleAvatar(
+              radius: 50,
+              backgroundColor: Colors.white,
               backgroundImage: AssetImage(
-                "assets/venders/bajeko.jpg",
-    
-                // height: 100,
-              ),
-            )
-          : CircleAvatar(
-              radius: 55,
-              backgroundImage: AssetImage(
-                "assets/venders/bajeko.jpg",
-                // height: 100,
-              ),
-            ),
+                  "assets/venders/pizzahut.png",
+                ),
+           )
+         
     );
   }
 }

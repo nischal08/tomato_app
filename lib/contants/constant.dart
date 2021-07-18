@@ -66,6 +66,10 @@ const kTextFieldDecoration = InputDecoration(
     borderRadius: BorderRadius.circular(15),
     borderSide: BorderSide(color: kColorLightGrey!.withOpacity(0.8), width: 1),
   ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(15),
+    borderSide: BorderSide(color: Colors.red, width: 1),
+  ),
   // disabledBorder: OutlineInputBorder(
   //   borderRadius: BorderRadius.circular(15),
   //   borderSide: BorderSide(color: Theme.of(context).accentColor, width: 1.2),

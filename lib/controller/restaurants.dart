@@ -9,6 +9,8 @@ import 'package:tomato_app/models/restaurant_list_model.dart';
 import 'package:tomato_app/widgets/reusable_widget.dart';
 
 class Restaurants extends ChangeNotifier {
+
+  
   List<Datum> items = [];
   bool toggleSearchbar = false;
   bool showSpinner = false;
@@ -23,8 +25,8 @@ class Restaurants extends ChangeNotifier {
   String get userImgUrl => _userImageUrl;
 
   Future<void> getRestaurantList(context, {String? searchWord}) async {
+    items.clear();
     showSpinner = true;
- if (searchWord == null) notifyListeners();
     late Response response;
     String url = searchWord != null
         ? "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/restaurants?projection=name image address&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&searchWord=$searchWord"
@@ -45,9 +47,10 @@ class Restaurants extends ChangeNotifier {
         items = listResponse.data;
 
         print(listResponse.data);
-      if(searchWord==null)  ScaffoldMessenger.of(context).showSnackBar(
-          generalSnackBar(listResponse.message, context),
-        );
+        if (searchWord == null)
+          ScaffoldMessenger.of(context).showSnackBar(
+            generalSnackBar(listResponse.message, context),
+          );
       } else {
         var errMessage = responseBody["message"];
         generalAlertDialog(context, errMessage);

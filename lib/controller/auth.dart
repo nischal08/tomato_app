@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tomato_app/api/api_call.dart';
 import 'package:tomato_app/api/api_endpoints.dart';
@@ -37,8 +38,13 @@ class Auth extends ChangeNotifier {
         preferences.setString("accessToken", successResponse.data.accessToken);
         preferences.setString(
             "refreshToken", successResponse.data.refreshToken);
-        preferences.setBool("shoudShowOnboardingPage", false);
-        // print("preferences !!!! ${preferences.getString("accessToken")}");
+
+        String? token = preferences.getString("accessToken");
+        Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
+         preferences.setString(
+            "userId", decodedToken["_id"]);
+
+        print(preferences.getString("userId"));
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         ScaffoldMessenger.of(context)
             .showSnackBar(generalSnackBar(successResponse.message, context));
@@ -86,8 +92,11 @@ class Auth extends ChangeNotifier {
         RegisterResponse successResponse =
             RegisterResponse.fromJson(response.body);
         SharedPreferences preferences = await SharedPreferences.getInstance();
-        print(successResponse.data.verificationCode);
-
+        preferences.setString("userId", successResponse.data.id);
+        print("userId from register: ${preferences.getString("userId")}");
+        preferences.setString("userFirstname", successResponse.data.firstname);
+        print(
+            "user firstname from register: ${preferences.getString("userId")}");
         Navigator.pushReplacementNamed(context, VerificationScreen.routeName,
             arguments: _userCerdential);
         ScaffoldMessenger.of(context)

@@ -154,7 +154,7 @@ class CartScreen extends StatelessWidget {
     context,
   ) {
     return CircularButton(
-      height: 65,
+      height: 55,
       title: "Checkout",
       bgColor: Theme.of(context).primaryColorDark,
       fgColor: Theme.of(context).cardColor,

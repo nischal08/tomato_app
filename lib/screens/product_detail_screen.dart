@@ -335,7 +335,7 @@ class ProductDetailScreen extends StatelessWidget {
           Row(
             children: [
              for (String ingred in product.ingredients)  Text(
-                "${ingred}, ",
+                "$ingred, ",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.raleway(
                   fontWeight: FontWeight.w500,

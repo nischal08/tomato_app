@@ -22,7 +22,7 @@ class _FoodScreenState extends State<FoodScreen> {
   }
 
   Future<void> _getCategory(context) async {
-    Provider.of<Products>(context, listen: false).getCategory(context);
+    await Provider.of<Products>(context, listen: false).getCategory(context);
     await Provider.of<Products>(context, listen: false)
         .getItemAsPerCategory(context);
   }
@@ -67,7 +67,6 @@ class _FoodScreenState extends State<FoodScreen> {
   _search(context) {
     return Consumer<Products>(
       builder: (context, products, _) => Container(
-        height: 60,
         padding: EdgeInsets.only(
           right: 30,
         ),
@@ -93,26 +92,28 @@ class _FoodScreenState extends State<FoodScreen> {
   }
 
   Widget _searchBar(context) {
-    return Container(
-      
-padding: EdgeInsets.only(
+    return Padding(
+      padding: EdgeInsets.only(
         left: 30,
       ),
-      child: TextField(
-        decoration: kSearchBarDecoration,
-        onChanged: (word) {
-          Provider.of<Products>(context, listen: false)
-              .getItemAsPerCategory(context,searchWord: word);
-        },
-        onSubmitted: (word) {
-          Provider.of<Products>(context, listen: false)
-              .getItemAsPerCategory(context, searchWord: word);
-        },
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        color: Colors.white,
+        child: TextField(
+          decoration: kSearchBarDecoration,
+          onChanged: (word) {
+            Provider.of<Products>(context, listen: false)
+                .getItemAsPerCategory(context, searchWord: word);
+          },
+          onSubmitted: (word) {
+            Provider.of<Products>(context, listen: false)
+                .getItemAsPerCategory(context, searchWord: word);
+          },
+        ),
       ),
     );
   }
-
-  
 
   Container _greeting(BuildContext context) {
     return Container(
@@ -140,36 +141,45 @@ padding: EdgeInsets.only(
     );
   }
 
+ _getRefresh(context, productData) async {
+   await Provider.of<Products>(context,listen: false).onClickCategory(context,
+        currentKey: productData.currentCategory,
+        isAll: productData.currentCategory == "All" ? true : false);
+  }
+
   Widget _productList(context, Products productData) {
-    return Container(
-      child: productData.itemAsCategorySpinner
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : productData.itemAsPerCategory.isEmpty
-              ? Center(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.60,
-                    child: Text(
-                      "This category has no food are unavailable!!",
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline5,
+    return RefreshIndicator(
+      onRefresh:()=> _getRefresh(context, productData),
+      child: Container(
+        child: productData.itemAsCategorySpinner
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : productData.itemAsPerCategory.isEmpty
+                ? Center(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.60,
+                      child: Text(
+                        "This category has no food are unavailable!!",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                    ),
+                  )
+                : MediaQuery.removePadding(
+                    removeTop: true,
+                    context: context,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: productData.itemAsPerCategory.length,
+                      itemBuilder: (context, index) =>
+                          ChangeNotifierProvider<prod.Datum>.value(
+                        value: productData.itemAsPerCategory[index],
+                        child: ProductCard(context),
+                      ),
                     ),
                   ),
-                )
-              : MediaQuery.removePadding(
-                  removeTop: true,
-                  context: context,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: productData.itemAsPerCategory.length,
-                    itemBuilder: (context, index) =>
-                        ChangeNotifierProvider<prod.Datum>.value(
-                      value: productData.itemAsPerCategory[index],
-                      child: ProductCard(context),
-                    ),
-                  ),
-                ),
+      ),
     );
   }
 

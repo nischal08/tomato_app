@@ -52,6 +52,7 @@ class Products with ChangeNotifier {
 
   Future<void> getRestaurantItems(context,
       {required String restaurantId}) async {
+        restaurantMenuItems.clear();
     showSpinner = true;
 
     late Response response;
@@ -159,9 +160,9 @@ class Products with ChangeNotifier {
         categorySpinner = false;
         notifyListeners();
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          generalSnackBar(listResponse.message, context),
-        );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   generalSnackBar(listResponse.message, context),
+        // );
       } else {
         var errMessage = responseBody["message"];
         generalAlertDialog(context, errMessage);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tomato_app/contants/color_properties.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/restaurants.dart';
 import 'package:tomato_app/models/restaurant_list_model.dart' as rlModel;
@@ -10,6 +11,8 @@ import 'package:tomato_app/widgets/custom_icon_button.dart';
 import '../widgets/restaurant_card.dart';
 
 // ignore: must_be_immutable
+enum Menus { logout, profile }
+
 class RestaurantListScreen extends StatefulWidget {
   static const routeName = '/restaurant-list';
 
@@ -23,7 +26,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
   late Restaurants _restaurants;
 
   late HomeController _homeControllerState;
-
+  String? userFirstname;
   @override
   void initState() {
     _getRestaurants(context);
@@ -31,6 +34,8 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
   }
 
   _getRestaurants(context) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    userFirstname = preferences.getString("userFirstname");
     await Provider.of<Restaurants>(context, listen: false)
         .getRestaurantList(context);
   }
@@ -64,7 +69,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
             SizedBox(
               height: 20,
             ),
-            _userInfo(context),
+            _userGreetingAndMenus(context),
             SizedBox(
               height: 25,
             ),
@@ -73,11 +78,20 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
               height: 20,
             ),
             Expanded(
-              child: _restaurants.items.isEmpty
+              child: _restaurants.showSpinner
                   ? Center(
                       child: CircularProgressIndicator(),
                     )
-                  : _vender(context),
+                  : _restaurants.items.isEmpty
+                      ? Container(
+                          width: MediaQuery.of(context).size.width * 0.60,
+                          child: Text(
+                            "This restaurants is coming soon!!",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.headline5,
+                          ),
+                        )
+                      : _vender(context),
             ),
           ],
         ),
@@ -120,7 +134,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
     );
   }
 
-  _userInfo(context) {
+  _userGreetingAndMenus(context) {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 30,
@@ -129,7 +143,40 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _greeting(context),
-          _userProfileImg(),
+          PopupMenuButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                15,
+              ),
+            ),
+            color: Theme.of(context).canvasColor,
+            icon: Icon(Icons.more_horiz),
+            iconSize: 32,
+            elevation: 10,
+            onSelected: (int value) async {
+              if (value == 1) {
+                print(Menus.logout);
+                SharedPreferences sharedPreferences =
+                    await SharedPreferences.getInstance();
+                sharedPreferences.remove("accessToken");
+                sharedPreferences.remove("refreshToken");
+                sharedPreferences.remove("userFirstName");
+                sharedPreferences.remove("userId");
+              } else {
+                print(Menus.profile);
+              }
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: Text("Logout"),
+                value: 1,
+              ),
+              PopupMenuItem(
+                child: Text("Profile"),
+                value: 2,
+              )
+            ],
+          )
         ],
       ),
     );
@@ -156,7 +203,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
         style: _themeData.headline6,
         children: [
           TextSpan(
-            text: "Nischal",
+            text: userFirstname,
             style: _themeData.headline6!
                 .copyWith(color: Theme.of(context).primaryColor),
           ),
@@ -168,7 +215,6 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
   _search(context) {
     return Consumer<Restaurants>(
       builder: (context, resturantCont, _) => Container(
-        height: 50,
         padding: EdgeInsets.symmetric(
           horizontal: 30,
         ),
@@ -195,47 +241,21 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
 
   Widget _searchBar(context) {
     return Container(
-      child: TextField(
-        decoration: InputDecoration(
-          enabled: true,
-          fillColor: Colors.white,
-          focusColor: Colors.white,
-          
-          filled: true,
-          hintText: "Search",
-          contentPadding: EdgeInsets.only(top: 5),
-          hintStyle: TextStyle(
-            color: kColorLightGrey,
-          ),
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Icon(Icons.search),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(
-              color: kColorLightGrey!,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide:
-                BorderSide(color: kColorLightGrey!.withOpacity(0.8), width: 1),
-          ),
-          disabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide:
-                BorderSide(color: Theme.of(context).accentColor, width: 1.2),
-          ),
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        color: Colors.white,
+        child: TextField(
+          decoration: kSearchBarDecoration,
+          onChanged: (word) {
+            Provider.of<Restaurants>(context, listen: false)
+                .getRestaurantList(context, searchWord: word);
+          },
+          onSubmitted: (word) {
+            Provider.of<Restaurants>(context, listen: false)
+                .getRestaurantList(context, searchWord: word);
+          },
         ),
-        onChanged: (word) {
-          Provider.of<Restaurants>(context, listen: false)
-              .getRestaurantList(context, searchWord: word);
-        },
-        onSubmitted: (word) {
-          Provider.of<Restaurants>(context, listen: false)
-              .getRestaurantList(context, searchWord: word);
-        },
       ),
     );
   }
@@ -246,11 +266,15 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
       children: [
         Text(
           "Find your",
-          style: _themeData.headline6!.copyWith(fontWeight: FontWeight.w500),
+          style: _themeData.headline5!.copyWith(
+            fontWeight: FontWeight.w500,
+          ),
         ),
         Text(
           "favourite foods",
-          style: _themeData.subtitle1!.copyWith(fontWeight: FontWeight.w100),
+          style: _themeData.headline6!.copyWith(
+            fontWeight: FontWeight.w100,
+          ),
         ),
       ],
     );
