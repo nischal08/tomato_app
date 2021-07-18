@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tomato_app/api/api_call.dart';
 import 'package:tomato_app/api/api_endpoints.dart';
 import 'package:tomato_app/models/login_response.dart';
-import 'package:tomato_app/models/register_response.dart';
+import 'package:tomato_app/models/user_response.dart';
 import 'package:tomato_app/screens/home.dart';
 import 'package:tomato_app/screens/verification-screen.dart';
 import 'package:tomato_app/widgets/reusable_widget.dart';
@@ -17,6 +18,7 @@ class Auth extends ChangeNotifier {
   bool showLoginSpinner = false;
   bool showRegisterSpinner = false;
   bool showVerifyCodeSpinner = false;
+  UserResponse? userInfoResponse;
 
   Future<void> loginUser(context,
       {required String email, required String password}) async {
@@ -41,8 +43,7 @@ class Auth extends ChangeNotifier {
 
         String? token = preferences.getString("accessToken");
         Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
-         preferences.setString(
-            "userId", decodedToken["_id"]);
+        preferences.setString("userId", decodedToken["_id"]);
 
         print(preferences.getString("userId"));
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
@@ -89,14 +90,11 @@ class Auth extends ChangeNotifier {
       response = await ApiCall.postApi(jsonData: jsonData, url: url);
 
       if (json.decode(response.body)["success"] as bool == true) {
-        RegisterResponse successResponse =
-            RegisterResponse.fromJson(response.body);
+        UserResponse successResponse =
+            UserResponse.fromJson(response.body);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.setString("userId", successResponse.data.id);
-        print("userId from register: ${preferences.getString("userId")}");
-        preferences.setString("userFirstname", successResponse.data.firstname);
-        print(
-            "user firstname from register: ${preferences.getString("userId")}");
+        
         Navigator.pushReplacementNamed(context, VerificationScreen.routeName,
             arguments: _userCerdential);
         ScaffoldMessenger.of(context)
@@ -107,6 +105,41 @@ class Auth extends ChangeNotifier {
       }
 
       showRegisterSpinner = false;
+      notifyListeners();
+    } catch (e) {
+      generalAlertDialog(context, e.toString());
+    }
+  }
+
+  Future<void> getUserInfo(
+    context,
+  ) async {
+    late Response response;
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String? userId = pref.getString("userId");
+    String url =
+        "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/users/$userId";
+    print(url);
+    String? token = pref.getString('accessToken');
+    print("From on getCategory in products!!!");
+    print(token);
+    print("From on getCategory in products!!!");
+    try {
+      response = await ApiCall.getApi(
+        url,
+        headerValue: {HttpHeaders.authorizationHeader: "Bearer $token"},
+      );
+
+      if (json.decode(response.body)["success"] as bool == true) {
+        UserResponse successResponse =
+            UserResponse.fromJson(response.body);
+
+        userInfoResponse = successResponse;
+      } else {
+        var errMessage = json.decode(response.body)["message"];
+        generalAlertDialog(context, errMessage);
+      }
+
       notifyListeners();
     } catch (e) {
       generalAlertDialog(context, e.toString());

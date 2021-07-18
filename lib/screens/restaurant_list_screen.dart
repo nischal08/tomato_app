@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tomato_app/contants/constant.dart';
+import 'package:tomato_app/controller/auth.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/restaurants.dart';
 import 'package:tomato_app/models/restaurant_list_model.dart' as rlModel;
@@ -25,8 +26,6 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
 
   late Restaurants _restaurants;
 
-  late HomeController _homeControllerState;
-  String? userFirstname;
   @override
   void initState() {
     _getRestaurants(context);
@@ -34,8 +33,12 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
   }
 
   _getRestaurants(context) async {
+    
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    userFirstname = preferences.getString("userFirstname");
+
+     Provider.of<Auth>(context, listen: false)
+        .getUserInfo(context);
+   
     await Provider.of<Restaurants>(context, listen: false)
         .getRestaurantList(context);
   }
@@ -43,7 +46,6 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
   @override
   Widget build(BuildContext context) {
     _themeData = Theme.of(context).textTheme;
-    _homeControllerState = Provider.of<HomeController>(context);
     _restaurants = Provider.of<Restaurants>(context);
     return GestureDetector(
       onTap: () {
@@ -197,17 +199,20 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
   }
 
   Widget _greeting(context) {
-    return RichText(
-      text: TextSpan(
-        text: "Good Morning, ",
-        style: _themeData.headline6,
-        children: [
-          TextSpan(
-            text: userFirstname,
-            style: _themeData.headline6!
-                .copyWith(color: Theme.of(context).primaryColor),
-          ),
-        ],
+    return Consumer<Auth>(
+      builder:(context, auth, __) =>  
+      RichText(
+        text: TextSpan(
+          text: "Good Morning, ",
+          style: _themeData.headline6,
+          children: [
+            TextSpan(
+              text: auth.userInfoResponse==null?"Loading...":auth.userInfoResponse!.data.firstname ,
+              style: _themeData.headline6!
+                  .copyWith(color: Theme.of(context).primaryColor),
+            ),
+          ],
+        ),
       ),
     );
   }

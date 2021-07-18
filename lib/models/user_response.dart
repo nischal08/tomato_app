@@ -1,21 +1,21 @@
 import 'dart:convert';
 
-class RegisterResponse {
+class UserResponse {
   final bool success;
   final String message;
   final Data data;
-  RegisterResponse({
+  UserResponse({
     required this.success,
     required this.message,
     required this.data,
   });
 
-  RegisterResponse copyWith({
+  UserResponse copyWith({
     bool? success,
     String? message,
     Data? data,
   }) {
-    return RegisterResponse(
+    return UserResponse(
       success: success ?? this.success,
       message: message ?? this.message,
       data: data ?? this.data,
@@ -30,8 +30,8 @@ class RegisterResponse {
     };
   }
 
-  factory RegisterResponse.fromMap(Map<String, dynamic> map) {
-    return RegisterResponse(
+  factory UserResponse.fromMap(Map<String, dynamic> map) {
+    return UserResponse(
       success: map['success'],
       message: map['message'],
       data: Data.fromMap(map['data']),
@@ -40,7 +40,7 @@ class RegisterResponse {
 
   String toJson() => json.encode(toMap());
 
-  factory RegisterResponse.fromJson(String source) => RegisterResponse.fromMap(json.decode(source));
+  factory UserResponse.fromJson(String source) => UserResponse.fromMap(json.decode(source));
 
   @override
   String toString() => 'RegisterResponse(success: $success, message: $message, data: $data)';
@@ -49,7 +49,7 @@ class RegisterResponse {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
   
-    return other is RegisterResponse &&
+    return other is UserResponse &&
       other.success == success &&
       other.message == message &&
       other.data == data;
