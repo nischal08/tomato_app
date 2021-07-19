@@ -50,7 +50,12 @@ class Auth extends ChangeNotifier {
         print(preferences.getString("accessToken"));
         print(preferences.getString("refreshToken"));
         print("User Data !!!");
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+        Navigator.pushReplacement(
+          context,
+          CupertinoPageRoute(
+            builder: (context) => HomeScreen(),
+          ),
+        );
         ScaffoldMessenger.of(context)
             .showSnackBar(generalSnackBar(successResponse.message, context));
       } else {

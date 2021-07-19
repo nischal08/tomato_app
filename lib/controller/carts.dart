@@ -2,21 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:tomato_app/models/cart.dart';
 import 'package:tomato_app/models/product_list.dart';
 
-
 class Carts with ChangeNotifier {
   List<Cart> _cartItems = [];
 
   void addCartItem(
-      {colorFlag = true, quantity = 1, required Datum product}) {
-    _cartItems.add(
-      Cart(
-          product: product,
-          // imageUrl: product.image[0],
-          price: product.price,
-          title: product.name,
-          colorFlag: colorFlag,
-          quantity: quantity),
-    );
+      {colorFlag = true, int quantity = 1, required Datum product}) {
+    if (_cartItems.any((element) => element.product.id == product.id)) {
+      print("Yes it has common product on it");
+      final index =
+          _cartItems.indexWhere((element) => element.product.id == product.id);
+      print(index);
+      _cartItems[index].quantity = _cartItems[index].quantity + quantity;
+      print(_cartItems);
+    } else {
+      _cartItems.add(
+        Cart(
+            product: product,
+            // imageUrl: product.image[0],
+            price: product.price,
+            title: product.name,
+            colorFlag: colorFlag,
+            quantity: quantity),
+      );
+    }
     notifyListeners();
   }
 

@@ -308,17 +308,7 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  // Widget _price(int price, context) {
-  //   return Text(
-  //     "Rs.$price",
-  //     style: GoogleFonts.lato(
-  //       fontSize: 22,
-  //       color: Theme.of(context).accentColor,
-  //       fontWeight: FontWeight.w600,
-  //     ),
-  //   );
-  // }
-
+  
   Widget _ingredient(context) {
     return SizedBox(
       child: Column(
@@ -332,19 +322,15 @@ class ProductDetailScreen extends StatelessWidget {
             height: 8.0,
           ),
         
-          Row(
-            children: [
-             for (String ingred in product.ingredients)  Text(
-                "$ingred, ",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.raleway(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  color: Colors.black87.withOpacity(0.7),
-                ),
+          Text(
+               product.ingredients.join(", "),
+              textAlign: TextAlign.start,
+              style: GoogleFonts.raleway(
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                color: Colors.black87.withOpacity(0.7),
               ),
-            ],
-          ),
+            ),
         ],
       ),
     );

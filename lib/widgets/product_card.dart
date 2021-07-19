@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/carts.dart';
 import 'package:tomato_app/controller/home_controller.dart';
-import 'package:tomato_app/models/product_list.dart' ;
+import 'package:tomato_app/models/product_list.dart';
 import 'package:tomato_app/screens/product_detail_screen.dart';
 
 class ProductCard extends StatefulWidget {
@@ -48,16 +48,11 @@ class _ProductCardState extends State<ProductCard> {
                 // await _homeControllerState.onBottomNavClick(2);
                 Provider.of<Carts>(context, listen: false)
                     .addCartItem(product: product);
-                setState(() {
-                _isitemAdded = true;
-                  
-                });
-                
-                // ScaffoldMessenger.of(ctx).showSnackBar(
-                //   SnackBar(
-                //     content: Text("Item added to cart"),
-                //   ),
-                // );
+                setState(
+                  () {
+                    _isitemAdded = true;
+                  },
+                );
               },
               child: _addtoCart(context),
             ),
@@ -140,7 +135,7 @@ class _ProductCardState extends State<ProductCard> {
     );
   }
 
-  Widget _itemImage(context,Datum product) {
+  Widget _itemImage(context, Datum product) {
     return ClipPath(
       clipper: ShapeBorderClipper(
         shape: RoundedRectangleBorder(
@@ -154,8 +149,7 @@ class _ProductCardState extends State<ProductCard> {
         width: MediaQuery.of(context).size.width * 0.38,
         // padding: EdgeInsets.all(5),
         child: Image.network(
-          
-        "https://cdn.dnaindia.com/sites/default/files/styles/full/public/2017/09/27/612590-momos-092717.jpg",
+          "https://cdn.dnaindia.com/sites/default/files/styles/full/public/2017/09/27/612590-momos-092717.jpg",
           fit: BoxFit.cover,
         ),
       ),
@@ -191,7 +185,7 @@ class _ProductCardState extends State<ProductCard> {
     );
   }
 
-  Widget _rating(context,Datum product) {
+  Widget _rating(context, Datum product) {
     return Container(
       child: Row(
         children: [
@@ -212,7 +206,7 @@ class _ProductCardState extends State<ProductCard> {
     );
   }
 
-  Widget _title(context,Datum product) {
+  Widget _title(context, Datum product) {
     return Text(
       product.name,
       overflow: TextOverflow.fade,
@@ -221,7 +215,7 @@ class _ProductCardState extends State<ProductCard> {
     );
   }
 
-  Widget _type(context,Datum product) {
+  Widget _type(context, Datum product) {
     return Text(
       product.category.name,
       style: Theme.of(context).textTheme.subtitle2,
