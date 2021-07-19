@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/auth.dart';
 import 'package:tomato_app/controller/home_controller.dart';
+import 'package:tomato_app/controller/products.dart';
 import 'package:tomato_app/controller/restaurants.dart';
 import 'package:tomato_app/models/restaurant_list_model.dart' as rlModel;
 import 'package:tomato_app/screens/restaurant_menu.dart';
@@ -33,12 +34,12 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
   }
 
   _getRestaurants(context) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
 
     Provider.of<Auth>(context, listen: false).getUserInfo(context);
 
     await Provider.of<Restaurants>(context, listen: false)
         .getRestaurantList(context);
+          Provider.of<Products>(context, listen: false).getCategory(context);
   }
 
   @override
