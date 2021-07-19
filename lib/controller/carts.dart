@@ -7,18 +7,22 @@ class Carts with ChangeNotifier {
 
   void addCartItem(
       {colorFlag = true, int quantity = 1, required Datum product}) {
-    if (_cartItems.any((element) => element.product.id == product.id)) {
+    if (_cartItems.any((cartProd) => cartProd.product.id == product.id)) {
       print("Yes it has common product on it");
       final index =
           _cartItems.indexWhere((element) => element.product.id == product.id);
       print(index);
       _cartItems[index].quantity = _cartItems[index].quantity + quantity;
+      _cartItems[index].price =
+          _cartItems[index].price + product.price * quantity;
+
       print(_cartItems);
     } else {
       _cartItems.add(
         Cart(
             product: product,
-            // imageUrl: product.image[0],
+            imageUrl:
+                "https://siddharthabiz.com/wp-content/uploads/2020/07/quick_mom.jpg",
             price: product.price,
             title: product.name,
             colorFlag: colorFlag,
