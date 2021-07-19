@@ -154,7 +154,8 @@ class _ProductCardState extends State<ProductCard> {
         width: MediaQuery.of(context).size.width * 0.38,
         // padding: EdgeInsets.all(5),
         child: Image.network(
-         "https://cdn.dnaindia.com/sites/default/files/styles/full/public/2017/09/27/612590-momos-092717.jpg",
+          
+        "https://cdn.dnaindia.com/sites/default/files/styles/full/public/2017/09/27/612590-momos-092717.jpg",
           fit: BoxFit.cover,
         ),
       ),

@@ -57,7 +57,7 @@ class Products with ChangeNotifier {
 
     late Response response;
     String url =
-        "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/items?projection=name reciepe ingredients category restaurant price&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&restaurant=$restaurantId";
+        "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/items?projection=name reciepe ingredients image category restaurant price&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&restaurant=$restaurantId";
     print(url);
 
     print("From on getItem in products!!!");
@@ -93,10 +93,10 @@ class Products with ChangeNotifier {
     itemAsCategorySpinner = true;
     late Response response;
     String url = searchWord != null
-        ? "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/items?pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&searchWord=$searchWord&projection=name reciepe ingredients category restaurant price"
+        ? "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/items?pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&searchWord=$searchWord&projection=name reciepe ingredients image category restaurant price"
         : isAll
-            ? "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/items?projection=name reciepe ingredients category restaurant price&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&"
-            : "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/items?projection=name reciepe ingredients category restaurant price&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&category=$currentCategory";
+            ? "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/items?projection=name reciepe ingredients image category restaurant price&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&"
+            : "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/items?projection=name reciepe ingredients image category restaurant price&pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&category=$currentCategory";
     print(url);
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

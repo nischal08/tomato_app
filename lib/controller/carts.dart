@@ -11,7 +11,7 @@ class Carts with ChangeNotifier {
     _cartItems.add(
       Cart(
           product: product,
-          // imageUrl: product.image,
+          // imageUrl: product.image[0],
           price: product.price,
           title: product.name,
           colorFlag: colorFlag,
