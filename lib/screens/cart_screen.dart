@@ -6,6 +6,7 @@ import 'package:tomato_app/controller/carts.dart';
 import 'package:tomato_app/models/cart.dart';
 import 'package:tomato_app/widgets/cart_item_card.dart';
 import 'package:tomato_app/widgets/circular_button.dart';
+import 'package:tomato_app/widgets/general_elevated_button.dart';
 
 class CartScreen extends StatelessWidget {
   static const routeName = "/cart";
@@ -80,7 +81,7 @@ class CartScreen extends StatelessWidget {
             child: _checkoutBtn(context),
           ),
           SizedBox(
-            height: 20 + MediaQuery.of(context).padding.bottom,
+            height: 30 + MediaQuery.of(context).padding.bottom,
           ),
         ],
       ),
@@ -175,18 +176,22 @@ class CartScreen extends StatelessWidget {
   Widget _checkoutBtn(
     context,
   ) {
-    return CircularButton(
+    return Container(
       height: 55,
-      title: "Checkout",
-      bgColor: Theme.of(context).primaryColorDark,
-      fgColor: Theme.of(context).cardColor,
-      onPressed: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("This features will be avaiable soon"),
-          ),
-        );
-      },
+      child: GeneralElevatedButton(
+        
+        
+        title: "Checkout",
+        bgColor: Theme.of(context).primaryColorDark,
+        fgColor: Theme.of(context).cardColor,
+        onPressed: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("This features will be avaiable soon"),
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -211,11 +216,10 @@ class CartScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 30),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Image.asset(
-              'assets/images/empty-cart.png',
-            ),
+          Image.asset(
+            'assets/images/empty-cart.png',height: 200,
           ),
           SizedBox(
             height: 25,
@@ -227,15 +231,13 @@ class CartScreen extends StatelessWidget {
           SizedBox(
             height: 15,
           ),
-          Expanded(
-            child: Text(
-              """You have no items in your shopping cart.
-                  Let's go buy something!
-                  """,
-              style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                    color: Colors.grey.shade600,
-                  ),
-            ),
+          Text(
+            """You have no items in your shopping cart.
+                Let's go buy something!
+                """,
+            style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                  color: Colors.grey.shade600,
+                ),
           ),
         ],
       ),

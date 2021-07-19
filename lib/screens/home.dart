@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
               BottomNavigationBarItem(
                 // activeIcon: Icon(Icons.restaurant),
                 icon: key,
-                label: _homeController.bottomNavItemData[key],
+                // label: _homeController.bottomNavItemData[key],
               ),
           ],
         ),
