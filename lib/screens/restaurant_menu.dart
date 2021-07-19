@@ -4,7 +4,7 @@ import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/products.dart';
-import 'package:tomato_app/models/product_list.dart';
+import 'package:tomato_app/controller/restaurants.dart';
 import 'package:tomato_app/models/product_list.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
@@ -15,37 +15,36 @@ class RestaurantMenu extends StatefulWidget {
 }
 
 class _RestaurantMenuState extends State<RestaurantMenu> {
-  late Products _productContr;
   bool isInit = false;
-  late HomeController _homeControllerState;
   bool isLoading = false;
   var _theme;
-
+  late String restaurantId;
   late TextTheme _themeData;
 
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
     isLoading = true;
-
+restaurantId = ModalRoute.of(context)!.settings.arguments as String;
     if (!isInit) {
-      await _loadingData(context);
+      Provider.of<Restaurants>(context, listen: false)
+          .getRestaurantInfo(context, id: restaurantId);
+      _loadingData(context);
     }
     isInit = true;
     isLoading = false;
   }
 
   _loadingData(context) async {
-    String id = ModalRoute.of(context)!.settings.arguments as String;
+    
     await Provider.of<Products>(context, listen: false)
-        .getRestaurantItems(context, restaurantId: id);
+        .getRestaurantItems(context, restaurantId: restaurantId);
   }
 
   @override
   Widget build(BuildContext context) {
     _themeData = Theme.of(context).textTheme;
     _theme = Theme.of(context);
-    _homeControllerState = Provider.of<HomeController>(context, listen: false);
     final Products productData = Provider.of<Products>(context);
     return _body(context, productData);
   }
@@ -80,8 +79,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
     );
   }
 
-  
- Widget _productList(context, Products productData) {
+  Widget _productList(context, Products productData) {
     return Container(
       child: productData.showSpinner
           ? Center(
@@ -107,6 +105,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                 ),
     );
   }
+
   _customAppbar() {
     return Container(
       padding: EdgeInsets.symmetric(
@@ -150,35 +149,37 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
   }
 
   Widget _venderInfo() {
-    return Container(
-        decoration: BoxDecoration(
-          boxShadow: [kBoxShadowBigCard],
-          borderRadius: BorderRadius.circular(20),
-          color: _theme.cardColor,
-        ),
-        margin: EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 10,
-        ),
-        padding: EdgeInsets.only(
-          left: 15,
-          top: 5,
-          bottom: 5,
-        ),
-        height: 90,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _venderLogo(),
-            _venderName(),
-            SizedBox(
-              width: 55,
-            ),
-          ],
-        ));
+    return Consumer<Restaurants>(
+      builder: (__, restaurants, _) => Container(
+          decoration: BoxDecoration(
+            boxShadow: [kBoxShadowBigCard],
+            borderRadius: BorderRadius.circular(20),
+            color: _theme.cardColor,
+          ),
+          margin: EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 10,
+          ),
+          padding: EdgeInsets.only(
+            left: 15,
+            top: 5,
+            bottom: 5,
+          ),
+          height: 90,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _venderLogo(restaurants),
+              _venderName(restaurants),
+              SizedBox(
+                width: 55,
+              ),
+            ],
+          )),
+    );
   }
 
-  Widget _venderLogo() {
+  Widget _venderLogo(Restaurants restaurants) {
     return SizedBox(
       height: 55,
       width: 55,
@@ -188,9 +189,11 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
     );
   }
 
-  Widget _venderName() {
+  Widget _venderName(Restaurants restaurants) {
     return Text(
-      "PizzaHut",
+      restaurants.restaurantInfoResponse == null
+          ? "Loading..."
+          : restaurants.restaurantInfoResponse!.data.name,
       style: _themeData.headline6,
     );
   }
