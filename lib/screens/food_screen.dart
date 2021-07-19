@@ -68,7 +68,7 @@ class _FoodScreenState extends State<FoodScreen> {
     return Consumer<Products>(
       builder: (context, products, _) => Container(
         padding: EdgeInsets.only(
-          right: 30,
+          right: 20,
         ),
         child: products.toggleSearchbar
             ? _searchBar(context)
@@ -188,7 +188,7 @@ class _FoodScreenState extends State<FoodScreen> {
   ) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 30,
+        horizontal: 20,
       ),
       height: 100,
       child: Consumer<Products>(

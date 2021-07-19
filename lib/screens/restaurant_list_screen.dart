@@ -110,7 +110,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
             rlModel.Datum restaurantData = restaurants.items[index];
             return Container(
               padding: EdgeInsets.symmetric(
-                horizontal: 30,
+                horizontal: 35,
               ),
               margin: EdgeInsets.symmetric(vertical: 6),
               child: InkWell(
@@ -138,7 +138,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
   _userGreetingAndMenus(context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 30,
+        horizontal: 20,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -203,7 +203,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
     return Consumer<Restaurants>(
       builder: (context, resturantCont, _) => Container(
         padding: EdgeInsets.symmetric(
-          horizontal: 30,
+          horizontal: 20,
         ),
         child: resturantCont.toggleSearchbar
             ? _searchBar(context)

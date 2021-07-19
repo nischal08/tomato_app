@@ -60,7 +60,7 @@ class ProductDetailScreen extends StatelessWidget {
     return Expanded(flex:7,
       child: Container(
         // height: MediaQuery.of(context).size.height*0.60-MediaQuery.of(context).padding.bottom-kBottomNavigationBarHeight,
-        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         decoration: BoxDecoration(
             // borderRadius: BorderRadius.only(
             //   topLeft: Radius.circular(40),

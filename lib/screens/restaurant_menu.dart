@@ -110,7 +110,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
   _customAppbar() {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 30,
+        horizontal: 20,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -157,7 +157,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
           color: _theme.cardColor,
         ),
         margin: EdgeInsets.symmetric(
-          horizontal: 30,
+          horizontal: 20,
           vertical: 10,
         ),
         padding: EdgeInsets.only(
