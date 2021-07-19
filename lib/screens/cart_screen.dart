@@ -35,19 +35,39 @@ class CartScreen extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).padding.top + 10,
           ),
-          _text(),
+          _text(context),
           SizedBox(
-            height: 20,
+            height: 10,
+          ),
+          Divider(
+            height: 10,
+            // indent: 20,
+            // endIndent: 20,
+            color: Colors.grey.shade300,
+            thickness: 2,
+          ),
+          SizedBox(
+            height: 10,
           ),
           Expanded(
             child: _cartItems(context),
           ),
+          // SizedBox(
+          //   height: 15,
+          // ),
+          // _promoCode(context),
           SizedBox(
-            height: 15,
+            height: 20,
           ),
-          _promoCode(context),
+          Divider(
+            height: 10,
+            // indent: 20,
+            // endIndent: 20,
+            color: Colors.grey.shade300,
+            thickness: 2,
+          ),
           SizedBox(
-            height: 40,
+            height: 20,
           ),
           _totalAmount(
             context,
@@ -56,7 +76,7 @@ class CartScreen extends StatelessWidget {
             height: 30,
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 30.0),
+            margin: EdgeInsets.symmetric(horizontal: 20.0),
             child: _checkoutBtn(context),
           ),
           SizedBox(
@@ -70,30 +90,32 @@ class CartScreen extends StatelessWidget {
   Widget _totalAmount(
     context,
   ) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 30.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "Total",
-            style: Theme.of(context).textTheme.headline4,
-          ),
-          Text(
-            'Rs.${Provider.of<Carts>(context).totalAmount}',
-            style: Theme.of(context)
-                .textTheme
-                .headline4!
-                .copyWith(color: Theme.of(context).accentColor),
-          ),
-        ],
+    return Consumer<Carts>(
+      builder: (__, value, _) => Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Your order",
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            Text(
+              'Rs.${value.totalAmount}',
+              style: Theme.of(context).textTheme.headline5!.copyWith(
+                    color: Theme.of(context).accentColor,
+                    fontWeight:FontWeight.w600
+                  ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _promoCode(context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 30.0),
+      margin: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Material(
         borderRadius: BorderRadius.circular(40),
         color: Colors.white,
@@ -173,7 +195,7 @@ class CartScreen extends StatelessWidget {
       builder: (context, carts, child) => carts.cartItems.isEmpty
           ? _cartIsEmpty(context)
           : ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 30.0),
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
               itemCount: carts.cartItems.length,
               itemBuilder: (context, index) {
                 return ChangeNotifierProvider<Cart>.value(
@@ -187,50 +209,74 @@ class CartScreen extends StatelessWidget {
 
   Container _cartIsEmpty(BuildContext context) {
     return Container(
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            child: Column(
-              children: [
-                Expanded(
-                  child: Image.asset(
-                    'assets/images/empty-cart.png',
-                  ),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                Text(
-                  "Your cart is empty",
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Expanded(
-                  child: Text(
-                    """You have no items in your shopping cart.
+      padding: EdgeInsets.symmetric(horizontal: 30),
+      child: Column(
+        children: [
+          Expanded(
+            child: Image.asset(
+              'assets/images/empty-cart.png',
+            ),
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          Text(
+            "Your cart is empty",
+            style: Theme.of(context).textTheme.headline4,
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Expanded(
+            child: Text(
+              """You have no items in your shopping cart.
                   Let's go buy something!
                   """,
-                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                          color: Colors.grey.shade600,
-                        ),
+              style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                    color: Colors.grey.shade600,
                   ),
-                ),
-              ],
             ),
-          );
-  }
-
-  _text() {
-    return Container(
-      alignment: Alignment.bottomLeft,
-      padding: EdgeInsets.symmetric(
-        horizontal: 30,
+          ),
+        ],
       ),
-      child: _title(),
     );
   }
 
-  _title() {
-    return Text("My Cart", style: _themeData.headline4);
+  _text(context) {
+    return Container(
+        alignment: Alignment.bottomLeft,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _title(context),
+            _totalItemCount(context),
+          ],
+        ));
+  }
+
+  Consumer _totalItemCount(context) {
+    return Consumer<Carts>(builder: (_, Carts carts, __) {
+      return Text(
+        "${carts.cartItems.length} products",
+        style: _themeData.subtitle2!.copyWith(
+          color: kColorGrey,
+          fontWeight: FontWeight.w600,
+        ),
+      );
+    });
+  }
+
+  _title(context) {
+    return Text(
+      "My Cart".toUpperCase(),
+      style: _themeData.headline4!.copyWith(
+        color: Theme.of(context).primaryColor,
+        fontWeight: FontWeight.w600,
+      ),
+    );
   }
 }

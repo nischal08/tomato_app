@@ -15,8 +15,6 @@ class Carts with ChangeNotifier {
       _cartItems[index].quantity = _cartItems[index].quantity + quantity;
       _cartItems[index].price =
           _cartItems[index].price + product.price * quantity;
-
-      print(_cartItems);
     } else {
       _cartItems.add(
         Cart(
