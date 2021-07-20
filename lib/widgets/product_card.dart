@@ -22,10 +22,7 @@ class _ProductCardState extends State<ProductCard> {
 
   @override
   Widget build(BuildContext context) {
-    final _homeControllerState = Provider.of<HomeController>(context);
-    final Datum product = Provider.of<Datum>(
-      context,
-    );
+    final Datum product = Provider.of<Datum>(context);
 
     return Container(
       child: Stack(

@@ -152,7 +152,7 @@ restaurantId = ModalRoute.of(context)!.settings.arguments as String;
     return Consumer<Restaurants>(
       builder: (__, restaurants, _) => Container(
           decoration: BoxDecoration(
-            boxShadow: [kBoxShadowBigCard],
+            boxShadow: [kBoxShadowBig],
             borderRadius: BorderRadius.circular(20),
             color: _theme.cardColor,
           ),

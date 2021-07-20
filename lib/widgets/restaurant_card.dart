@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:tomato_app/contants/color_properties.dart';
+import 'package:tomato_app/contants/constant.dart';
 
 class RestaurantCard extends StatelessWidget {
   final String title;
@@ -21,84 +22,104 @@ class RestaurantCard extends StatelessWidget {
     return _venderInfo(context);
   }
 
-  Card _venderInfo(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(
-          15,
-        ),
+  Container _venderInfo(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Theme.of(context).cardColor,
       ),
-      elevation: 5,
-      color: Theme.of(context).cardColor,
-      child: Row(
+      child: Stack(
         children: [
-          SizedBox(
-            width: 20,
-          ),
           _image(),
-          SizedBox(
-            width: 30,
+          Positioned(
+            bottom: 0,
+            right: 0,
+            left: 0,
+            child: _info(context),
           ),
-          _info(context),
+          Positioned(
+            left: 20,
+            top: 80,
+            child: _logo(),
+          )
         ],
+      ),
+    );
+  }
+
+  _image() {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(15),
+        topRight: Radius.circular(15),
+      )),
+      child: Image.asset(
+        "assets/venders/restaurant-foods.jpg",
       ),
     );
   }
 
   Widget _info(BuildContext context) {
     return Container(
-      // padding: EdgeInsets.only(left: 30),
-      // color: Colors.green,
+      padding: EdgeInsets.all(20),
+      color: Colors.white,
       height: 130,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
             children: [
               Text(
-                rating != null ? "$rating" : "4.6",
-                style: Theme.of(context).textTheme.subtitle2,
+                title,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6!
+                    .copyWith(fontWeight: FontWeight.w700),
               ),
-              SizedBox(width: 1),
-              Icon(
-                Icons.star_rounded,
-                color: KColorRatingColor,
-                size: 22,
-              )
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).accentColor,
+                    borderRadius: BorderRadius.circular(8)),
+                child: Text(
+                  rating != null ? "$rating" : "4.6",
+                  style: Theme.of(context).textTheme.headline6!.copyWith(
+                      color: kColorWhiteText, fontWeight: FontWeight.w700),
+                ),
+              ),
             ],
           ),
-          SizedBox(height: 10),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.headline6!.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-          ),
+          Text("36 -46 mins"),
+          Text("Rs. 99/ Free Over Rs. 200")
         ],
       ),
     );
   }
 
-  Widget _image() {
+  Widget _logo() {
     return Container(
-      child:networkUrl != null?
-           CircleAvatar(
-              radius: 50,
-              backgroundColor: Colors.white,
-              backgroundImage:  NetworkImage(
-                networkUrl!,
-              )
-           ):
-           CircleAvatar(
-              radius: 50,
-              backgroundColor: Colors.white,
-              backgroundImage: AssetImage(
-                  "assets/venders/pizzahut.png",
-                ),
-           )
-         
+      height: 50,
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          8,
+        ),
+        boxShadow: [
+          kBoxShadowSmall,
+        ],
+        color: Colors.white,
+      ),
+      child: networkUrl != null
+          ? Image.network(
+              networkUrl!,
+            )
+          : Image.asset(
+              "assets/venders/pizzahut.png",
+            ),
     );
   }
 }

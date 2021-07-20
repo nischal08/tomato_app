@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/auth.dart';
-import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/products.dart';
 import 'package:tomato_app/controller/restaurants.dart';
 import 'package:tomato_app/models/restaurant_list_model.dart' as rlModel;
@@ -34,12 +32,11 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
   }
 
   _getRestaurants(context) async {
-
     Provider.of<Auth>(context, listen: false).getUserInfo(context);
 
     await Provider.of<Restaurants>(context, listen: false)
         .getRestaurantList(context);
-          Provider.of<Products>(context, listen: false).getCategory(context);
+    Provider.of<Products>(context, listen: false).getCategory(context);
   }
 
   @override
@@ -110,7 +107,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
             rlModel.Datum restaurantData = restaurants.items[index];
             return Container(
               padding: EdgeInsets.symmetric(
-                horizontal: 35,
+                horizontal: 20,
               ),
               margin: EdgeInsets.symmetric(vertical: 6),
               child: InkWell(
@@ -178,20 +175,23 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
     );
   }
 
-  
   Widget _greeting(context) {
     return Consumer<Auth>(
       builder: (context, auth, __) => RichText(
         text: TextSpan(
           text: "Good Morning, ",
-          style: _themeData.headline6,
+          style: _themeData.headline5!.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
           children: [
             TextSpan(
               text: auth.userInfoResponse == null
                   ? "Loading..."
                   : auth.userInfoResponse!.data.firstname,
-              style: _themeData.headline6!
-                  .copyWith(color: Theme.of(context).primaryColor),
+              style: _themeData.headline5!.copyWith(
+                color: Theme.of(context).primaryColor,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),
@@ -252,15 +252,15 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Find your",
-          style: _themeData.headline5!.copyWith(
-            fontWeight: FontWeight.w500,
+          "Local Restaurants",
+          style: _themeData.headline6!.copyWith(
+            fontWeight: FontWeight.w600,
           ),
         ),
         Text(
-          "favourite foods",
+          "Nearby",
           style: _themeData.headline6!.copyWith(
-            fontWeight: FontWeight.w100,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ],

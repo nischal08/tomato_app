@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 
-BoxShadow kBoxShadowMeduimChipCard = BoxShadow(
+BoxShadow kBoxShadowMeduim = BoxShadow(
     blurRadius: 1, spreadRadius: 0, offset: Offset(1, 2), color: Colors.grey);
-BoxShadow kBoxShadowBigCard = BoxShadow(
+BoxShadow kBoxShadowBig = BoxShadow(
     blurRadius: 2, spreadRadius: 1, offset: Offset(3, 2), color: Colors.grey);
-BoxShadow kBoxShadowSmallBtn = BoxShadow(
-    blurRadius: 0, spreadRadius: 0, offset: Offset(0.5, 1), color: Colors.grey);
+BoxShadow kBoxShadowSmall = BoxShadow(
+    blurRadius: 2, spreadRadius: 0, offset: Offset(0, 1), color: Colors.grey);
 
 const kSendButtonTextStyle = TextStyle(
   color: Colors.lightBlueAccent,
