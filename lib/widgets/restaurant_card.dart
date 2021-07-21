@@ -24,9 +24,11 @@ class RestaurantCard extends StatelessWidget {
 
   Container _venderInfo(BuildContext context) {
     return Container(
+      clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(5),
         color: Theme.of(context).cardColor,
+        boxShadow: [kBoxShadowSmall],
       ),
       child: Stack(
         children: [
@@ -39,7 +41,7 @@ class RestaurantCard extends StatelessWidget {
           ),
           Positioned(
             left: 20,
-            top: 80,
+            top: 92,
             child: _logo(),
           )
         ],
@@ -49,11 +51,6 @@ class RestaurantCard extends StatelessWidget {
 
   _image() {
     return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(15),
-        topRight: Radius.circular(15),
-      )),
       child: Image.asset(
         "assets/venders/restaurant-foods.jpg",
       ),
@@ -62,9 +59,8 @@ class RestaurantCard extends StatelessWidget {
 
   Widget _info(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(16),
       color: Colors.white,
-      height: 130,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -87,14 +83,35 @@ class RestaurantCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8)),
                 child: Text(
                   rating != null ? "$rating" : "4.6",
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
                       color: kColorWhiteText, fontWeight: FontWeight.w700),
                 ),
               ),
             ],
           ),
-          Text("36 -46 mins"),
-          Text("Rs. 99/ Free Over Rs. 200")
+          Text(
+            "36 -46 mins",
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1!
+                .copyWith(color: Colors.grey.shade700),
+          ),SizedBox(height: 5,),
+          RichText(
+            text: TextSpan(
+                text: "Rs. 99 / ",
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1!
+                    .copyWith(color: Colors.grey.shade700),
+                children: [
+                  TextSpan(
+                    text: "Free Over Rs. 200",
+                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                  )
+                ]),
+          ),
         ],
       ),
     );
@@ -106,7 +123,7 @@ class RestaurantCard extends StatelessWidget {
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(
-          8,
+          5,
         ),
         boxShadow: [
           kBoxShadowSmall,

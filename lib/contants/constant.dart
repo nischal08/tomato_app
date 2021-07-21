@@ -3,11 +3,23 @@ import 'package:flutter/widgets.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 
 BoxShadow kBoxShadowMeduim = BoxShadow(
-    blurRadius: 1, spreadRadius: 0, offset: Offset(1, 2), color: Colors.grey);
+  blurRadius: 1,
+  spreadRadius: 0,
+  offset: Offset(1, 2),
+  color: Colors.grey,
+);
 BoxShadow kBoxShadowBig = BoxShadow(
-    blurRadius: 2, spreadRadius: 1, offset: Offset(3, 2), color: Colors.grey);
+  blurRadius: 2,
+  spreadRadius: 1,
+  offset: Offset(3, 2),
+  color: Colors.grey,
+);
 BoxShadow kBoxShadowSmall = BoxShadow(
-    blurRadius: 2, spreadRadius: 0, offset: Offset(0, 1), color: Colors.grey);
+  blurRadius:1,
+  spreadRadius: 0.5,
+  offset: Offset(0, 0.6),
+  color: Colors.grey,
+);
 
 const kSendButtonTextStyle = TextStyle(
   color: Colors.lightBlueAccent,
@@ -42,7 +54,7 @@ const kTextFieldDecoration = InputDecoration(
     borderRadius: BorderRadius.all(Radius.circular(10.0)),
   ),
 );
-  InputDecoration kSearchBarDecoration = InputDecoration(
+InputDecoration kSearchBarDecoration = InputDecoration(
   enabled: true,
   fillColor: Colors.white,
   focusColor: Colors.white,

@@ -109,7 +109,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
               padding: EdgeInsets.symmetric(
                 horizontal: 20,
               ),
-              margin: EdgeInsets.symmetric(vertical: 6),
+              margin: EdgeInsets.symmetric(vertical: 10),
               child: InkWell(
                 onTap: () {
                   Navigator.pushNamed(
