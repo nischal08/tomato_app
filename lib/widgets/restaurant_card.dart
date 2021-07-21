@@ -24,6 +24,7 @@ class RestaurantCard extends StatelessWidget {
 
   Container _venderInfo(BuildContext context) {
     return Container(
+      height: 260,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
@@ -40,7 +41,7 @@ class RestaurantCard extends StatelessWidget {
             child: _info(context),
           ),
           Positioned(
-            left: 20,
+            left: 16,
             bottom: 112,
             child: _logo(),
           )

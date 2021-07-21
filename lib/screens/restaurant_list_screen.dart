@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/constant.dart';
@@ -49,6 +50,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
         Provider.of<Restaurants>(context, listen: false).ontoggleSearchbar();
       },
       child: Scaffold(
+        
         // backgroundColor: Theme.of(context).canvasColor,
         body: _body(
           context,
@@ -57,23 +59,44 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
     );
   }
 
+  Widget _carouselSlider() {
+    return CarouselSlider(
+      items: [
+        Image.asset(
+          "assets/venders/slider1.jpg",
+        ),
+        Image.asset("assets/venders/slider2.jpeg"),
+        Image.asset("assets/venders/slider3.jpg"),
+      ],
+      options: CarouselOptions(
+        height: 250,
+        autoPlay: true,
+        pageSnapping: true,
+        viewportFraction: 1,
+        autoPlayInterval: Duration(seconds: 3),
+      ),
+    );
+  }
+
   Widget _body(
     context,
   ) {
-    return SafeArea(
-      child: Container(
+    return Container(
+      child: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 10,),
             _userGreetingAndMenus(context),
             SizedBox(
-              height: 25,
+              height: 10,
+            ),
+            _carouselSlider(),
+            SizedBox(
+              height: 20,
             ),
             _search(context),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             Expanded(
               child: _restaurants.showSpinner
@@ -91,6 +114,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                         )
                       : _vender(context),
             ),
+           
           ],
         ),
       ),
@@ -181,8 +205,8 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
         text: TextSpan(
           text: "Good Morning, ",
           style: _themeData.headline5!.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            fontWeight: FontWeight.w600,
+          ),
           children: [
             TextSpan(
               text: auth.userInfoResponse == null
