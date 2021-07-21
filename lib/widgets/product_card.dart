@@ -108,7 +108,7 @@ class _ProductCardState extends State<ProductCard> {
       child: Card(
         margin: EdgeInsets.symmetric(
           vertical: 8,
-          horizontal: 35,
+          horizontal: 20,
         ),
         color: Theme.of(context).cardColor,
         elevation: 4,

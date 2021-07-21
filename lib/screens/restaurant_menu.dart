@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/contants/constant.dart';
-import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/products.dart';
 import 'package:tomato_app/controller/restaurants.dart';
 import 'package:tomato_app/models/product_list.dart';
@@ -25,7 +24,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
   void didChangeDependencies() async {
     super.didChangeDependencies();
     isLoading = true;
-restaurantId = ModalRoute.of(context)!.settings.arguments as String;
+    restaurantId = ModalRoute.of(context)!.settings.arguments as String;
     if (!isInit) {
       Provider.of<Restaurants>(context, listen: false)
           .getRestaurantInfo(context, id: restaurantId);
@@ -36,7 +35,6 @@ restaurantId = ModalRoute.of(context)!.settings.arguments as String;
   }
 
   _loadingData(context) async {
-    
     await Provider.of<Products>(context, listen: false)
         .getRestaurantItems(context, restaurantId: restaurantId);
   }
@@ -51,31 +49,58 @@ restaurantId = ModalRoute.of(context)!.settings.arguments as String;
 
   Widget _body(context, productData) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: Theme.of(context).canvasColor,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              _customAppbar(),
-              SizedBox(
-                height: 20,
-              ),
-              _venderInfo(),
-              SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                child: RefreshIndicator(
-                    onRefresh: () => _loadingData(context),
-                    child: _productList(context, productData)),
-              ),
-            ],
-          ),
+      body: Container(
+        child: Stack(
+          children: [
+            Container(
+                height: MediaQuery.of(context).size.height,
+                child: _backgroundImage()),
+            Positioned(
+              width: MediaQuery.of(context).size.width,
+              top: 170,
+              // left: 0,
+              // right: 0,
+              child: _infoBody(context, productData),
+            )
+          ],
         ),
       ),
+    );
+  }
+
+  Widget _infoBody(context, productData) {
+    return Container(
+      height: MediaQuery.of(context).size.height - 170,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+        ),
+        color: Theme.of(context).canvasColor,
+      ),
+      child: RefreshIndicator(
+        onRefresh: () => _loadingData(context),
+        child: _productList(context, productData),
+      ),
+    );
+  }
+
+  Stack _backgroundImage() {
+    return Stack(
+      children: [
+        ColorFiltered(
+          colorFilter: ColorFilter.mode(
+            Colors.black.withOpacity(0.4),
+            BlendMode.darken,
+          ),
+          child: Image.asset(
+            "assets/venders/restaurant-foods.jpg",
+          ),
+        ),
+        SafeArea(
+          child: _customAppbar(),
+        ),
+      ],
     );
   }
 
@@ -88,19 +113,38 @@ restaurantId = ModalRoute.of(context)!.settings.arguments as String;
           : productData.restaurantMenuItems.isEmpty
               ? Center(
                   child: Container(
-                      width: MediaQuery.of(context).size.width * 0.60,
-                      child: Text(
-                        "This restaurant is coming soon!!",
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline5,
-                      )),
+                    width: MediaQuery.of(context).size.width * 0.60,
+                    child: Text(
+                      "This restaurant is coming soon!!",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                  ),
                 )
-              : ListView.builder(
-                  itemCount: productData.restaurantMenuItems.length,
-                  itemBuilder: (context, index) =>
-                      ChangeNotifierProvider<Datum>.value(
-                    value: productData.restaurantMenuItems[index],
-                    child: ProductCard(context),
+              : SingleChildScrollView(
+                  child: Column(
+                    // itemCount: productData.restaurantMenuItems.length,
+                    children: [
+                      _venderInfo(),
+                      Container(
+                        alignment: Alignment.center,
+                        height: 80,
+                        width: double.infinity,
+                        color: Colors.orange,
+                        margin: EdgeInsets.only(bottom: 20),
+                        padding: EdgeInsets.symmetric(horizontal: 50),
+                        child: Text(
+                          "This Restaurant is Currently Close for Delivery",
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                      ),
+                      for (Datum menuItems in productData.restaurantMenuItems)
+                        ChangeNotifierProvider<Datum>.value(
+                          value: menuItems,
+                          child: ProductCard(context),
+                        ),
+                    ],
                   ),
                 ),
     );
@@ -113,6 +157,7 @@ restaurantId = ModalRoute.of(context)!.settings.arguments as String;
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _title(),
           _backBtn(),
@@ -127,23 +172,40 @@ restaurantId = ModalRoute.of(context)!.settings.arguments as String;
         Navigator.of(context).pop();
         // return _homeControllerState.onChangeWidget(0);
       },
-      child: Icon(
-        Icons.arrow_back_ios,
-        size: 30,
-        color: kColorLightGrey,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: Icon(
+          Icons.arrow_back_ios,
+          size: 30,
+          color: Colors.white,
+        ),
       ),
     );
   }
 
   _title() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
       children: [
-        Text("Choose what you", style: _themeData.headline4),
-        SizedBox(
-          height: 5,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Choose what you",
+              style: _themeData.headline4!.copyWith(
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              "want to eat today",
+              style: _themeData.headline5!.copyWith(
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
-        Text("want to eat today", style: _themeData.headline5),
       ],
     );
   }
@@ -151,31 +213,50 @@ restaurantId = ModalRoute.of(context)!.settings.arguments as String;
   Widget _venderInfo() {
     return Consumer<Restaurants>(
       builder: (__, restaurants, _) => Container(
-          decoration: BoxDecoration(
-            boxShadow: [kBoxShadowBig],
-            borderRadius: BorderRadius.circular(20),
-            color: _theme.cardColor,
-          ),
-          margin: EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 10,
-          ),
-          padding: EdgeInsets.only(
-            left: 15,
-            top: 5,
-            bottom: 5,
-          ),
-          height: 90,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _venderLogo(restaurants),
-              _venderName(restaurants),
-              SizedBox(
-                width: 55,
-              ),
-            ],
-          )),
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 20,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // _venderLogo(restaurants),
+                _venderName(restaurants),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).accentColor,
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Text(
+                    "4.2",
+                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        color: kColorWhiteText, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 4,
+            ),
+            Text(
+              "Lisa St.",
+              style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                  fontWeight: FontWeight.w400, color: Colors.grey.shade800),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+              "Opens at 9:30 am",
+              style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                  fontWeight: FontWeight.w400, color: Colors.grey.shade800),
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -194,7 +275,7 @@ restaurantId = ModalRoute.of(context)!.settings.arguments as String;
       restaurants.restaurantInfoResponse == null
           ? "Loading..."
           : restaurants.restaurantInfoResponse!.data.name,
-      style: _themeData.headline6,
+      style: _themeData.headline5!.copyWith(fontWeight: FontWeight.bold),
     );
   }
 }

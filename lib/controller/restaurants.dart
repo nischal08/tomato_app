@@ -47,6 +47,7 @@ class Restaurants extends ChangeNotifier {
       } else {
         var errMessage = json.decode(response.body)["message"];
         generalAlertDialog(context, errMessage);
+        restaurantInfoResponse = null;
       }
 
       notifyListeners();
