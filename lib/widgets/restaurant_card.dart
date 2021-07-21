@@ -41,7 +41,7 @@ class RestaurantCard extends StatelessWidget {
           ),
           Positioned(
             left: 20,
-            bottom: 105,
+            bottom: 112,
             child: _logo(),
           )
         ],
@@ -59,7 +59,10 @@ class RestaurantCard extends StatelessWidget {
 
   Widget _info(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.symmetric(
+        vertical: 20,
+        horizontal: 16,
+      ),
       color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +98,10 @@ class RestaurantCard extends StatelessWidget {
                 .textTheme
                 .subtitle1!
                 .copyWith(color: Colors.grey.shade700),
-          ),SizedBox(height: 5,),
+          ),
+          SizedBox(
+            height: 5,
+          ),
           RichText(
             text: TextSpan(
                 text: "Rs. 99 / ",
