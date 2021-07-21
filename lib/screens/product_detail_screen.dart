@@ -30,13 +30,16 @@ class ProductDetailScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(
-            left: 10,
-            top: 10,
-          ),
-          child: _appbarAction(context),
-        ),
+        automaticallyImplyLeading: false,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 10,
+              top: 10,
+            ),
+            child: _backBtn(context),
+          )
+        ],
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -44,74 +47,91 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _body(context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        children: [
-          Expanded(flex:4, child: _upperContainer(context)),
-          _lowerContainer(context),
-        ],
+  GestureDetector _backBtn(context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop();
+        // return _homeControllerState.onChangeWidget(0);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: Icon(
+          Icons.arrow_back_ios,
+          size: 30,
+          color: Colors.white,
+        ),
       ),
     );
   }
 
+  Widget _body(context) {
+    return Stack(
+      children: [
+        Column(
+          children: [
+            _upperContainer(context),
+            Expanded(
+              child: Container(
+                child: Transform.translate(
+                  offset: Offset(0, -27),
+                  child: _lowerContainer(context),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   Widget _lowerContainer(context) {
-    return Expanded(flex:7,
-      child: Container(
-        // height: MediaQuery.of(context).size.height*0.60-MediaQuery.of(context).padding.bottom-kBottomNavigationBarHeight,
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        decoration: BoxDecoration(
-            // borderRadius: BorderRadius.only(
-            //   topLeft: Radius.circular(40),
-            //   topRight: Radius.circular(40),
-            // ),
-            color: Theme.of(context).cardColor),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+          color: Theme.of(context).cardColor),
+      child: Expanded(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 20),
-              Container(
-                width: double.infinity,
-                child: _title(),
-              ),
+              Container(width: double.infinity, child: _title()),
               SizedBox(height: 20),
               _ingredient(context),
-              SizedBox(height: 20),
-              _recipe(context),
               SizedBox(height: 30),
               _productInfoRow(context),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.40,
-                      child: Text(
-                        "How many do you want? ",
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                    ),
-                    _productQuantity(),
-                  ],
-                ),
-              ),
+              SizedBox(height: 30),
+              _productQntyInfo(context),
               SizedBox(height: 30),
               _venderInfo(context),
-              SizedBox(
-                height: 30,
-              ),
+              SizedBox(height: 30),
               _transactionBtn(context),
-              SizedBox(
-                height: kBottomNavigationBarHeight+10,
-              ),
+             
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Container _productQntyInfo(context) {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.40,
+            child: Text(
+              "How many do you want? ",
+              style: Theme.of(context).textTheme.headline6,
+            ),
+          ),
+          _productQuantity(),
+        ],
       ),
     );
   }
@@ -204,11 +224,19 @@ class ProductDetailScreen extends StatelessWidget {
   }
 
   Widget _productImage(context) {
-    return Image.network(
-      "https://cdn.dnaindia.com/sites/default/files/styles/full/public/2017/09/27/612590-momos-092717.jpg",
-      // height: _checkBigDeviceSize(context) ? 350 : 250,
-      fit: BoxFit.fitHeight,
-      // width: double.infinity,
+    return ColorFiltered(
+      colorFilter: ColorFilter.mode(
+        Colors.black.withOpacity(0.2),
+        BlendMode.darken,
+      ),
+      child: Image.asset(
+        "assets/venders/restaurant-foods.jpg",
+        height: 300,
+        // height: _checkBigDeviceSize(context) ? 350 : 250,
+        fit: BoxFit.fitHeight,
+        // height: 300,
+        // width: double.infinity,
+      ),
     );
   }
 
@@ -291,7 +319,10 @@ class ProductDetailScreen extends StatelessWidget {
       children: [
         Text(
           key,
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context)
+              .textTheme
+              .headline6!
+              .copyWith(fontWeight: FontWeight.w500),
         ),
         SizedBox(
           height: 8.0,
@@ -308,7 +339,6 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  
   Widget _ingredient(context) {
     return SizedBox(
       child: Column(
@@ -316,25 +346,28 @@ class ProductDetailScreen extends StatelessWidget {
         children: [
           Text(
             "Ingredients",
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context)
+                .textTheme
+                .headline6!
+                .copyWith(fontWeight: FontWeight.w500),
           ),
           SizedBox(
             height: 8.0,
           ),
-        
           Text(
-               product.ingredients.join(", "),
-              textAlign: TextAlign.start,
-              style: GoogleFonts.raleway(
-                fontWeight: FontWeight.w500,
-                fontSize: 16,
-                color: Colors.black87.withOpacity(0.7),
-              ),
+            product.ingredients.join(", "),
+            textAlign: TextAlign.start,
+            style: GoogleFonts.raleway(
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+              color: Colors.black87.withOpacity(0.7),
             ),
+          ),
         ],
       ),
     );
   }
+
   Widget _recipe(context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -347,7 +380,6 @@ class ProductDetailScreen extends StatelessWidget {
         SizedBox(
           height: 8.0,
         ),
-      
         Text(
           "${product.reciepe}, ",
           textAlign: TextAlign.start,
@@ -381,8 +413,8 @@ class ProductDetailScreen extends StatelessWidget {
     return Text(
       product.name,
       textAlign: TextAlign.center,
-      style: GoogleFonts.raleway(
-        fontSize: 22,
+      style: GoogleFonts.lato(
+        fontSize: 26,
         fontWeight: FontWeight.w600,
       ),
     );

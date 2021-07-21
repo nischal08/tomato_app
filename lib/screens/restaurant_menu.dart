@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
-import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/products.dart';
 import 'package:tomato_app/controller/restaurants.dart';
 import 'package:tomato_app/models/product_list.dart';
@@ -53,8 +52,9 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
         child: Stack(
           children: [
             Container(
-                height: MediaQuery.of(context).size.height,
-                child: _backgroundImage()),
+              height: MediaQuery.of(context).size.height,
+              child: _backgroundImage(),
+            ),
             Positioned(
               width: MediaQuery.of(context).size.width,
               top: 170,
@@ -80,7 +80,25 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
       ),
       child: RefreshIndicator(
         onRefresh: () => _loadingData(context),
-        child: _productList(context, productData),
+        child: Column(
+          children: [
+            _venderInfo(),
+            Container(
+              alignment: Alignment.center,
+              height: 80,
+              width: double.infinity,
+              color: Colors.orange,
+              margin: EdgeInsets.only(bottom: 20),
+              padding: EdgeInsets.symmetric(horizontal: 50),
+              child: Text(
+                "This Restaurant is Currently Close for Delivery",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline6,
+              ),
+            ),
+            _productList(context, productData),
+          ],
+        ),
       ),
     );
   }
@@ -121,30 +139,21 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                     ),
                   ),
                 )
-              : SingleChildScrollView(
-                  child: Column(
-                    // itemCount: productData.restaurantMenuItems.length,
-                    children: [
-                      _venderInfo(),
-                      Container(
-                        alignment: Alignment.center,
-                        height: 80,
-                        width: double.infinity,
-                        color: Colors.orange,
-                        margin: EdgeInsets.only(bottom: 20),
-                        padding: EdgeInsets.symmetric(horizontal: 50),
-                        child: Text(
-                          "This Restaurant is Currently Close for Delivery",
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                      ),
-                      for (Datum menuItems in productData.restaurantMenuItems)
-                        ChangeNotifierProvider<Datum>.value(
-                          value: menuItems,
-                          child: ProductCard(context),
-                        ),
-                    ],
+              : Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      // itemCount: productData.restaurantMenuItems.length,
+                      children: [
+                        for (Datum menuItems in productData.restaurantMenuItems)
+                          ChangeNotifierProvider<Datum>.value(
+                            value: menuItems,
+                            child: ProductCard(context),
+                          ),
+                        SizedBox(
+                          height: 60,
+                        )
+                      ],
+                    ),
                   ),
                 ),
     );

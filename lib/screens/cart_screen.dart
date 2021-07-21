@@ -5,7 +5,6 @@ import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/carts.dart';
 import 'package:tomato_app/models/cart.dart';
 import 'package:tomato_app/widgets/cart_item_card.dart';
-import 'package:tomato_app/widgets/circular_button.dart';
 import 'package:tomato_app/widgets/general_elevated_button.dart';
 
 class CartScreen extends StatelessWidget {
@@ -18,6 +17,16 @@ class CartScreen extends StatelessWidget {
     _themeData = Theme.of(context).textTheme;
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).canvasColor,
+        title: _title(context),
+        elevation: 0.4,
+
+        shadowColor: Colors.green,
+        actions: [
+          _totalItemCount(context),
+        ],
+      ),
       body: _body(
         context,
       ),
@@ -33,20 +42,7 @@ class CartScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(
-            height: MediaQuery.of(context).padding.top + 10,
-          ),
-          _text(context),
-          SizedBox(
-            height: 10,
-          ),
-          Divider(
-            height: 10,
-            // indent: 20,
-            // endIndent: 20,
-            color: Colors.grey.shade300,
-            thickness: 2,
-          ),
+        
           SizedBox(
             height: 10,
           ),
@@ -104,9 +100,8 @@ class CartScreen extends StatelessWidget {
             Text(
               'Rs.${value.totalAmount}',
               style: Theme.of(context).textTheme.headline5!.copyWith(
-                    color: Theme.of(context).accentColor,
-                    fontWeight:FontWeight.w600
-                  ),
+                  color: Theme.of(context).accentColor,
+                  fontWeight: FontWeight.w600),
             ),
           ],
         ),
@@ -179,8 +174,6 @@ class CartScreen extends StatelessWidget {
     return Container(
       height: 55,
       child: GeneralElevatedButton(
-        
-        
         title: "Checkout",
         bgColor: Theme.of(context).primaryColorDark,
         fgColor: Theme.of(context).cardColor,
@@ -200,7 +193,7 @@ class CartScreen extends StatelessWidget {
       builder: (context, carts, child) => carts.cartItems.isEmpty
           ? _cartIsEmpty(context)
           : ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              // padding: EdgeInsets.symmetric(horizontal: 20.0),
               itemCount: carts.cartItems.length,
               itemBuilder: (context, index) {
                 return ChangeNotifierProvider<Cart>.value(
@@ -219,7 +212,8 @@ class CartScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            'assets/images/empty-cart.png',height: 200,
+            'assets/images/empty-cart.png',
+            height: 200,
           ),
           SizedBox(
             height: 25,
@@ -262,11 +256,16 @@ class CartScreen extends StatelessWidget {
 
   Consumer _totalItemCount(context) {
     return Consumer<Carts>(builder: (_, Carts carts, __) {
-      return Text(
-        "${carts.cartItems.length} products",
-        style: _themeData.subtitle2!.copyWith(
-          color: kColorGrey,
-          fontWeight: FontWeight.w600,
+      return Center(
+        child: Padding(
+          padding: EdgeInsets.only(right: 20),
+          child: Text(
+            "${carts.cartItems.length} products",
+            style: _themeData.subtitle2!.copyWith(
+              color: kColorGrey,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
       );
     });

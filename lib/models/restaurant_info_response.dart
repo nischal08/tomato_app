@@ -41,12 +41,10 @@ class Data {
     required this.active,
     required this.id,
     required this.name,
-    required this.createdBy,
     required this.address,
+    required this.createdBy,
     required this.createdAt,
     required this.v,
-    required this.updatedAt,
-    required this.updatedBy,
   });
 
   final List<dynamic> contactNumber;
@@ -54,12 +52,10 @@ class Data {
   final bool active;
   final String id;
   final String name;
-  final String createdBy;
   final List<Address> address;
+  final String createdBy;
   final DateTime createdAt;
   final int v;
-  final DateTime updatedAt;
-  final String updatedBy;
 
   factory Data.fromJson(String str) => Data.fromMap(json.decode(str));
 
@@ -71,13 +67,11 @@ class Data {
         active: json["active"],
         id: json["_id"],
         name: json["name"],
-        createdBy: json["createdBy"],
         address:
             List<Address>.from(json["address"].map((x) => Address.fromMap(x))),
+        createdBy: json["createdBy"],
         createdAt: DateTime.parse(json["createdAt"]),
         v: json["__v"],
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        updatedBy: json["updatedBy"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -86,12 +80,10 @@ class Data {
         "active": active,
         "_id": id,
         "name": name,
-        "createdBy": createdBy,
         "address": List<dynamic>.from(address.map((x) => x.toMap())),
+        "createdBy": createdBy,
         "createdAt": createdAt.toIso8601String(),
         "__v": v,
-        "updatedAt": updatedAt.toIso8601String(),
-        "updatedBy": updatedBy,
       };
 }
 

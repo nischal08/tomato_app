@@ -31,18 +31,16 @@ class _ProductCardState extends State<ProductCard> {
             onTap: () {
               Navigator.pushNamed(context, ProductDetailScreen.routeName,
                   arguments: product);
-              // return _homeControllerState.onChangeWidget(2);
             },
             child: Container(
               child: _card(context, product),
             ),
           ),
           Positioned(
-            right: 40,
+            right: 30,
             top: 1,
             child: GestureDetector(
               onTap: () {
-                // await _homeControllerState.onBottomNavClick(2);
                 Provider.of<Carts>(context, listen: false)
                     .addCartItem(product: product);
                 setState(
@@ -55,7 +53,7 @@ class _ProductCardState extends State<ProductCard> {
             ),
           ),
           Positioned(
-            right: 35,
+            right: 25,
             bottom: 20,
             child: _favBtn(context, product.isFavorite),
           ),
@@ -161,10 +159,9 @@ class _ProductCardState extends State<ProductCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _rating(context, product),
-          SizedBox(height: 8),
+          SizedBox(height: 6),
           _title(context, product),
-          _type(context, product),
-          SizedBox(height: 8),
+          SizedBox(height: 6),
           _price(context, product)
         ],
       ),
@@ -183,22 +180,17 @@ class _ProductCardState extends State<ProductCard> {
   }
 
   Widget _rating(context, Datum product) {
-    return Container(
-      child: Row(
-        children: [
-          Text(
-            "4.5",
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          SizedBox(
-            width: 1,
-          ),
-          Icon(
-            Icons.star_rounded,
-            size: 22,
-            color: KColorRatingColor,
-          )
-        ],
+  return  Container(
+      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+      decoration: BoxDecoration(
+          color: Theme.of(context).accentColor,
+          borderRadius: BorderRadius.circular(8)),
+      child: Text(
+         "4.6",
+        style: Theme.of(context)
+            .textTheme
+            .subtitle2!
+            .copyWith(color: kColorWhiteText, fontWeight: FontWeight.w500),
       ),
     );
   }
@@ -208,14 +200,9 @@ class _ProductCardState extends State<ProductCard> {
       product.name,
       overflow: TextOverflow.fade,
       softWrap: false,
-      style: Theme.of(context).textTheme.headline6,
+      style: Theme.of(context).textTheme.subtitle1!.copyWith(fontWeight: FontWeight.w600),
     );
   }
 
-  Widget _type(context, Datum product) {
-    return Text(
-      product.category.name,
-      style: Theme.of(context).textTheme.subtitle2,
-    );
-  }
+  
 }

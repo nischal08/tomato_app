@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
+import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/carts.dart';
 import 'package:tomato_app/models/cart.dart';
 
@@ -28,9 +29,9 @@ class CartItemCard extends StatelessWidget {
               color: Colors.white,
             ),
             padding: EdgeInsets.only(right: 20),
-             margin: EdgeInsets.only(bottom: 10),
+            margin: EdgeInsets.only(bottom: 10, right: 20),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(8),
               color: Theme.of(context).errorColor,
             ),
           ),
@@ -69,7 +70,7 @@ class CartItemCard extends StatelessWidget {
               ),
             );
           },
-          key: ValueKey(_cart.title),
+          key: ValueKey(_cart.product.id),
           child: _cartTile(context),
         ),
       ],
@@ -81,16 +82,16 @@ class CartItemCard extends StatelessWidget {
       children: [
         _cardInfo(context),
         Positioned(
-          bottom: 15,
-          right: 2,
+          bottom: 10,
+          right: 5,
           child: SizedBox(
             width: 100,
             child: _productQuantity(_cart),
           ),
         ),
         Positioned(
-          top: 14,
-          right: 8,
+          top: 10,
+          right: 18,
           child: _price(context),
         )
       ],
@@ -98,65 +99,63 @@ class CartItemCard extends StatelessWidget {
   }
 
   Widget _cardInfo(BuildContext context) {
-    return Card(
-     margin: EdgeInsets.only(bottom: 10),
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      
-      child: ListTile(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        leading: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: 70,
-              minWidth: 50,
-              maxHeight: 70,
-              minHeight: 50,
-            ),
-            child: Image.asset(
-              "assets/foods/burger.png",
-              fit: BoxFit.contain,
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 6,
+          ),
+          CircleAvatar(
+            maxRadius: 34,
+            // borderRadius: BorderRadius.circular(15),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: 52,
+                minWidth: 30,
+                maxHeight: 70,
+                minHeight: 40,
+              ),
+              child: Image.asset(
+                "assets/foods/burger.png",
+                fit: BoxFit.contain,
+              ),
             ),
           ),
-        ),
-        contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-        onTap: () {
-          // _homeControllerState.onChangeWidget(2);
-        },
-        title: Padding(
-          padding: const EdgeInsets.only(
-            bottom: 8.0,
+          SizedBox(
+            width: 10,
           ),
-          child: Text(
-            _cart.title,
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1!
-                .copyWith(fontWeight: FontWeight.w600),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 8.0,
+                ),
+                child: Text(
+                  _cart.title,
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1!
+                      .copyWith(fontWeight: FontWeight.w600),
+                ),
+              ),
+              Text(
+                _cart.product.category.name,
+                style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                    fontWeight: FontWeight.w100, color: Colors.grey.shade600),
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Text(
+                _cart.product.restaurant.name,
+                style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                    fontWeight: FontWeight.w100, color: Colors.grey.shade600),
+              ),
+            ],
           ),
-        ),
-        isThreeLine: true,
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              _cart.product.category.name,
-              style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                  fontWeight: FontWeight.w100, color: Colors.grey.shade600),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Text(
-              _cart.product.restaurant.name,
-              style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                  fontWeight: FontWeight.w100, color: Colors.grey.shade600),
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -177,10 +176,10 @@ class CartItemCard extends StatelessWidget {
         return Row(
           children: [
             SizedBox(
-              width: 35,
-              height: 30,
+              width: 30,
+              height: 25,
               child: EachProductBox(
-                borderRadius: 30,
+                borderRadius: 5,
                 icon: Icons.remove,
                 onPressed: () {
                   carts.toggleDownQuantity(_cart);
@@ -202,10 +201,10 @@ class CartItemCard extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 35,
-              height: 30,
+              width: 30,
+              height: 25,
               child: EachProductBox(
-                borderRadius: 30,
+                borderRadius: 5,
                 icon: Icons.add,
                 onPressed: () {
                   carts.toggleUpQuantity(_cart);

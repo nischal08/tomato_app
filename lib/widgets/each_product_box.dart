@@ -29,7 +29,7 @@ class EachProductBox extends StatelessWidget {
           alignment: Alignment.center,
           margin: EdgeInsets.only(right: 4),
           decoration: BoxDecoration(
-            boxShadow: [kBoxShadowSmall],
+            boxShadow: [kBoxShadowMeduim],
             borderRadius: BorderRadius.circular(borderRadius ?? 10),
             color:
                 isSelected ? Theme.of(context).accentColor : _theme.cardColor,

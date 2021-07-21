@@ -22,7 +22,8 @@ class _FoodScreenState extends State<FoodScreen> {
   }
 
   Future<void> _getCategory(context) async {
- if(Provider.of<Products>(context, listen: false).categoryList.isEmpty)  Provider.of<Products>(context, listen: false).getCategory(context);
+    if (Provider.of<Products>(context, listen: false).categoryList.isEmpty)
+      Provider.of<Products>(context, listen: false).getCategory(context);
     await Provider.of<Products>(context, listen: false)
         .getItemAsPerCategory(context);
   }
@@ -94,7 +95,7 @@ class _FoodScreenState extends State<FoodScreen> {
   Widget _searchBar(context) {
     return Padding(
       padding: EdgeInsets.only(
-        left: 30,
+        left: 20,
       ),
       child: Card(
         elevation: 4,
@@ -124,7 +125,9 @@ class _FoodScreenState extends State<FoodScreen> {
           Text(
             "Food at your service ",
             textAlign: TextAlign.start,
-            style: Theme.of(context).textTheme.headline5,
+            style: Theme.of(context).textTheme.headline6!.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
           ),
           SizedBox(
             height: 5,
@@ -141,15 +144,15 @@ class _FoodScreenState extends State<FoodScreen> {
     );
   }
 
- _getRefresh(context, productData) async {
-   await Provider.of<Products>(context,listen: false).onClickCategory(context,
+  _getRefresh(context, productData) async {
+    await Provider.of<Products>(context, listen: false).onClickCategory(context,
         currentKey: productData.currentCategory,
         isAll: productData.currentCategory == "All" ? true : false);
   }
 
   Widget _productList(context, Products productData) {
     return RefreshIndicator(
-      onRefresh:()=> _getRefresh(context, productData),
+      onRefresh: () => _getRefresh(context, productData),
       child: Container(
         child: productData.itemAsCategorySpinner
             ? Center(
@@ -240,12 +243,12 @@ class _FoodScreenState extends State<FoodScreen> {
         children: [
           Container(
             margin: EdgeInsets.only(top: 2, bottom: 3),
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             decoration: BoxDecoration(
-                // boxShadow: [kBoxShadowMeduimChipCard],
-                borderRadius: BorderRadius.circular(25),
+                boxShadow: [kBoxShadowMeduim],
+                borderRadius: BorderRadius.circular(15),
                 color: product.currentCategory == id
-                    ? Theme.of(context).primaryColor
+                    ? Theme.of(context).accentColor
                     : Theme.of(context).cardColor),
             child: SizedBox(
               height: 32,

@@ -59,7 +59,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
 
           actions: [
             Padding(
-              padding: const EdgeInsets.only(right:10.0),
+              padding: const EdgeInsets.only(right:10.0,),
               child: _popupMenu(context),
             )
           ],
@@ -221,7 +221,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                   ? "Loading..."
                   : auth.userInfoResponse!.data.firstname,
               style: _themeData.headline5!.copyWith(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).accentColor,
                 fontWeight: FontWeight.w600,
               ),
             ),
