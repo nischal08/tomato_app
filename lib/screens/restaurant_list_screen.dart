@@ -50,10 +50,25 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
         Provider.of<Restaurants>(context, listen: false).ontoggleSearchbar();
       },
       child: Scaffold(
-        
         // backgroundColor: Theme.of(context).canvasColor,
-        body: _body(
-          context,
+        appBar: AppBar(
+          
+          backgroundColor: Theme.of(context).canvasColor,
+          elevation: 1,
+          title:_greeting(context) ,
+
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right:10.0),
+              child: _popupMenu(context),
+            )
+          ],
+        ),
+        body: RefreshIndicator(
+          onRefresh: () => _getRestaurants(context),
+          child: _body(
+            context,
+          ),
         ),
       ),
     );
@@ -69,7 +84,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
         Image.asset("assets/venders/slider3.jpg"),
       ],
       options: CarouselOptions(
-        height: 250,
+        height: 245,
         autoPlay: true,
         pageSnapping: true,
         viewportFraction: 1,
@@ -81,55 +96,45 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
   Widget _body(
     context,
   ) {
-    return Container(
-      child: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: 10,),
-            _userGreetingAndMenus(context),
-            SizedBox(
-              height: 10,
-            ),
-            _carouselSlider(),
-            SizedBox(
-              height: 20,
-            ),
-            _search(context),
-            SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: _restaurants.showSpinner
-                  ? Center(
-                      child: CircularProgressIndicator(),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+         
+         
+          _carouselSlider(),
+          SizedBox(
+            height: 20,
+          ),
+          _search(context),
+          SizedBox(
+            height: 10,
+          ),
+          _restaurants.showSpinner
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : _restaurants.items.isEmpty
+                  ? Container(
+                      width: MediaQuery.of(context).size.width * 0.60,
+                      child: Text(
+                        "This restaurants is coming soon!!",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
                     )
-                  : _restaurants.items.isEmpty
-                      ? Container(
-                          width: MediaQuery.of(context).size.width * 0.60,
-                          child: Text(
-                            "This restaurants is coming soon!!",
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.headline5,
-                          ),
-                        )
-                      : _vender(context),
-            ),
-           
-          ],
-        ),
+                  : _vender(context),
+        ],
       ),
     );
   }
 
   Widget _vender(context) {
     return Consumer<Restaurants>(
-      builder: (__, Restaurants restaurants, _) => RefreshIndicator(
-        onRefresh: () => _getRestaurants(context),
-        child: ListView.builder(
-          itemCount: restaurants.items.length,
-          itemBuilder: (context, index) {
-            rlModel.Datum restaurantData = restaurants.items[index];
-            return Container(
+      builder: (__, Restaurants restaurants, _) => Column(
+        // itemCount: restaurants.items.length,
+        children: [
+          for (rlModel.Datum restaurantData in restaurants.items)
+            Container(
               padding: EdgeInsets.symmetric(
                 horizontal: 20,
               ),
@@ -149,9 +154,8 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                   title: restaurantData.name,
                 ),
               ),
-            );
-          },
-        ),
+            )
+        ],
       ),
     );
   }
@@ -165,38 +169,42 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _greeting(context),
-          PopupMenuButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                15,
-              ),
-            ),
-            color: Theme.of(context).canvasColor,
-            icon: Icon(Icons.more_horiz),
-            iconSize: 32,
-            elevation: 10,
-            onSelected: (int value) async {
-              if (value == 1) {
-                print(Menus.logout);
-                Provider.of<Auth>(context, listen: false).logoutUser(context);
-              } else {
-                print(Menus.profile);
-              }
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Text("Logout"),
-                value: 1,
-              ),
-              PopupMenuItem(
-                child: Text("Profile"),
-                value: 2,
-              )
-            ],
-          )
+          _popupMenu(context)
         ],
       ),
     );
+  }
+
+  PopupMenuButton<int> _popupMenu(context) {
+    return PopupMenuButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              15,
+            ),
+          ),
+          color: Theme.of(context).canvasColor,
+          icon: Icon(Icons.more_horiz,color:Colors.black),
+          iconSize: 32,
+          elevation: 10,
+          onSelected: (int value) async {
+            if (value == 1) {
+              print(Menus.logout);
+              Provider.of<Auth>(context, listen: false).logoutUser(context);
+            } else {
+              print(Menus.profile);
+            }
+          },
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              child: Text("Logout"),
+              value: 1,
+            ),
+            PopupMenuItem(
+              child: Text("Profile"),
+              value: 2,
+            )
+          ],
+        );
   }
 
   Widget _greeting(context) {
