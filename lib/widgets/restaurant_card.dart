@@ -41,7 +41,7 @@ class RestaurantCard extends StatelessWidget {
           ),
           Positioned(
             left: 20,
-            top: 92,
+            bottom: 105,
             child: _logo(),
           )
         ],
