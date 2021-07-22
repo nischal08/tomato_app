@@ -70,7 +70,7 @@ class CartItemCard extends StatelessWidget {
               ),
             );
           },
-          key: ValueKey(_cart.product.id),
+          key: ValueKey(_cart.productId),
           child: _cartTile(context),
         ),
       ],
@@ -134,7 +134,7 @@ class CartItemCard extends StatelessWidget {
                 ),
               ),
               Text(
-                _cart.product.category.name,
+                _cart.categoryName,
                 style: Theme.of(context).textTheme.subtitle2!.copyWith(
                     fontWeight: FontWeight.w100, color: Colors.grey.shade600),
               ),
@@ -142,7 +142,7 @@ class CartItemCard extends StatelessWidget {
                 height: 4,
               ),
               Text(
-                _cart.product.restaurant.name,
+                _cart.restaurantName,
                 style: Theme.of(context).textTheme.subtitle2!.copyWith(
                     fontWeight: FontWeight.w100, color: Colors.grey.shade600),
               ),
@@ -155,7 +155,7 @@ class CartItemCard extends StatelessWidget {
 
   Widget _price(context) {
     return Text(
-      "Rs. ${_cart.price}",
+      "Rs. ${_cart.totalPrice}",
       style: Theme.of(context).textTheme.subtitle1!.copyWith(
             fontWeight: FontWeight.w600,
             color: Theme.of(context).accentColor,

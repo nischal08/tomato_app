@@ -4,25 +4,31 @@ import 'package:tomato_app/models/product_list.dart' as prod;
 
 class Cart with ChangeNotifier {
   int quantity;
-  final prod.Datum product;
-  int price;
+  String productId;
+  String restaurantName;
+  int initialPrice;
   final String title;
   final String? imageUrl;
   bool colorFlag;
-  Cart(
-      {this.quantity = 1,
-      required this.product,
-      required this.price,
-      required this.title,
-      this.imageUrl =
-          "https://siddharthabiz.com/wp-content/uploads/2020/07/quick_mom.jpg",
-      this.colorFlag = true});
+  String categoryName;
+  int totalPrice;
+  Cart({
+    required this.restaurantName,
+    required this.productId,
+    required this.categoryName,
+    this.quantity = 1,
+    required this.initialPrice,
+    required this.title,
+    this.imageUrl,
+    required this.totalPrice,
+    this.colorFlag = true,
+  });
 
   // int currentQuantity = 1;
 
   onIncrQuantity() {
     quantity++;
-    price = (product.price * quantity);
+    totalPrice = (initialPrice * quantity);
     colorFlag = true;
     // notifyListeners();
   }
@@ -30,7 +36,7 @@ class Cart with ChangeNotifier {
   onDecrQuantity() {
     if (quantity > 1) {
       quantity--;
-      price = product.price * quantity;
+      totalPrice = (initialPrice * quantity);
       colorFlag = false;
       // notifyListeners();
     }
