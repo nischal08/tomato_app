@@ -30,6 +30,7 @@ class Products with ChangeNotifier {
     "Drinks": "assets/category/drinks.png",
     "Dinner": "assets/category/dinner.png",
     "All": "assets/category/all.png",
+    "stick food":"assets/category/sticks.png"
   };
 
   bool toggleSearchbar = false;
