@@ -112,7 +112,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
             BlendMode.darken,
           ),
           child: Image.asset(
-            "assets/venders/restaurant-foods.jpg",
+            "assets/foods/restaurant-foods.jpg",
           ),
         ),
         SafeArea(

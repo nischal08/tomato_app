@@ -53,7 +53,7 @@ class RestaurantCard extends StatelessWidget {
   _image() {
     return Container(
       child: Image.asset(
-        "assets/venders/restaurant-foods.jpg",
+        "assets/foods/restaurant-foods.jpg",
       ),
     );
   }

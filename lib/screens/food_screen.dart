@@ -200,7 +200,7 @@ class _FoodScreenState extends State<FoodScreen> {
                 child: CircularProgressIndicator(),
               )
             : ListView.builder(
-                itemCount: _products.categoryItems.length,
+                itemCount: _products.categoryItems.length ,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   var categoryItem = _products.categoryItems[index];
@@ -252,13 +252,21 @@ class _FoodScreenState extends State<FoodScreen> {
                     : Theme.of(context).cardColor),
             child: SizedBox(
               height: 32,
-              child: Image.asset(
-                assetUrl!,
-                fit: BoxFit.fitHeight,
-                color: product.currentCategory == id
-                    ? kColorWhiteText
-                    : kColorBlackText,
-              ),
+              child: assetUrl == null
+                  ? Image.network(
+                      "https://image.flaticon.com/icons/png/512/1398/1398609.png",
+                      fit: BoxFit.fitHeight,
+                      color: product.currentCategory == id
+                          ? kColorWhiteText
+                          : kColorBlackText,
+                    )
+                  : Image.asset(
+                      assetUrl,
+                      fit: BoxFit.fitHeight,
+                      color: product.currentCategory == id
+                          ? kColorWhiteText
+                          : kColorBlackText,
+                    ),
             ),
           ),
           Text(

@@ -5,14 +5,24 @@ import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/carts.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/product_detail_controller.dart';
+import 'package:tomato_app/controller/restaurants.dart';
 import 'package:tomato_app/models/product_list.dart' as prod;
+import 'package:tomato_app/models/restaurant_info_response.dart';
+import 'package:tomato_app/models/restaurant_list_model.dart';
 import 'package:tomato_app/widgets/each_product_box.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
 import 'package:tomato_app/widgets/circular_button.dart';
 
-class ProductDetailScreen extends StatelessWidget {
+class ProductDetailScreen extends StatefulWidget {
   static const routeName = '/product-detail';
+
+  @override
+  _ProductDetailScreenState createState() => _ProductDetailScreenState();
+}
+
+class _ProductDetailScreenState extends State<ProductDetailScreen> {
   late ProductDetailController _prodDetailContr;
+
   late HomeController _homeCtrlrstate;
 
   late prod.Datum product;
@@ -21,11 +31,28 @@ class ProductDetailScreen extends StatelessWidget {
     return MediaQuery.of(context).size.height > 500 ? true : false;
   }
 
+  bool isInit = false;
+  bool isLoading = false;
+  @override
+  void didChangeDependencies() async {
+    product = ModalRoute.of(context)!.settings.arguments as prod.Datum;
+    super.didChangeDependencies();
+
+    if (!isInit) {
+      isLoading = true;
+      await Provider.of<Restaurants>(context, listen: false)
+          .getRestaurantInfo(context, id: product.restaurant.id);
+      isLoading = false;
+    }
+    isInit = true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    product = ModalRoute.of(context)!.settings.arguments as prod.Datum;
+    
 
     _prodDetailContr = Provider.of<ProductDetailController>(context);
+
     _homeCtrlrstate = Provider.of<HomeController>(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -110,7 +137,6 @@ class ProductDetailScreen extends StatelessWidget {
               _venderInfo(context),
               SizedBox(height: 30),
               _transactionBtn(context),
-             
             ],
           ),
         ),
@@ -137,60 +163,68 @@ class ProductDetailScreen extends StatelessWidget {
   }
 
   Widget _venderInfo(context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Container(
-              padding: EdgeInsets.all(8),
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Theme.of(context).primaryColor,
-              ),
-              child: Image.asset(
-                'assets/venders/kfc-chicken.png',
-              ),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
+    return Consumer<Restaurants>(
+      builder: (__, restaurant, _) => restaurant.restaurantInfoResponse == null
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  product.restaurant.name,
-                  style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                        fontWeight: FontWeight.w500,
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(8),
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Theme.of(context).primaryColor,
                       ),
+                      child: Image.network(
+                        restaurant.restaurantInfoResponse!.data.image.first,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          restaurant.restaurantInfoResponse!.data.name,
+                          style:
+                              Theme.of(context).textTheme.subtitle2!.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                        ),
+                        Text(
+                          '3.1 km from you',
+                          style:
+                              Theme.of(context).textTheme.subtitle2!.copyWith(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
-                Text(
-                  '3.1 km from you',
-                  style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                        color: Colors.black54,
-                        fontWeight: FontWeight.w400,
-                      ),
+                Container(
+                  child: Row(
+                    children: [
+                      for (var i = 0; i < 5; i++)
+                        Icon(
+                          Icons.star_rounded,
+                          size: 16,
+                          color: KColorRatingColor,
+                        )
+                    ],
+                  ),
                 ),
               ],
-            )
-          ],
-        ),
-        Container(
-          child: Row(
-            children: [
-              for (var i = 0; i < 5; i++)
-                Icon(
-                  Icons.star_rounded,
-                  size: 16,
-                  color: KColorRatingColor,
-                )
-            ],
-          ),
-        ),
-      ],
+            ),
     );
   }
 
@@ -230,7 +264,9 @@ class ProductDetailScreen extends StatelessWidget {
         BlendMode.darken,
       ),
       child: Image.network(
-       product.image[0],
+        product.image.isNotEmpty
+            ? product.image[0]
+            : "https://res.cloudinary.com/yakkhasuraj/image/upload/v1626948443/tomato/oaml7vwn3fjc1nj0amky.jpg",
         height: 300,
         // height: _checkBigDeviceSize(context) ? 350 : 250,
         fit: BoxFit.fitHeight,

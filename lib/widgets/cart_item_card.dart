@@ -110,7 +110,9 @@ class CartItemCard extends StatelessWidget {
             maxRadius: 38,
             // borderRadius: BorderRadius.circular(15),
             backgroundImage: NetworkImage(
-              _cart.imageUrl!,
+              _cart.imageUrl == null
+                  ? "https://image.flaticon.com/icons/png/512/3187/3187880.png"
+                  : _cart.imageUrl!,
             ),
           ),
           SizedBox(

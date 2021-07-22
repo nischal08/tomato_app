@@ -24,6 +24,7 @@ import 'controller/restaurants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+ 
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   String? accessToken = sharedPreferences.getString("accessToken");
   // print(accessToken);

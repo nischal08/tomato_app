@@ -19,8 +19,9 @@ class Carts with ChangeNotifier {
       _cartItems.add(
         Cart(
             product: product,
-            imageUrl:
-               product.image[0],
+            imageUrl: product.image.isEmpty
+                ? "https://image.flaticon.com/icons/png/512/3187/3187880.png"
+                : product.image[0],
             price: product.price,
             title: product.name,
             colorFlag: colorFlag,

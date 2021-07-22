@@ -150,6 +150,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                   );
                 },
                 child: RestaurantCard(
+                 
                   networkUrl: restaurantData.image.isEmpty
                       ? null
                       : restaurantData.image[0],
