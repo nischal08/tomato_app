@@ -51,18 +51,22 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
       },
       child: Scaffold(
         // backgroundColor: Theme.of(context).canvasColor,
-        appBar: AppBar(
-          
-          backgroundColor: Theme.of(context).canvasColor,
-          elevation: 1,
-          title:_greeting(context) ,
-
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right:10.0,),
-              child: _popupMenu(context),
-            )
-          ],
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(80.0),
+          child: AppBar(
+            toolbarHeight: 100,
+            backgroundColor: Theme.of(context).canvasColor,
+            elevation: 1,
+            title: _greeting(context),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  right: 10.0,
+                ),
+                child: _popupMenu(context),
+              )
+            ],
+          ),
         ),
         body: RefreshIndicator(
           onRefresh: () => _getRestaurants(context),
@@ -99,8 +103,6 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
-         
-         
           _carouselSlider(),
           SizedBox(
             height: 20,
@@ -154,7 +156,10 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                   title: restaurantData.name,
                 ),
               ),
-            ),SizedBox(height: 60,)
+            ),
+          SizedBox(
+            height: 60,
+          )
         ],
       ),
     );
@@ -167,44 +172,41 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _greeting(context),
-          _popupMenu(context)
-        ],
+        children: [_greeting(context), _popupMenu(context)],
       ),
     );
   }
 
   PopupMenuButton<int> _popupMenu(context) {
     return PopupMenuButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              15,
-            ),
-          ),
-          color: Theme.of(context).canvasColor,
-          icon: Icon(Icons.more_horiz,color:Colors.black),
-          iconSize: 32,
-          elevation: 10,
-          onSelected: (int value) async {
-            if (value == 1) {
-              print(Menus.logout);
-              Provider.of<Auth>(context, listen: false).logoutUser(context);
-            } else {
-              print(Menus.profile);
-            }
-          },
-          itemBuilder: (context) => [
-            PopupMenuItem(
-              child: Text("Logout"),
-              value: 1,
-            ),
-            PopupMenuItem(
-              child: Text("Profile"),
-              value: 2,
-            )
-          ],
-        );
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          15,
+        ),
+      ),
+      color: Theme.of(context).canvasColor,
+      icon: Icon(Icons.more_horiz, color: Colors.black),
+      iconSize: 32,
+      elevation: 10,
+      onSelected: (int value) async {
+        if (value == 1) {
+          print(Menus.logout);
+          Provider.of<Auth>(context, listen: false).logoutUser(context);
+        } else {
+          print(Menus.profile);
+        }
+      },
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          child: Text("Logout"),
+          value: 1,
+        ),
+        PopupMenuItem(
+          child: Text("Profile"),
+          value: 2,
+        )
+      ],
+    );
   }
 
   Widget _greeting(context) {
