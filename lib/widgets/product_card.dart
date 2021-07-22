@@ -145,8 +145,7 @@ class _ProductCardState extends State<ProductCard> {
         // padding: EdgeInsets.all(5),
         child: Image.network(
           product.image.isNotEmpty
-              ? product.image[0]
-              : "https://cdn.dnaindia.com/sites/default/files/styles/full/public/2017/09/27/612590-momos-092717.jpg",
+              ? product.image[0]: "https://image.flaticon.com/icons/png/512/3187/3187880.png",
           fit: BoxFit.cover,
         ),
       ),
