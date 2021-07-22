@@ -20,7 +20,7 @@ class Carts with ChangeNotifier {
         Cart(
             product: product,
             imageUrl:
-                "https://siddharthabiz.com/wp-content/uploads/2020/07/quick_mom.jpg",
+               product.image[0],
             price: product.price,
             title: product.name,
             colorFlag: colorFlag,

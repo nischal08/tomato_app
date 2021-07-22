@@ -127,7 +127,8 @@ class RestaurantCard extends StatelessWidget {
   Widget _logo() {
     return Container(
       height: 50,
-      padding: EdgeInsets.all(8),
+      width: 50,
+      padding: EdgeInsets.all(2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(
           5,
@@ -139,7 +140,7 @@ class RestaurantCard extends StatelessWidget {
       ),
       child: networkUrl != null
           ? Image.network(
-              networkUrl!,
+              networkUrl!,fit: BoxFit.cover,
             )
           : Image.asset(
               "assets/venders/pizzahut.png",

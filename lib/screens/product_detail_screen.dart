@@ -229,8 +229,8 @@ class ProductDetailScreen extends StatelessWidget {
         Colors.black.withOpacity(0.2),
         BlendMode.darken,
       ),
-      child: Image.asset(
-        "assets/venders/restaurant-foods.jpg",
+      child: Image.network(
+       product.image[0],
         height: 300,
         // height: _checkBigDeviceSize(context) ? 350 : 250,
         fit: BoxFit.fitHeight,

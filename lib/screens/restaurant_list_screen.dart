@@ -154,7 +154,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                   title: restaurantData.name,
                 ),
               ),
-            )
+            ),SizedBox(height: 60,)
         ],
       ),
     );

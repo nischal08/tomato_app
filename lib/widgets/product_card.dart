@@ -144,7 +144,9 @@ class _ProductCardState extends State<ProductCard> {
         width: MediaQuery.of(context).size.width * 0.38,
         // padding: EdgeInsets.all(5),
         child: Image.network(
-          "https://cdn.dnaindia.com/sites/default/files/styles/full/public/2017/09/27/612590-momos-092717.jpg",
+          product.image.isNotEmpty
+              ? product.image[0]
+              : "https://cdn.dnaindia.com/sites/default/files/styles/full/public/2017/09/27/612590-momos-092717.jpg",
           fit: BoxFit.cover,
         ),
       ),
@@ -180,13 +182,13 @@ class _ProductCardState extends State<ProductCard> {
   }
 
   Widget _rating(context, Datum product) {
-  return  Container(
+    return Container(
       padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
       decoration: BoxDecoration(
           color: Theme.of(context).accentColor,
           borderRadius: BorderRadius.circular(8)),
       child: Text(
-         "4.6",
+        "4.6",
         style: Theme.of(context)
             .textTheme
             .subtitle2!
@@ -200,9 +202,10 @@ class _ProductCardState extends State<ProductCard> {
       product.name,
       overflow: TextOverflow.fade,
       softWrap: false,
-      style: Theme.of(context).textTheme.subtitle1!.copyWith(fontWeight: FontWeight.w600),
+      style: Theme.of(context)
+          .textTheme
+          .subtitle1!
+          .copyWith(fontWeight: FontWeight.w600),
     );
   }
-
-  
 }

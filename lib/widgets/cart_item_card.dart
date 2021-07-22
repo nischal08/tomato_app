@@ -82,7 +82,7 @@ class CartItemCard extends StatelessWidget {
       children: [
         _cardInfo(context),
         Positioned(
-          bottom: 10,
+          bottom: 15,
           right: 5,
           child: SizedBox(
             width: 100,
@@ -107,19 +107,10 @@ class CartItemCard extends StatelessWidget {
             width: 6,
           ),
           CircleAvatar(
-            maxRadius: 34,
+            maxRadius: 38,
             // borderRadius: BorderRadius.circular(15),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: 52,
-                minWidth: 30,
-                maxHeight: 70,
-                minHeight: 40,
-              ),
-              child: Image.asset(
-                "assets/foods/burger.png",
-                fit: BoxFit.contain,
-              ),
+            backgroundImage: NetworkImage(
+              _cart.imageUrl!,
             ),
           ),
           SizedBox(
