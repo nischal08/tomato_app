@@ -1,10 +1,20 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tomato_app/api/api_call.dart';
+import 'package:tomato_app/api/api_endpoints.dart';
 import 'package:tomato_app/database/db_helper.dart';
 import 'package:tomato_app/models/cart.dart';
+import 'package:tomato_app/models/order_response.dart';
 import 'package:tomato_app/models/product_list.dart';
+import 'package:tomato_app/widgets/reusable_widget.dart';
 
 class Carts with ChangeNotifier {
   List<Cart> _cartItems = [];
+  bool showOrderSpinner = false;
 
   void addCartItem(
       {colorFlag = true, int quantity = 1, required Datum product}) {
@@ -82,19 +92,24 @@ class Carts with ChangeNotifier {
     notifyListeners();
   }
 
+  void removeAllCartItem() {
+    _cartItems.clear();
+    notifyListeners();
+  }
+
   get cartItems => this._cartItems;
 
   set cartItems(value) => this._cartItems = value;
 
   void toggleDownQuantity(Cart cart) {
     cart.onDecrQuantity();
-   
+
     notifyListeners();
   }
 
   void toggleUpQuantity(Cart cart) {
     cart.onIncrQuantity();
-    
+
     notifyListeners();
   }
 
@@ -104,5 +119,53 @@ class Carts with ChangeNotifier {
       total += item.initialPrice * item.quantity;
     });
     return total;
+  }
+
+  Future<void> createOrders(
+    context,
+  ) async {
+    showOrderSpinner = false;
+    notifyListeners();
+    late Response response;
+    String url = "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/orders";
+    print(url);
+    List<Map<String, Object>> itemData = [
+      for (Cart cartItem in cartItems)
+        {"item": "${cartItem.productId}", "quantity": "${cartItem.quantity}"}
+    ];
+    Map jsonData = {
+      "address": {
+        "type": "Point",
+        "coordinates": [-122.5, 37.7]
+      },
+      "items": itemData,
+      "information": "Deliver to Baneshwor",
+    };
+
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? token = preferences.getString("accessToken");
+    print(token);
+    try {
+      response = await ApiCall.postApi(
+        jsonData: jsonData,
+        url: url,
+        headerValue: {HttpHeaders.authorizationHeader: "Bearer $token"},
+      );
+
+      if (json.decode(response.body)["success"] as bool == true) {
+        OrderResponse successResponse = OrderResponse.fromJson(response.body);
+        removeAllCartItem();
+        DBHelper.removeAll("cart");
+        ScaffoldMessenger.of(context).showSnackBar(
+            generalSnackBar(successResponse.data.information, context));
+      } else {
+        var errMessage = json.decode(response.body)["message"];
+        generalAlertDialog(context, errMessage);
+      }
+      showOrderSpinner = false;
+      notifyListeners();
+    } catch (e) {
+      generalAlertDialog(context, e.toString());
+    }
   }
 }

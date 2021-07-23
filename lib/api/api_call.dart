@@ -1,15 +1,17 @@
+import 'dart:convert';
+
 import 'package:http/http.dart';
 
 class ApiCall {
   static Future<Response> postApi(
-      {required Map jsonData, required String url}) async {
+      {required Map jsonData,
+      required String url,
+      Map<String, String>? headerValue}) async {
     print(url);
-
+    print(json.encode(jsonData));
     try {
-      final Response response = await post(
-        Uri.parse(url),
-        body: jsonData,
-      );
+      final Response response = await post(Uri.parse(url),
+          body: json.encode(jsonData), headers: headerValue);
 
       return response;
     } catch (e) {

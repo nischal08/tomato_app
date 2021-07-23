@@ -19,7 +19,7 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   void initState() {
-    Provider.of<Carts>(context,listen: false).fetchAndSetCarts();
+    Provider.of<Carts>(context, listen: false).fetchAndSetCarts();
     super.initState();
   }
 
@@ -177,9 +177,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _checkoutBtn(
-    context,
-  ) {
+  Widget _checkoutBtn(context) {
     return Container(
       height: 55,
       child: GeneralElevatedButton(
@@ -187,11 +185,11 @@ class _CartScreenState extends State<CartScreen> {
         bgColor: Theme.of(context).primaryColorDark,
         fgColor: Theme.of(context).cardColor,
         onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("This features will be avaiable soon"),
-            ),
-          );
+         
+
+        
+          Provider.of<Carts>(context, listen: false)
+              .createOrders(context, );
         },
       ),
     );
@@ -245,22 +243,6 @@ class _CartScreenState extends State<CartScreen> {
         ],
       ),
     );
-  }
-
-  _text(context) {
-    return Container(
-        alignment: Alignment.bottomLeft,
-        padding: EdgeInsets.symmetric(
-          horizontal: 20,
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _title(context),
-            _totalItemCount(context),
-          ],
-        ));
   }
 
   Consumer _totalItemCount(context) {

@@ -29,16 +29,18 @@ class DBHelper {
     );
   }
 
- static Future<void> update(String table,{mapData, id}) async {
+  static Future<void> removeAll(String table) async {
+    final db = await database();
+    db.delete(table);
+  }
+
+  static Future<void> update(String table, {mapData, id}) async {
     final db = await database();
 
-    db.update(
-      table,
-      mapData,
-      where: "id=?",
-      whereArgs: [id],
-      conflictAlgorithm: sql.ConflictAlgorithm.replace
-    );
+    db.update(table, mapData,
+        where: "id=?",
+        whereArgs: [id],
+        conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 
   static Future<List<Map<String, dynamic>>> getData(String table) async {
