@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/products.dart';
 import 'package:tomato_app/controller/restaurants.dart';
+import 'package:tomato_app/helper/location_helper.dart';
 import 'package:tomato_app/models/product_list.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
@@ -25,8 +26,9 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
     isLoading = true;
     restaurantId = ModalRoute.of(context)!.settings.arguments as String;
     if (!isInit) {
-      Provider.of<Restaurants>(context, listen: false)
+     await Provider.of<Restaurants>(context, listen: false)
           .getRestaurantInfo(context, id: restaurantId);
+      Provider.of<Restaurants>(context, listen: false).getLocation();
       _loadingData(context);
     }
     isInit = true;
@@ -251,7 +253,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
               height: 4,
             ),
             Text(
-              "Lisa St.",
+           restaurants.restaurantLocation==null? "Loading..." : restaurants.restaurantLocation!,
               style: Theme.of(context).textTheme.subtitle2!.copyWith(
                   fontWeight: FontWeight.w400, color: Colors.grey.shade800),
             ),

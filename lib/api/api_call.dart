@@ -10,16 +10,16 @@ class ApiCall {
     print(url);
     print(json.encode(jsonData));
     try {
-      if (headerValue==null) {
+      if (headerValue == null) {
         final Response response = await post(
           Uri.parse(url),
-          body: jsonData,
+          body:jsonData ,
         );
         return response;
       } else {
         final Response response = await post(
           Uri.parse(url),
-          body: json.encode(jsonData),
+          body:jsonData,
           headers: headerValue,
         );
         return response;

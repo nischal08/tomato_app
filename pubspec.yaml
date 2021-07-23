@@ -26,6 +26,7 @@ dependencies:
   carousel_slider: ^4.0.0
   cupertino_icons: ^1.0.2
   google_fonts: ^2.1.0
+  google_maps_flutter: ^2.0.6
   http: ^0.13.3
   jwt_decoder: ^2.0.1
   otp_text_field: ^1.1.1

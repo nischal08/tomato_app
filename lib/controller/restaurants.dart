@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
 import 'package:tomato_app/api/api_call.dart';
 import 'package:tomato_app/api/api_endpoints.dart';
+import 'package:tomato_app/helper/location_helper.dart';
 import 'package:tomato_app/models/restaurant_info_response.dart';
 import 'package:tomato_app/models/restaurant_list_model.dart' as rlr;
 import 'package:tomato_app/widgets/reusable_widget.dart';
@@ -13,10 +14,20 @@ class Restaurants extends ChangeNotifier {
   List<rlr.Datum> items = [];
 
   RestaurantInfoResponse? restaurantInfoResponse;
+  String? restaurantLocation;
   bool toggleSearchbar = false;
   bool showSpinner = false;
   void ontoggleSearchbar() {
     toggleSearchbar = !toggleSearchbar;
+    notifyListeners();
+  }
+
+  Future<void> getLocation() async {
+    restaurantLocation = await LocationHelper.getPlaceAddress(
+        longitude:
+            restaurantInfoResponse!.data.address[0].coordinates[1].toDouble(),
+        latitude:
+            restaurantInfoResponse!.data.address[0].coordinates[0].toDouble());
     notifyListeners();
   }
 

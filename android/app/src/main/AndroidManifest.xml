@@ -2,7 +2,10 @@
     package="com.example.tomato_app">
    <application
         android:label="tomato"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/launcher_icon">
+         <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyCRFBlzx6bgck3cs_H2Ts1qvJKophembtg"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
