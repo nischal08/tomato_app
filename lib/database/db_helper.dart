@@ -4,10 +4,10 @@ import 'package:path/path.dart' as path;
 class DBHelper {
   static Future<sql.Database> database() async {
     final dbPath = await sql.getDatabasesPath();
-    return await sql.openDatabase(path.join(dbPath, 'places.db'),
+    return await sql.openDatabase(path.join(dbPath, 'cart.db'),
         onCreate: (db, version) {
-      return db
-          .execute('CREATE TABLE user_places(id TEXT PRIMARY KEY,title TEXT,image TEXT, loc_lat REAL, loc_lon REAL, address TEXT)');
+      return db.execute(
+          'CREATE TABLE cart(id TEXT PRIMARY KEY,title TEXT,image TEXT,restaurantName TEXT,categoryName TEXT, quantity REAL, price REAL, totalPrice REAL)');
     }, version: 1);
   }
 

@@ -33,8 +33,42 @@ class Carts with ChangeNotifier {
           quantity: quantity,
         ),
       );
-
     }
+    notifyListeners();
+
+    DBHelper.insert(
+      "cart",
+      {
+        "id": product.id,
+        "title": product.name,
+        "image": product.image.isEmpty
+            ? "https://image.flaticon.com/icons/png/512/3187/3187880.png"
+            : product.image[0],
+        "restaurantName": product.restaurant.name,
+        "categoryName": product.category.name,
+        "quantity": quantity,
+        "price": product.price,
+        "totalPrice": product.price*quantity,
+      },
+    );
+  }
+
+  Future<void> fetchAndSetCarts() async {
+    final dataList = await DBHelper.getData("cart");
+    _cartItems = dataList
+        .map(
+          (item) => Cart(
+              categoryName: item["categoryName"],
+              initialPrice: item["price"].toInt(),
+              totalPrice: item["price"].toInt(),
+              productId: item["id"],
+              title: item["title"],
+              restaurantName: item["restaurantName"],
+              colorFlag: true,
+              imageUrl: item["image"],
+              quantity: item["quantity"].toInt()),
+        )
+        .toList();
     notifyListeners();
   }
 

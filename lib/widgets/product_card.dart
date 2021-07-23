@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/carts.dart';
-import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/models/product_list.dart';
 import 'package:tomato_app/screens/product_detail_screen.dart';
 

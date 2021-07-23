@@ -7,10 +7,21 @@ import 'package:tomato_app/models/cart.dart';
 import 'package:tomato_app/widgets/cart_item_card.dart';
 import 'package:tomato_app/widgets/general_elevated_button.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   static const routeName = "/cart";
 
+  @override
+  _CartScreenState createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
   late TextTheme _themeData;
+
+  @override
+  void initState() {
+    Provider.of<Carts>(context,listen: false).fetchAndSetCarts();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +32,6 @@ class CartScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).canvasColor,
         title: _title(context),
         elevation: 0.4,
-
         shadowColor: Colors.green,
         actions: [
           _totalItemCount(context),
@@ -42,7 +52,6 @@ class CartScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-        
           SizedBox(
             height: 10,
           ),

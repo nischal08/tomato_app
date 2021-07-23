@@ -112,7 +112,7 @@ class RestaurantCard extends StatelessWidget {
                     .copyWith(color: Colors.grey.shade700),
                 children: [
                   TextSpan(
-                    text: "Free Over Rs. 200",
+                    text: "Free Over Rs. 2000",
                     style: Theme.of(context).textTheme.subtitle1!.copyWith(
                           color: Theme.of(context).primaryColor,
                         ),
