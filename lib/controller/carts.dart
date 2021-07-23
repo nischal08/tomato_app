@@ -17,10 +17,11 @@ class Carts with ChangeNotifier {
       _cartItems[index].quantity = _cartItems[index].quantity + quantity;
       _cartItems[index].totalPrice =
           _cartItems[index].totalPrice + product.price * quantity;
+      notifyListeners();
     } else {
       _cartItems.add(
         Cart(
-          totalPrice: product.price,
+          totalPrice: product.price * quantity,
           categoryName: product.category.name,
           productId: product.id,
           restaurantName: product.restaurant.name,
@@ -33,9 +34,12 @@ class Carts with ChangeNotifier {
           quantity: quantity,
         ),
       );
+      notifyListeners();
     }
-    notifyListeners();
 
+    print(
+      "totalPrice" + (product.price * quantity).toString(),
+    );
     DBHelper.insert(
       "cart",
       {
@@ -48,7 +52,7 @@ class Carts with ChangeNotifier {
         "categoryName": product.category.name,
         "quantity": quantity,
         "price": product.price,
-        "totalPrice": product.price*quantity,
+        "totalPrice": product.price * quantity,
       },
     );
   }
@@ -74,6 +78,7 @@ class Carts with ChangeNotifier {
 
   void removeCartItem(Cart cartItem) {
     _cartItems.remove(cartItem);
+    DBHelper.remove("cart", cartItem.productId);
     notifyListeners();
   }
 
@@ -83,11 +88,13 @@ class Carts with ChangeNotifier {
 
   void toggleDownQuantity(Cart cart) {
     cart.onDecrQuantity();
+   
     notifyListeners();
   }
 
   void toggleUpQuantity(Cart cart) {
     cart.onIncrQuantity();
+    
     notifyListeners();
   }
 

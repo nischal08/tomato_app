@@ -155,7 +155,7 @@ class CartItemCard extends StatelessWidget {
 
   Widget _price(context) {
     return Text(
-      "Rs. ${_cart.totalPrice}",
+      "Rs. ${_cart.initialPrice*_cart.quantity}",
       style: Theme.of(context).textTheme.subtitle1!.copyWith(
             fontWeight: FontWeight.w600,
             color: Theme.of(context).accentColor,

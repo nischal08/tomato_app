@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:tomato_app/database/db_helper.dart';
 import 'package:tomato_app/models/product_list.dart' as prod;
 
 class Cart with ChangeNotifier {
@@ -30,7 +31,18 @@ class Cart with ChangeNotifier {
     quantity++;
     totalPrice = (initialPrice * quantity);
     colorFlag = true;
-    
+    DBHelper.update("cart", id: productId, mapData: {
+      "id": productId,
+      "title": title,
+      "image": imageUrl!.isEmpty
+          ? "https://image.flaticon.com/icons/png/512/3187/3187880.png"
+          : imageUrl,
+      "restaurantName": restaurantName,
+      "categoryName": categoryName,
+      "quantity": quantity,
+      "price": initialPrice,
+      "totalPrice": totalPrice,
+    });
   }
 
   onDecrQuantity() {
@@ -38,7 +50,18 @@ class Cart with ChangeNotifier {
       quantity--;
       totalPrice = (initialPrice * quantity);
       colorFlag = false;
-     
+      DBHelper.update("cart", id: productId, mapData: {
+        "id": productId,
+        "title": title,
+        "image": imageUrl!.isEmpty
+            ? "https://image.flaticon.com/icons/png/512/3187/3187880.png"
+            : imageUrl,
+        "restaurantName": restaurantName,
+        "categoryName": categoryName,
+        "quantity": quantity,
+        "price": initialPrice,
+        "totalPrice": totalPrice,
+      });
     }
   }
 }
