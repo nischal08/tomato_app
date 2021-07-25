@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:tomato_app/contants/color_properties.dart';
 
 class GeneralElevatedButton extends StatelessWidget {
@@ -7,33 +8,34 @@ class GeneralElevatedButton extends StatelessWidget {
   final Color? fgColor;
   final onPressed;
   final double? borderRadius;
+  final bool isDisabled;
   GeneralElevatedButton({
     Key? key,
     required this.title,
     required this.bgColor,
     this.fgColor,
-    this.onPressed,
     this.borderRadius,
+    this.isDisabled = false,
+    this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(bgColor),
+        backgroundColor: MaterialStateProperty.all(
+            isDisabled ? Theme.of(context).disabledColor : bgColor),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius ?? 8),
           ),
         ),
       ),
-      onPressed: onPressed,
+      onPressed: isDisabled ? null : onPressed,
       child: Text(
         title,
-        style: Theme.of(context)
-            .textTheme
-            .subtitle1!
-            .copyWith(color: fgColor ?? kColorWhiteText,fontWeight: FontWeight.bold),
+        style: Theme.of(context).textTheme.subtitle1!.copyWith(
+            color: fgColor ?? kColorWhiteText, fontWeight: FontWeight.bold),
       ),
     );
   }

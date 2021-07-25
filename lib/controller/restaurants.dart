@@ -23,6 +23,7 @@ class Restaurants extends ChangeNotifier {
   }
 
   Future<void> getLocation() async {
+    restaurantLocation = null;
     restaurantLocation = await LocationHelper.getPlaceAddress(
         longitude:
             restaurantInfoResponse!.data.address[0].coordinates[1].toDouble(),

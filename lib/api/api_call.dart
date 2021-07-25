@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 
 class ApiCall {
   static Future<Response> postApi(
-      {required Map jsonData,
+      {required  jsonData,
       required String url,
       Map<String, String>? headerValue}) async {
     print(url);
@@ -13,13 +13,13 @@ class ApiCall {
       if (headerValue == null) {
         final Response response = await post(
           Uri.parse(url),
-          body:jsonData ,
+          body: jsonData ,
         );
         return response;
       } else {
         final Response response = await post(
           Uri.parse(url),
-          body:jsonData,
+          body: json.encode(jsonData) ,
           headers: headerValue,
         );
         return response;

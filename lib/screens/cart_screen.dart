@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/carts.dart';
 import 'package:tomato_app/models/cart.dart';
+import 'package:tomato_app/screens/confirm_order_screen.dart';
 import 'package:tomato_app/widgets/cart_item_card.dart';
 import 'package:tomato_app/widgets/general_elevated_button.dart';
 
@@ -178,19 +179,31 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _checkoutBtn(context) {
-    return Container(
-      height: 55,
-      child: GeneralElevatedButton(
-        title: "Checkout",
-        bgColor: Theme.of(context).primaryColorDark,
-        fgColor: Theme.of(context).cardColor,
-        onPressed: () {
-         
-
-        
-          Provider.of<Carts>(context, listen: false)
-              .createOrders(context, );
-        },
+    return Consumer<Carts>(
+      builder: (_, carts, __) =>Container(
+        height: 55,
+        child: GeneralElevatedButton(
+          isDisabled: carts.cartItems !=
+                  []
+              ? false
+              : true,
+          title: "Checkout",
+          bgColor: Theme.of(context).primaryColorDark,
+          fgColor: Theme.of(context).cardColor,
+          onPressed: () {
+           
+             if(carts.cartItems != [])
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ConfirmOrderScreen(),
+              ),
+            );
+    
+            // Provider.of<Carts>(context, listen: false)
+            //     .createOrders(context, );
+          },
+        ),
       ),
     );
   }

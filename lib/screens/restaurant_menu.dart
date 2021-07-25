@@ -3,8 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/products.dart';
 import 'package:tomato_app/controller/restaurants.dart';
-import 'package:tomato_app/helper/location_helper.dart';
+import 'package:tomato_app/models/place_location.dart';
 import 'package:tomato_app/models/product_list.dart';
+import 'package:tomato_app/screens/map_screen.dart';
 import 'package:tomato_app/widgets/product_card.dart';
 
 class RestaurantMenu extends StatefulWidget {
@@ -19,17 +20,31 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
   var _theme;
   late String restaurantId;
   late TextTheme _themeData;
-
+  late PlaceLocation _placeLocation;
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
     isLoading = true;
     restaurantId = ModalRoute.of(context)!.settings.arguments as String;
     if (!isInit) {
-     await Provider.of<Restaurants>(context, listen: false)
+      _loadingData(context);
+      await Provider.of<Restaurants>(context, listen: false)
           .getRestaurantInfo(context, id: restaurantId);
       Provider.of<Restaurants>(context, listen: false).getLocation();
-      _loadingData(context);
+      _placeLocation = PlaceLocation(
+        latitude: Provider.of<Restaurants>(context, listen: false)
+            .restaurantInfoResponse!
+            .data
+            .address[0]
+            .coordinates[1],
+        longitude: Provider.of<Restaurants>(context, listen: false)
+            .restaurantInfoResponse!
+            .data
+            .address[0]
+            .coordinates[0],
+      );
+      print(
+          "View on map + ${_placeLocation.latitude}  ${_placeLocation.longitude}");
     }
     isInit = true;
     isLoading = false;
@@ -224,10 +239,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
   Widget _venderInfo() {
     return Consumer<Restaurants>(
       builder: (__, restaurants, _) => Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 20,
-        ),
+        padding: EdgeInsets.only(bottom: 10, left: 20, right: 20, top: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -250,33 +262,49 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
               ],
             ),
             SizedBox(
-              height: 4,
+              height: 6,
             ),
             Text(
-           restaurants.restaurantLocation==null? "Loading..." : restaurants.restaurantLocation!,
+              restaurants.restaurantLocation == null
+                  ? "Loading..."
+                  : restaurants.restaurantLocation!,
               style: Theme.of(context).textTheme.subtitle2!.copyWith(
                   fontWeight: FontWeight.w400, color: Colors.grey.shade800),
             ),
             SizedBox(
-              height: 8,
+              height: 4,
             ),
-            Text(
-              "Opens at 9:30 am",
-              style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                  fontWeight: FontWeight.w400, color: Colors.grey.shade800),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Opens at 9:30 am",
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                      fontWeight: FontWeight.w400, color: Colors.grey.shade800),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        fullscreenDialog: true,
+                        builder: (context) => MapScreen(
+                          isSelecting: false,
+                          initialLocation: _placeLocation,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "View on Maps",
+                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).accentColor),
+                  ),
+                )
+              ],
             )
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _venderLogo(Restaurants restaurants) {
-    return SizedBox(
-      height: 55,
-      width: 55,
-      child: Image.asset(
-        'assets/venders/pizzahut.png',
       ),
     );
   }

@@ -7,7 +7,7 @@ const GOOGLE_API_KEY = 'AIzaSyCRFBlzx6bgck3cs_H2Ts1qvJKophembtg';
 class LocationHelper {
   static String generateLocationPreviewImage(
       {required double latitude, required double longitude}) {
-    return "https://maps.googleapis.com/maps/api/staticmap?center=&$longitude,$latitude&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:N%7C$latitude,$longitude&key=$GOOGLE_API_KEY";
+    return "https://maps.googleapis.com/maps/api/staticmap?center=&$longitude,$latitude&zoom=16&size=1080x300&maptype=roadmap&markers=color:red%7Clabel:N%7C$latitude,$longitude&key=$GOOGLE_API_KEY";
   }
 
   static Future<String> getPlaceAddress(

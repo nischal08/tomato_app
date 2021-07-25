@@ -8,6 +8,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tomato_app/api/api_call.dart';
 import 'package:tomato_app/api/api_endpoints.dart';
+import 'package:tomato_app/database/db_helper.dart';
 import 'package:tomato_app/models/login_response.dart';
 import 'package:tomato_app/models/user_response.dart';
 import 'package:tomato_app/screens/home.dart';
@@ -75,6 +76,7 @@ class Auth extends ChangeNotifier {
     pref.remove("refreshToken");
     pref.remove("accessToken");
     pref.remove("userId");
+    DBHelper.removeAll("cart");
     Navigator.of(context, rootNavigator: true).pop();
   }
 

@@ -63,6 +63,7 @@ class WelcomeScreen extends StatelessWidget {
           SizedBox(
             height: 55,
             child: GeneralElevatedButton(
+              
               onPressed: () {
                 Navigator.pushNamed(context, '/login');
               },

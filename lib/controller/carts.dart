@@ -8,7 +8,8 @@ import 'package:tomato_app/api/api_call.dart';
 import 'package:tomato_app/api/api_endpoints.dart';
 import 'package:tomato_app/database/db_helper.dart';
 import 'package:tomato_app/models/cart.dart';
-import 'package:tomato_app/models/order_response.dart';
+import 'package:tomato_app/models/order_request.dart';
+import 'package:tomato_app/models/order_response.dart' as ordRes;
 import 'package:tomato_app/models/product_list.dart';
 import 'package:tomato_app/widgets/reusable_widget.dart';
 
@@ -129,18 +130,35 @@ class Carts with ChangeNotifier {
     late Response response;
     String url = "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/orders";
     print(url);
-    List<Map<String, Object>> itemData = [
-      for (Cart cartItem in cartItems)
-        {"item": "${cartItem.productId}", "quantity": "${cartItem.quantity}"}
-    ];
-    Map jsonData = {
+    List<Map<String, String>> itemData = List<Map<String, String>>.generate(
+        _cartItems.length,
+        (index) => {
+              "item": "${_cartItems[index].productId}",
+              "quantity": "${_cartItems[index].quantity}"
+            });
+    Map<String, dynamic> jsonData = {
+      "items": itemData,
+      "information": "Deliver to Baneshwor",
       "address": {
         "type": "Point",
         "coordinates": [-122.5, 37.7]
       },
-      "items": itemData,
-      "information": "Deliver to Baneshwor",
     };
+
+    // OrderRequest(
+    //   information: "Deliver to Baneshwor",
+    //   items: [
+    //     for (var item in _cartItems)
+    //       Item(
+    //         item: item.productId,
+    //         quantity: item.quantity.toString(),
+    //       )
+    //   ],
+    //   address: Address(
+    //     type: "Point",
+    //     coordinates: [-122.5, 37.7],
+    //   ),
+    // );
 
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString("accessToken");
@@ -153,7 +171,8 @@ class Carts with ChangeNotifier {
       );
 
       if (json.decode(response.body)["success"] as bool == true) {
-        OrderResponse successResponse = OrderResponse.fromJson(response.body);
+        ordRes.OrderResponse successResponse =
+            ordRes.OrderResponse.fromJson(response.body);
         removeAllCartItem();
         DBHelper.removeAll("cart");
         ScaffoldMessenger.of(context).showSnackBar(
