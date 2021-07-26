@@ -30,10 +30,11 @@ class _CartScreenState extends State<CartScreen> {
 
     return Scaffold(
       appBar: AppBar(
+       
         backgroundColor: Theme.of(context).canvasColor,
         title: _title(context),
         elevation: 0.4,
-        shadowColor: Colors.green,
+        shadowColor: Colors.grey,
         actions: [
           _totalItemCount(context),
         ],

@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tomato_app/api/api_call.dart';
 import 'package:tomato_app/api/api_endpoints.dart';
 import 'package:tomato_app/database/db_helper.dart';
+import 'package:tomato_app/helper/location_helper.dart';
 import 'package:tomato_app/models/cart.dart';
 import 'package:tomato_app/models/order_request.dart';
 import 'package:tomato_app/models/order_response.dart' as ordRes;
@@ -122,10 +124,8 @@ class Carts with ChangeNotifier {
     return total;
   }
 
-  Future<void> createOrders(
-    context,
-  ) async {
-    showOrderSpinner = false;
+  Future<void> createOrders(context, {required LatLng cooridinate}) async {
+    showOrderSpinner = true;
     notifyListeners();
     late Response response;
     String url = "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/orders";
@@ -136,30 +136,20 @@ class Carts with ChangeNotifier {
               "item": "${_cartItems[index].productId}",
               "quantity": "${_cartItems[index].quantity}"
             });
-    Map<String, dynamic> jsonData = {
-      "items": itemData,
-      "information": "Deliver to Baneshwor",
-      "address": {
-        "type": "Point",
-        "coordinates": [-122.5, 37.7]
+    String? location =await LocationHelper.getPlaceAddress(
+        longitude: cooridinate.longitude, latitude: cooridinate.latitude);
+    String jsonData = jsonEncode(
+      {
+        "items": itemData,
+        "information": "Deliver to $location",
+        "address": {
+          "type": "Point",
+          "coordinates": [cooridinate.latitude, cooridinate.longitude]
+        }
       },
-    };
+    );
 
-    // OrderRequest(
-    //   information: "Deliver to Baneshwor",
-    //   items: [
-    //     for (var item in _cartItems)
-    //       Item(
-    //         item: item.productId,
-    //         quantity: item.quantity.toString(),
-    //       )
-    //   ],
-    //   address: Address(
-    //     type: "Point",
-    //     coordinates: [-122.5, 37.7],
-    //   ),
-    // );
-
+    print(jsonData);
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString("accessToken");
     print(token);
@@ -167,9 +157,11 @@ class Carts with ChangeNotifier {
       response = await ApiCall.postApi(
         jsonData: jsonData,
         url: url,
-        headerValue: {HttpHeaders.authorizationHeader: "Bearer $token"},
+        headerValue: {
+          HttpHeaders.authorizationHeader: "Bearer $token",
+          HttpHeaders.contentTypeHeader: "application/json"
+        },
       );
-
       if (json.decode(response.body)["success"] as bool == true) {
         ordRes.OrderResponse successResponse =
             ordRes.OrderResponse.fromJson(response.body);

@@ -69,7 +69,7 @@ class _LocationInputState extends State<LocationInput> {
       children: [
         Container(
           alignment: Alignment.center,
-          height: 170,
+          height: 200,
           width: double.infinity,
           decoration: BoxDecoration(),
           child: _previewImageUrl == null
@@ -79,7 +79,7 @@ class _LocationInputState extends State<LocationInput> {
                 )
               : Image.network(
                   _previewImageUrl!,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 ),
         ),
         Padding(
