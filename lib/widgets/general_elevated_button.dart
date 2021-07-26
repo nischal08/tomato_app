@@ -31,7 +31,7 @@ class GeneralElevatedButton extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: isDisabled ? null : onPressed,
+      onPressed: isDisabled ? (){} : onPressed,
       child: Text(
         title,
         style: Theme.of(context).textTheme.subtitle1!.copyWith(

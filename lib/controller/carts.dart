@@ -141,7 +141,7 @@ class Carts with ChangeNotifier {
     String jsonData = jsonEncode(
       {
         "items": itemData,
-        "information": "Deliver to $location",
+        "information": "We will delivery at $location .Thank you",
         "address": {
           "type": "Point",
           "coordinates": [cooridinate.latitude, cooridinate.longitude]

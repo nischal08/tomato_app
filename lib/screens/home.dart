@@ -6,9 +6,9 @@ import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/screens/cart_screen.dart';
 import 'package:tomato_app/screens/food_screen.dart';
 import 'package:tomato_app/screens/login_screen.dart';
-import 'package:tomato_app/screens/product_detail_screen.dart';
+import 'package:tomato_app/screens/detail_screen.dart';
 
-import 'package:tomato_app/screens/restaurant_list_screen.dart';
+import 'package:tomato_app/screens/restaurants_screen.dart';
 import 'package:tomato_app/screens/restaurant_menu.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -27,8 +27,8 @@ class HomeScreen extends StatelessWidget {
     Map<String, Widget Function(BuildContext)> _routeMap = {
       CartScreen.routeName: (context) => CartScreen(),
       RestaurantMenu.routeName: (context) => RestaurantMenu(),
-      RestaurantListScreen.routeName: (context) => RestaurantListScreen(),
-      ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
+      RestaurantsScreen.routeName: (context) => RestaurantsScreen(),
+      DetailScreen.routeName: (context) => DetailScreen(),
       FoodScreen.routeName: (context) => FoodScreen(),
     };
 
@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                 routes: _routeMap,
                 builder: (context) {
                   return CupertinoPageScaffold(
-                    child: RestaurantListScreen(),
+                    child: RestaurantsScreen(),
                   );
                 },
               );
@@ -86,7 +86,7 @@ class HomeScreen extends StatelessWidget {
                 routes: _routeMap,
                 builder: (context) {
                   return CupertinoPageScaffold(
-                    child: RestaurantListScreen(),
+                    child: RestaurantsScreen(),
                   );
                 },
               );

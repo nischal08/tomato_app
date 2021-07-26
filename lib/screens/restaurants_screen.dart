@@ -14,14 +14,14 @@ import '../widgets/restaurant_card.dart';
 // ignore: must_be_immutable
 enum Menus { logout, profile }
 
-class RestaurantListScreen extends StatefulWidget {
+class RestaurantsScreen extends StatefulWidget {
   static const routeName = '/restaurant-list';
 
   @override
-  _RestaurantListScreenState createState() => _RestaurantListScreenState();
+  _RestaurantsScreenState createState() => _RestaurantsScreenState();
 }
 
-class _RestaurantListScreenState extends State<RestaurantListScreen> {
+class _RestaurantsScreenState extends State<RestaurantsScreen> {
   late TextTheme _themeData;
 
   late Restaurants _restaurants;

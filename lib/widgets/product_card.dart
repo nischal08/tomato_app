@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/carts.dart';
 import 'package:tomato_app/models/product_list.dart';
-import 'package:tomato_app/screens/product_detail_screen.dart';
+import 'package:tomato_app/screens/detail_screen.dart';
 
 class ProductCard extends StatefulWidget {
   final BuildContext ctx;
@@ -28,7 +28,7 @@ class _ProductCardState extends State<ProductCard> {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, ProductDetailScreen.routeName,
+              Navigator.pushNamed(context, DetailScreen.routeName,
                   arguments: product);
             },
             child: Container(

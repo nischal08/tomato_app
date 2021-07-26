@@ -30,7 +30,6 @@ class _CartScreenState extends State<CartScreen> {
 
     return Scaffold(
       appBar: AppBar(
-       
         backgroundColor: Theme.of(context).canvasColor,
         title: _title(context),
         elevation: 0.4,
@@ -181,26 +180,24 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _checkoutBtn(context) {
     return Consumer<Carts>(
-      builder: (_, carts, __) =>Container(
+      builder: (_, carts, __) => Container(
         height: 55,
         child: GeneralElevatedButton(
-          isDisabled: carts.cartItems !=
-                  []
-              ? false
-              : true,
+          isDisabled: carts.cartItems == null ? true : false,
           title: "Checkout",
-          bgColor: Theme.of(context).primaryColorDark,
+          bgColor: 
+             
+               Theme.of(context).primaryColorDark,
           fgColor: Theme.of(context).cardColor,
           onPressed: () {
-           
-             if(carts.cartItems != [])
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ConfirmOrderScreen(),
-              ),
-            );
-    
+            if (carts.cartItems == null)
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ConfirmOrderScreen(),
+                ),
+              );
+
             // Provider.of<Carts>(context, listen: false)
             //     .createOrders(context, );
           },

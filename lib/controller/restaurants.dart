@@ -24,11 +24,12 @@ class Restaurants extends ChangeNotifier {
 
   Future<void> getLocation() async {
     restaurantLocation = null;
+   
     restaurantLocation = await LocationHelper.getPlaceAddress(
         longitude:
-            restaurantInfoResponse!.data.address[0].coordinates[1].toDouble(),
+            restaurantInfoResponse!.data.address[0].coordinates[0].toDouble(),
         latitude:
-            restaurantInfoResponse!.data.address[0].coordinates[0].toDouble());
+            restaurantInfoResponse!.data.address[0].coordinates[1].toDouble());
     notifyListeners();
   }
 

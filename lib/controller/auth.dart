@@ -12,7 +12,7 @@ import 'package:tomato_app/database/db_helper.dart';
 import 'package:tomato_app/models/login_response.dart';
 import 'package:tomato_app/models/user_response.dart';
 import 'package:tomato_app/screens/home.dart';
-import 'package:tomato_app/screens/verification-screen.dart';
+import 'package:tomato_app/screens/verification_screen.dart';
 import 'package:tomato_app/widgets/reusable_widget.dart';
 
 class Auth extends ChangeNotifier {

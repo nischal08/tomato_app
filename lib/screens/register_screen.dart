@@ -229,11 +229,11 @@ Account """,
                         ),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 8,
                       ),
                       StraightLineBetwWord(label: "or", height: 40),
                       SizedBox(
-                        height: 10,
+                        height: 8,
                       ),
                       SizedBox(
                         height: 55,

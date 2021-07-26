@@ -13,14 +13,14 @@ import 'package:tomato_app/widgets/each_product_box.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
 import 'package:tomato_app/widgets/circular_button.dart';
 
-class ProductDetailScreen extends StatefulWidget {
+class DetailScreen extends StatefulWidget {
   static const routeName = '/product-detail';
 
   @override
-  _ProductDetailScreenState createState() => _ProductDetailScreenState();
+  _DetailScreenState createState() => _DetailScreenState();
 }
 
-class _ProductDetailScreenState extends State<ProductDetailScreen> {
+class _DetailScreenState extends State<DetailScreen> {
   late ProductDetailController _prodDetailContr;
 
   late HomeController _homeCtrlrstate;
@@ -137,6 +137,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               _venderInfo(context),
               SizedBox(height: 30),
               _transactionBtn(context),
+                SizedBox(height: kBottomNavigationBarHeight-10),
             ],
           ),
         ),
