@@ -64,8 +64,6 @@ class Auth extends ChangeNotifier {
       }
 
       showLoginSpinner = false;
-
-      notifyListeners();
     } catch (e) {
       generalAlertDialog(context, e.toString());
     }

@@ -88,7 +88,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
         Image.asset("assets/venders/slider3.jpg"),
       ],
       options: CarouselOptions(
-        height: 236,
+        height: 250,
         autoPlay: true,
         pageSnapping: true,
         viewportFraction: 1,
