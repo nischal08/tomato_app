@@ -170,7 +170,7 @@ class _ProductCardState extends State<ProductCard> {
 
   Widget _price(context, Datum product) {
     return Text(
-      "Rs.${product.price.toStringAsFixed(0)}",
+    "Rs.${product.price.toStringAsFixed(0)}",
       style: GoogleFonts.openSans(
         fontSize: 16,
         fontWeight: FontWeight.w600,

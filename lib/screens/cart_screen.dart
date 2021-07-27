@@ -183,14 +183,14 @@ class _CartScreenState extends State<CartScreen> {
       builder: (_, carts, __) => Container(
         height: 55,
         child: GeneralElevatedButton(
-          isDisabled: carts.cartItems == null ? true : false,
+          isDisabled: carts.cartItems.length == 0 ? true : false,
           title: "Checkout",
           bgColor: 
              
                Theme.of(context).primaryColorDark,
           fgColor: Theme.of(context).cardColor,
           onPressed: () {
-            if (carts.cartItems == null)
+            if (carts.cartItems.length>0)
               Navigator.push(
                 context,
                 MaterialPageRoute(

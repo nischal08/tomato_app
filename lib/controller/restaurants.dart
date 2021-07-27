@@ -22,7 +22,7 @@ class Restaurants extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getLocation() async {
+  Future<void> getRestaurantLocationName() async {
     restaurantLocation = null;
    
     restaurantLocation = await LocationHelper.getPlaceAddress(
@@ -40,6 +40,7 @@ class Restaurants extends ChangeNotifier {
 
   Future<void> getRestaurantInfo(context, {required String id}) async {
     late Response response;
+    restaurantLocation = null;
     restaurantInfoResponse = null;
     String url =
         "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/restaurants/$id";

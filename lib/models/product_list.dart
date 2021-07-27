@@ -2,8 +2,9 @@
 //
 //     final productListResponse = productListResponseFromMap(jsonString);
 
-import 'package:flutter/widgets.dart';
 import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 
 class ProductListResponse {
   ProductListResponse({
@@ -39,60 +40,58 @@ class ProductListResponse {
       };
 }
 
-class Datum with ChangeNotifier {
+class Datum with ChangeNotifier{
   Datum({
     required this.image,
     required this.ingredients,
     required this.id,
-    required this.name,
-    required this.reciepe,
     required this.category,
     required this.restaurant,
+    required this.name,
     required this.price,
+    required this.reciepe,
     this.isFavorite = false,
   });
-  bool isFavorite;
-  final List<dynamic> image;
-  final List<String> ingredients;
+ bool isFavorite;
+  final List<String> image;
+  final List<dynamic> ingredients;
   final String id;
-  final String name;
-  final String reciepe;
   final Category category;
   final Restaurant restaurant;
+  final String name;
   final int price;
-
-  factory Datum.fromJson(String str) => Datum.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  void toggleFavoriteStatus() {
+  final String reciepe;
+void toggleFavoriteStatus() {
     print("!!!!Toggle Fav Status!!!!");
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
     print("!!!!Toggle Fav Status!!!!");
   }
+  factory Datum.fromJson(String str) => Datum.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
 
   factory Datum.fromMap(Map<String, dynamic> json) => Datum(
-        image: List<dynamic>.from(json["image"].map((x) => x)),
-        ingredients: List<String>.from(json["ingredients"].map((x) => x)),
+        image: List<String>.from(json["image"].map((x) => x)),
+        ingredients: List<dynamic>.from(json["ingredients"].map((x) => x)),
         id: json["_id"],
-        name: json["name"],
-        reciepe: json["reciepe"],
         category: Category.fromMap(json["category"]),
         restaurant: Restaurant.fromMap(json["restaurant"]),
+        name: json["name"],
         price: json["price"],
+        reciepe: json["reciepe"] == null ? null : json["reciepe"],
       );
 
   Map<String, dynamic> toMap() => {
         "image": List<dynamic>.from(image.map((x) => x)),
         "ingredients": List<dynamic>.from(ingredients.map((x) => x)),
         "_id": id,
-        "name": name,
-        "reciepe": reciepe,
         "category": category.toMap(),
         "restaurant": restaurant.toMap(),
+        "name": name,
         "price": price,
+        "reciepe": reciepe == null ? null : reciepe,
       };
 }
 
@@ -127,7 +126,7 @@ class Restaurant {
     required this.name,
   });
 
-  final List<dynamic> contactNumber;
+  final List<int> contactNumber;
   final String id;
   final String name;
 
@@ -137,7 +136,7 @@ class Restaurant {
   String toJson() => json.encode(toMap());
 
   factory Restaurant.fromMap(Map<String, dynamic> json) => Restaurant(
-        contactNumber: List<dynamic>.from(json["contactNumber"].map((x) => x)),
+        contactNumber: List<int>.from(json["contactNumber"].map((x) => x)),
         id: json["_id"],
         name: json["name"],
       );

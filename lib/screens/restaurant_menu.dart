@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/products.dart';
 import 'package:tomato_app/controller/restaurants.dart';
+import 'package:tomato_app/helper/directions_repository.dart';
+import 'package:tomato_app/models/directions_model.dart';
 import 'package:tomato_app/models/place_location.dart';
 import 'package:tomato_app/models/product_list.dart';
 import 'package:tomato_app/screens/map_screen.dart';
@@ -20,7 +24,9 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
   var _theme;
   late String restaurantId;
   late TextTheme _themeData;
-  late PlaceLocation _placeLocation;
+  late PlaceLocation _venderPlaceLocation;
+  LocationData? currentUserLocation;
+  Directions?  directions;
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
@@ -28,10 +34,12 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
     restaurantId = ModalRoute.of(context)!.settings.arguments as String;
     if (!isInit) {
       _loadingData(context);
-      await Provider.of<Restaurants>(context, listen: false)
+    await   Provider.of<Restaurants>(context, listen: false)
           .getRestaurantInfo(context, id: restaurantId);
-      Provider.of<Restaurants>(context, listen: false).getLocation();
-      _placeLocation = PlaceLocation(
+       Provider.of<Restaurants>(context, listen: false)
+          .getRestaurantLocationName();
+
+      _venderPlaceLocation = PlaceLocation(
         latitude: Provider.of<Restaurants>(context, listen: false)
             .restaurantInfoResponse!
             .data
@@ -43,11 +51,23 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
             .address[0]
             .coordinates[0],
       );
+      currentUserLocation = await Location().getLocation();
+      getUserDirection();
+
       print(
-          "View on map + ${_placeLocation.latitude}  ${_placeLocation.longitude}");
+          "View on map + ${_venderPlaceLocation.latitude}  ${_venderPlaceLocation.longitude}");
     }
     isInit = true;
     isLoading = false;
+  }
+
+  Future<void> getUserDirection() async {
+    directions = await DirectionsRepository().getDirections(
+      origin: LatLng(currentUserLocation!.latitude!, currentUserLocation!.longitude!),
+      destination:
+          LatLng(_venderPlaceLocation.latitude, _venderPlaceLocation.longitude),
+    );
+    print("directions" + directions.toString());
   }
 
   _loadingData(context) async {
@@ -288,8 +308,10 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                       MaterialPageRoute(
                         fullscreenDialog: true,
                         builder: (context) => MapScreen(
+                          userLocationData: currentUserLocation,
                           isSelecting: false,
-                          initialLocation: _placeLocation,
+                          initialLocation: _venderPlaceLocation,
+                          direction: directions,
                         ),
                       ),
                     );

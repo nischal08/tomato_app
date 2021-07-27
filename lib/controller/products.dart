@@ -68,12 +68,15 @@ class Products with ChangeNotifier {
       );
 
       var responseBody = json.decode(response.body);
+print("From on getItem in products!!!");
+      print(responseBody);
+      print("From on getItem in products!!!");
       if (responseBody["success"] == true) {
         ProductListResponse listResponse =
             ProductListResponse.fromJson(response.body);
         restaurantMenuItems = listResponse.data;
 
-        print(restaurantMenuItems);
+    
         ScaffoldMessenger.of(context).showSnackBar(
           generalSnackBar(listResponse.message, context),
         );
@@ -86,6 +89,8 @@ class Products with ChangeNotifier {
       notifyListeners();
     } catch (e) {
       generalAlertDialog(context, e.toString());
+       showSpinner = false;
+      notifyListeners();
     }
   }
 
