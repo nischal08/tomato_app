@@ -51,9 +51,12 @@ class RestaurantCard extends StatelessWidget {
   }
 
   _image() {
-    return Container(
-      child: Image.asset(
-        "assets/foods/restaurant-foods.jpg",
+    return Hero(
+      tag: "restaurantImage",
+      child: Container(
+        child: Image.asset(
+          "assets/foods/restaurant-foods.jpg",
+        ),
       ),
     );
   }

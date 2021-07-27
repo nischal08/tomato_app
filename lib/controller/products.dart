@@ -49,7 +49,7 @@ class Products with ChangeNotifier {
 
   bool showSpinner = false;
   bool itemAsCategorySpinner = false;
-  bool categorySpinner = false;
+  bool categorySpinner = true;
 
   Future<void> getRestaurantItems(context,
       {required String restaurantId}) async {
@@ -138,7 +138,7 @@ print("From on getItem in products!!!");
   Future<void> getCategory(
     context,
   ) async {
-    categorySpinner = true;
+    
     late Response response;
     String url =
         "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/categories?pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&projection=name ";

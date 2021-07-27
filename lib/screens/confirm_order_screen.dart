@@ -50,22 +50,17 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
         ? Center(
             child: CircularProgressIndicator(),
           )
-        : Scaffold(
+        : Scaffold(extendBodyBehindAppBar: true,
             appBar: AppBar(
+              
               iconTheme: IconThemeData(color: kColorBlackText),
-              title: Text(
-                'Place Order',
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              backgroundColor: Theme.of(context).canvasColor,
-              elevation: 0.4,
+             elevation: 0,
+              backgroundColor: Colors.transparent,
               shadowColor: Colors.grey,
             ),
             body: Container(
-              height: MediaQuery.of(context).size.height -
-                  MediaQuery.of(context).padding.top -
-                  AppBar().preferredSize.height -
-                  kBottomNavigationBarHeight,
+              height: MediaQuery.of(context).size.height -kBottomNavigationBarHeight ,
+                  
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -155,21 +150,23 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     );
   }
 
-  Container _itemsInfo(BuildContext context) {
-    return Container(
-      height: 160,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade300),
-        color: Theme.of(context).cardColor,
-      ),
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      width: double.infinity,
-      child: Column(
-        children: [
-          _totalItem(context),
-          Expanded(child: _itemDetailList()),
-        ],
+  Widget _itemsInfo(BuildContext context) {
+    return MediaQuery.removePadding(context: context,
+      child: Container(
+        height: 160,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.grey.shade300),
+          color: Theme.of(context).cardColor,
+        ),
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        width: double.infinity,
+        child: Column(
+          children: [
+            _totalItem(context),
+            Expanded(child: _itemDetailList()),
+          ],
+        ),
       ),
     );
   }
@@ -215,25 +212,28 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     );
   }
 
-  Container _totalItem(BuildContext context) {
-    return Container(
-      clipBehavior: Clip.none,
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      height: 40,
-      alignment: Alignment.centerLeft,
-      child: Text(
-        "2 items",
-        // textAlign: TextAlign.start,
-        style: Theme.of(context).textTheme.subtitle1!.copyWith(
-              color: Theme.of(context).accentColor,
-            ),
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(8),
-          topRight: Radius.circular(8),
+  Consumer _totalItem(BuildContext context) {
+    return Consumer<Carts>(
+      builder: (__, carts, _) => 
+    Container(
+        clipBehavior: Clip.none,
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        height: 40,
+        alignment: Alignment.centerLeft,
+        child: Text(
+          "${carts.cartItems.length} Items",
+          // textAlign: TextAlign.start,
+          style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                color: Theme.of(context).accentColor,
+              ),
         ),
-        color: Colors.grey.shade100,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(8),
+            topRight: Radius.circular(8),
+          ),
+          color: Colors.grey.shade100,
+        ),
       ),
     );
   }

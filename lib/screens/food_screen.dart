@@ -39,6 +39,7 @@ class _FoodScreenState extends State<FoodScreen> {
         Provider.of<Products>(context, listen: false).ontoggleSearchbar();
       },
       child: Scaffold(
+        
         backgroundColor: Theme.of(context).canvasColor,
         body: Container(
           child: Column(
@@ -68,9 +69,7 @@ class _FoodScreenState extends State<FoodScreen> {
   _search(context) {
     return Consumer<Products>(
       builder: (context, products, _) => Container(
-        padding: EdgeInsets.only(
-          right: 20,
-        ),
+       
         child: products.toggleSearchbar
             ? _searchBar(context)
             : _searchButtonTitle(products),
@@ -79,23 +78,28 @@ class _FoodScreenState extends State<FoodScreen> {
   }
 
   Widget _searchButtonTitle(products) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _greeting(context),
-        CustomIconButton(
-          elevation: 1,
-          icon: Icons.search,
-          onPressed: () => products.ontoggleSearchbar(),
-        )
-      ],
+    return Container(
+      padding: EdgeInsets.only(
+        right: 20,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _greeting(context),
+          CustomIconButton(
+            elevation: 1,
+            icon: Icons.search,
+            onPressed: () => products.ontoggleSearchbar(),
+          )
+        ],
+      ),
     );
   }
 
   Widget _searchBar(context) {
     return Padding(
       padding: EdgeInsets.only(
-        left: 20,
+        left: 15,right: 15
       ),
       child: Card(
         elevation: 4,
@@ -118,27 +122,30 @@ class _FoodScreenState extends State<FoodScreen> {
 
   Container _greeting(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Food at your service ",
-            textAlign: TextAlign.start,
-            style: Theme.of(context).textTheme.headline6!.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+          Container(
+            width: MediaQuery.of(context).size.width*0.40,
+            child: Text(
+              "Food at your service ",
+              textAlign: TextAlign.start,
+              style: Theme.of(context).textTheme.headline5!.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
           ),
           SizedBox(
             height: 5,
           ),
-          Text(
-            "Any food you like ",
-            textAlign: TextAlign.start,
-            style: Theme.of(context).textTheme.headline6!.copyWith(
-                  color: Theme.of(context).accentColor,
-                ),
-          ),
+          // Text(
+          //   "Any food you like ",
+          //   textAlign: TextAlign.start,
+          //   style: Theme.of(context).textTheme.headline6!.copyWith(
+          //         color: Theme.of(context).accentColor,
+          //       ),
+          // ),
         ],
       ),
     );
@@ -209,7 +216,7 @@ class _FoodScreenState extends State<FoodScreen> {
                         _products.currentCategory == categoryItem.id ? -10 : 0),
                     child: Container(
                       padding: EdgeInsets.only(top: 10),
-                      margin: const EdgeInsets.only(right: 30),
+                      margin: const EdgeInsets.only(right: 20),
                       child: _eachCategory(context,
                           label: categoryItem.name,
                           id: categoryItem.id,
@@ -246,7 +253,7 @@ class _FoodScreenState extends State<FoodScreen> {
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             decoration: BoxDecoration(
                 boxShadow: [kBoxShadowMeduim],
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(8),
                 color: product.currentCategory == id
                     ? Theme.of(context).accentColor
                     : Theme.of(context).cardColor),

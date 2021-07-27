@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
+import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/carts.dart';
 import 'package:tomato_app/controller/home_controller.dart';
 import 'package:tomato_app/controller/product_detail_controller.dart';
 import 'package:tomato_app/controller/restaurants.dart';
 import 'package:tomato_app/models/product_list.dart' as prod;
 import 'package:tomato_app/models/restaurant_info_response.dart';
-import 'package:tomato_app/models/restaurant_list_model.dart';
+import 'package:tomato_app/models/restaurants_model.dart';
 import 'package:tomato_app/widgets/each_product_box.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
 import 'package:tomato_app/widgets/circular_button.dart';
@@ -99,6 +100,7 @@ class _DetailScreenState extends State<DetailScreen> {
             _upperContainer(context),
             Expanded(
               child: Container(
+                
                 child: Transform.translate(
                   offset: Offset(0, -27),
                   child: _lowerContainer(context),
@@ -113,8 +115,10 @@ class _DetailScreenState extends State<DetailScreen> {
 
   Widget _lowerContainer(context) {
     return Container(
+      
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       decoration: BoxDecoration(
+        boxShadow: [kBoxShadowMeduim],
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),

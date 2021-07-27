@@ -7,7 +7,7 @@ import 'package:tomato_app/api/api_call.dart';
 import 'package:tomato_app/api/api_endpoints.dart';
 import 'package:tomato_app/helper/location_helper.dart';
 import 'package:tomato_app/models/restaurant_info_response.dart';
-import 'package:tomato_app/models/restaurant_list_model.dart' as rlr;
+import 'package:tomato_app/models/restaurants_model.dart' as rlr;
 import 'package:tomato_app/widgets/reusable_widget.dart';
 
 class Restaurants extends ChangeNotifier {
@@ -87,8 +87,8 @@ class Restaurants extends ChangeNotifier {
 
       var responseBody = json.decode(response.body);
       if (responseBody["success"] == true) {
-        rlr.RestaurantListModel listResponse =
-            rlr.RestaurantListModel.fromJson(response.body);
+        rlr.RestaurantsModel listResponse =
+            rlr.RestaurantsModel.fromJson(response.body);
 
         items = listResponse.data;
 

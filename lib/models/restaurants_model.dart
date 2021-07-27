@@ -2,8 +2,8 @@
 
 import 'dart:convert';
 
-class RestaurantListModel {
-  RestaurantListModel({
+class RestaurantsModel {
+  RestaurantsModel({
     required this.success,
     required this.message,
     required this.data,
@@ -15,13 +15,13 @@ class RestaurantListModel {
   final List<Datum> data;
   final int totalData;
 
-  factory RestaurantListModel.fromJson(String str) =>
-      RestaurantListModel.fromMap(json.decode(str));
+  factory RestaurantsModel.fromJson(String str) =>
+      RestaurantsModel.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory RestaurantListModel.fromMap(Map<String, dynamic> json) =>
-      RestaurantListModel(
+  factory RestaurantsModel.fromMap(Map<String, dynamic> json) =>
+      RestaurantsModel(
         success: json["success"],
         message: json["message"],
         data: List<Datum>.from(json["data"].map((x) => Datum.fromMap(x))),

@@ -19,6 +19,7 @@ class RestaurantMenu extends StatefulWidget {
 }
 
 class _RestaurantMenuState extends State<RestaurantMenu> {
+  bool isDirectionReady = true;
   bool isInit = false;
   bool isLoading = false;
   var _theme;
@@ -26,7 +27,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
   late TextTheme _themeData;
   late PlaceLocation _venderPlaceLocation;
   LocationData? currentUserLocation;
-  Directions?  directions;
+  Directions? directions;
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
@@ -34,9 +35,9 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
     restaurantId = ModalRoute.of(context)!.settings.arguments as String;
     if (!isInit) {
       _loadingData(context);
-    await   Provider.of<Restaurants>(context, listen: false)
+      await Provider.of<Restaurants>(context, listen: false)
           .getRestaurantInfo(context, id: restaurantId);
-       Provider.of<Restaurants>(context, listen: false)
+      Provider.of<Restaurants>(context, listen: false)
           .getRestaurantLocationName();
 
       _venderPlaceLocation = PlaceLocation(
@@ -62,11 +63,17 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
   }
 
   Future<void> getUserDirection() async {
+
+    
     directions = await DirectionsRepository().getDirections(
-      origin: LatLng(currentUserLocation!.latitude!, currentUserLocation!.longitude!),
+      origin: LatLng(
+          currentUserLocation!.latitude!, currentUserLocation!.longitude!),
       destination:
           LatLng(_venderPlaceLocation.latitude, _venderPlaceLocation.longitude),
     );
+    setState(() {
+          isDirectionReady = false;
+    });
     print("directions" + directions.toString());
   }
 
@@ -120,19 +127,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
         child: Column(
           children: [
             _venderInfo(),
-            Container(
-              alignment: Alignment.center,
-              height: 80,
-              width: double.infinity,
-              color: Colors.orange,
-              margin: EdgeInsets.only(bottom: 20),
-              padding: EdgeInsets.symmetric(horizontal: 50),
-              child: Text(
-                "This Restaurant is Currently Close for Delivery",
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline6,
-              ),
-            ),
+            _deliveryInfoBanner(context),
             _productList(context, productData),
           ],
         ),
@@ -140,7 +135,23 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
     );
   }
 
-  Stack _backgroundImage() {
+  Container _deliveryInfoBanner(context) {
+    return Container(
+            alignment: Alignment.center,
+            height: 80,
+            width: double.infinity,
+            color: Colors.orange,
+            margin: EdgeInsets.only(bottom: 20),
+            padding: EdgeInsets.symmetric(horizontal: 50),
+            child: Text(
+              "This Restaurant is Currently Open for Delivery",
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headline6,
+            ),
+          );
+  }
+
+  Widget _backgroundImage() {
     return Stack(
       children: [
         ColorFiltered(
@@ -148,9 +159,11 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
             Colors.black.withOpacity(0.4),
             BlendMode.darken,
           ),
-          child: Image.asset(
-            "assets/foods/restaurant-foods.jpg",
-          ),
+          child: 
+            Image.asset(
+              "assets/foods/restaurant-foods.jpg",
+            ),
+         
         ),
         SafeArea(
           child: _customAppbar(),
@@ -302,7 +315,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                   style: Theme.of(context).textTheme.subtitle1!.copyWith(
                       fontWeight: FontWeight.w400, color: Colors.grey.shade800),
                 ),
-                TextButton(
+                if(!isDirectionReady) TextButton(
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(

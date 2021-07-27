@@ -5,7 +5,7 @@ import 'package:tomato_app/contants/constant.dart';
 import 'package:tomato_app/controller/auth.dart';
 import 'package:tomato_app/controller/products.dart';
 import 'package:tomato_app/controller/restaurants.dart';
-import 'package:tomato_app/models/restaurant_list_model.dart' as rlModel;
+import 'package:tomato_app/models/restaurants_model.dart' as rlModel;
 import 'package:tomato_app/screens/restaurant_menu.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
 
