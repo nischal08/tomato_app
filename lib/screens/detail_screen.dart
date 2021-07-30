@@ -422,7 +422,7 @@ class _DetailScreenState extends State<DetailScreen> {
           height: 8.0,
         ),
         Text(
-          "${product.reciepe}, ",
+          "${product.ingredients}, ",
           textAlign: TextAlign.start,
           style: GoogleFonts.raleway(
             fontWeight: FontWeight.w500,

@@ -10,13 +10,15 @@ import 'package:tomato_app/api/api_endpoints.dart';
 import 'package:tomato_app/database/db_helper.dart';
 import 'package:tomato_app/helper/location_helper.dart';
 import 'package:tomato_app/models/cart.dart';
-import 'package:tomato_app/models/order_request.dart';
 import 'package:tomato_app/models/order_response.dart' as ordRes;
+import 'package:tomato_app/models/orders_model.dart' as orderModel;
 import 'package:tomato_app/models/product_list.dart';
 import 'package:tomato_app/widgets/reusable_widget.dart';
 
 class Carts with ChangeNotifier {
   List<Cart> _cartItems = [];
+  List<orderModel.Datum> orderItems = [];
+  bool showOrderingSpinner = false;
   bool showOrderSpinner = false;
 
   void addCartItem(
@@ -125,7 +127,7 @@ class Carts with ChangeNotifier {
   }
 
   Future<void> createOrders(context, {required LatLng cooridinate}) async {
-    showOrderSpinner = true;
+    showOrderingSpinner = true;
     notifyListeners();
     late Response response;
     String url = "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/orders";
@@ -136,7 +138,7 @@ class Carts with ChangeNotifier {
               "item": "${_cartItems[index].productId}",
               "quantity": "${_cartItems[index].quantity}"
             });
-    String? location =await LocationHelper.getPlaceAddress(
+    String? location = await LocationHelper.getPlaceAddress(
         longitude: cooridinate.longitude, latitude: cooridinate.latitude);
     String jsonData = jsonEncode(
       {
@@ -173,10 +175,58 @@ class Carts with ChangeNotifier {
         var errMessage = json.decode(response.body)["message"];
         generalAlertDialog(context, errMessage);
       }
-      showOrderSpinner = false;
+      showOrderingSpinner = false;
       notifyListeners();
     } catch (e) {
       generalAlertDialog(context, e.toString());
+      showOrderingSpinner = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchOrders(context) async {
+    showOrderSpinner = true;
+
+    late Response response;
+
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? token = preferences.getString("accessToken");
+    String? userId = preferences.getString("userId");
+    String url =
+        "${ApiEndpoints.baseUrl}/api/${ApiEndpoints.version}/orders?pageNumber=0&pageSize=10&sortField=_id&sortOrder=1&createdBy=$userId";
+    print("!!! Fetch orders !!!");
+    print(url);
+    print(token);
+    print("!!! Fetch orders !!!");
+    try {
+      response = await ApiCall.getApi(
+        url,
+        headerValue: {
+          HttpHeaders.authorizationHeader: "Bearer $token",
+        },
+      );
+
+      if (jsonDecode(response.body)["success"] as bool == true) {
+        orderModel.OrdersModel successResponse =
+            orderModel.OrdersModel.fromJson(response.body);
+
+        orderItems = successResponse.data;
+        // notifyListeners();
+        print("!!! Fetch orders !!!");
+        // print(successResponse.message);
+        print("!!! Fetch orders !!!");
+        // ScaffoldMessenger.of(context)
+        //     .showSnackBar(generalSnackBar(successResponse.message, context));
+      } else {
+        var errMessage = json.decode(response.body)["message"];
+        generalAlertDialog(context, errMessage);
+      }
+      showOrderSpinner = false;
+      notifyListeners();
+    } catch (e) {
+      generalAlertDialog(context, "fetch orders : ${e.toString()}");
+      showOrderSpinner = false;
+      notifyListeners();
     }
   }
 }

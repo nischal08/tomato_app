@@ -51,12 +51,9 @@ class RestaurantCard extends StatelessWidget {
   }
 
   _image() {
-    return Hero(
-      tag: "restaurantImage",
-      child: Container(
-        child: Image.asset(
-          "assets/foods/restaurant-foods.jpg",
-        ),
+    return Container(
+      child: Image.asset(
+        "assets/foods/restaurant-foods.jpg",
       ),
     );
   }
@@ -143,7 +140,8 @@ class RestaurantCard extends StatelessWidget {
       ),
       child: networkUrl != null
           ? Image.network(
-              networkUrl!,fit: BoxFit.cover,
+              networkUrl!,
+              fit: BoxFit.cover,
             )
           : Image.asset(
               "assets/venders/pizzahut.png",

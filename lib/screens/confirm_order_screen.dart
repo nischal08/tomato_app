@@ -46,7 +46,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   Widget build(BuildContext context) {
     return Provider.of<Carts>(
       context,
-    ).showOrderSpinner
+    ).showOrderingSpinner
         ? Center(
             child: CircularProgressIndicator(),
           )

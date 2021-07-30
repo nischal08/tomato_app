@@ -131,7 +131,7 @@ print("From on getItem in products!!!");
       itemAsCategorySpinner = false;
       notifyListeners();
     } catch (e) {
-      generalAlertDialog(context, e.toString());
+      // generalAlertDialog(context, e.toString());
     }
   }
 

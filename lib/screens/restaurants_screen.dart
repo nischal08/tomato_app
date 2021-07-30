@@ -6,6 +6,7 @@ import 'package:tomato_app/controller/auth.dart';
 import 'package:tomato_app/controller/products.dart';
 import 'package:tomato_app/controller/restaurants.dart';
 import 'package:tomato_app/models/restaurants_model.dart' as rlModel;
+import 'package:tomato_app/screens/order_screen.dart';
 import 'package:tomato_app/screens/restaurant_menu.dart';
 import 'package:tomato_app/widgets/custom_icon_button.dart';
 
@@ -150,7 +151,6 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                   );
                 },
                 child: RestaurantCard(
-                 
                   networkUrl: restaurantData.image.isEmpty
                       ? null
                       : restaurantData.image[0],
@@ -194,7 +194,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
           print(Menus.logout);
           Provider.of<Auth>(context, listen: false).logoutUser(context);
         } else {
-          print(Menus.profile);
+          Navigator.pushNamed(context, OrderScreen.routeName);
         }
       },
       itemBuilder: (context) => [
@@ -203,7 +203,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
           value: 1,
         ),
         PopupMenuItem(
-          child: Text("Profile"),
+          child: Text("Orders"),
           value: 2,
         )
       ],

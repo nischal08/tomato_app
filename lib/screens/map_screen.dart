@@ -28,18 +28,11 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   LatLng? _pickedLocation;
-  late GoogleMapController _googleMapController;
 
   void _selectLocation(LatLng position) {
     setState(() {
       _pickedLocation = position;
     });
-  }
-
-  @override
-  void dispose() {
-    _googleMapController.dispose();
-    super.dispose();
   }
 
   @override
@@ -75,19 +68,20 @@ class _MapScreenState extends State<MapScreen> {
                 ),
             },
             zoomGesturesEnabled: true,
-            onMapCreated: (controller) => _googleMapController = controller,
             myLocationButtonEnabled: false,
-            circles:{},
-            //  widget.direction==null
+            circles: {},
+
+            // widget.direction == null
             //     ? {}
             //     : {
-            //         Circle(strokeWidth: 2,
-            //         strokeColor: Colors.blue,
+            //         Circle(
+            //           strokeWidth: 2,
+            //           strokeColor: Colors.blue,
             //           circleId: CircleId("raduis"),
             //           center: LatLng(
             //               widget.direction!.bounds.southwest.latitude,
             //               widget.direction!.bounds.southwest.longitude),
-            //           radius: 2000,
+            //           radius: 200,
             //           fillColor: Colors.blue.withOpacity(0.1),
             //         ),
             //       },
@@ -102,34 +96,47 @@ class _MapScreenState extends State<MapScreen> {
             onTap: widget.isSelecting ? _selectLocation : null,
             markers: (_pickedLocation == null && widget.isSelecting)
                 ? {}
-                : {
-                    Marker(
-                      markerId: MarkerId("venderLoc"),
-                      infoWindow: InfoWindow(
-                        title: Provider.of<Restaurants>(context)
-                            .restaurantInfoResponse!
-                            .data
-                            .name,
-                      ),
-                      position: _pickedLocation ??
-                          LatLng(
-                            widget.initialLocation.latitude,
-                            widget.initialLocation.longitude,
+                : widget.userLocationData != null
+                    ? {
+                        Marker(
+                          markerId: MarkerId("venderLoc"),
+                          infoWindow: InfoWindow(
+                            title: Provider.of<Restaurants>(context)
+                                .restaurantInfoResponse!
+                                .data
+                                .name,
                           ),
-                    ),
-                    if (widget.userLocationData != null)
-                      Marker(
-                        icon: BitmapDescriptor.defaultMarkerWithHue(200),
-                        markerId: MarkerId("userLoc"),
-                        infoWindow: InfoWindow(
-                            title:
-                                "${Provider.of<Auth>(context).userInfoResponse!.data.firstname} Location"),
-                        position: LatLng(
-                          widget.userLocationData!.latitude!,
-                          widget.userLocationData!.longitude!,
+                          position: _pickedLocation ??
+                              LatLng(
+                                widget.initialLocation.latitude,
+                                widget.initialLocation.longitude,
+                              ),
                         ),
-                      ),
-                  },
+                        Marker(
+                          icon: BitmapDescriptor.defaultMarkerWithHue(200),
+                          markerId: MarkerId("userLoc"),
+                          infoWindow: InfoWindow(
+                              title:
+                                  "${Provider.of<Auth>(context).userInfoResponse!.data.firstname} Location"),
+                          position: LatLng(
+                            widget.userLocationData!.latitude!,
+                            widget.userLocationData!.longitude!,
+                          ),
+                        ),
+                      }
+                    : {
+                        Marker(
+                          markerId: MarkerId("Your Location"),
+                          infoWindow: InfoWindow(
+                            title: "Your Location",
+                          ),
+                          position: _pickedLocation ??
+                              LatLng(
+                                widget.initialLocation.latitude,
+                                widget.initialLocation.longitude,
+                              ),
+                        ),
+                      },
           ),
           if (widget.direction != null)
             Positioned(

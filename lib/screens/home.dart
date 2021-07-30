@@ -7,6 +7,7 @@ import 'package:tomato_app/screens/cart_screen.dart';
 import 'package:tomato_app/screens/food_screen.dart';
 import 'package:tomato_app/screens/login_screen.dart';
 import 'package:tomato_app/screens/detail_screen.dart';
+import 'package:tomato_app/screens/order_screen.dart';
 
 import 'package:tomato_app/screens/restaurants_screen.dart';
 import 'package:tomato_app/screens/restaurant_menu.dart';
@@ -30,6 +31,7 @@ class HomeScreen extends StatelessWidget {
       RestaurantsScreen.routeName: (context) => RestaurantsScreen(),
       DetailScreen.routeName: (context) => DetailScreen(),
       FoodScreen.routeName: (context) => FoodScreen(),
+      OrderScreen.routeName: (context) => OrderScreen(),
     };
 
     return WillPopScope(
