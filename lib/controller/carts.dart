@@ -224,7 +224,8 @@ class Carts with ChangeNotifier {
       showOrderSpinner = false;
       notifyListeners();
     } catch (e) {
-      generalAlertDialog(context, "fetch orders : ${e.toString()}");
+     await generalAlertDialog(context, "Fetch orders : Server Error");
+      Navigator.of(context).pop();
       showOrderSpinner = false;
       notifyListeners();
     }
