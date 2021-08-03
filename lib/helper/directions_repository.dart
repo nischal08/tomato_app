@@ -10,14 +10,16 @@ class DirectionsRepository {
     required LatLng origin,
     required LatLng destination,
   }) async {
+    print("$origin  $destination");
     final response = await _dio.get(
         "https://maps.googleapis.com/maps/api/directions/json?",
         queryParameters: {
-          'destination': "${origin.latitude},${origin.longitude}",
-          'origin': "${destination.latitude},${destination.longitude}",
-          'key':GOOGLE_API_KEY
+          'destination': "${destination.latitude},${destination.longitude}",
+          'origin': "${origin.latitude},${origin.longitude}",
+          'key': GOOGLE_API_KEY
         });
     if (response.statusCode == 200) {
+      print(response.data);
       return Directions.fromMap(response.data);
     }
   }

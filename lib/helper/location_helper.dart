@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
-const GOOGLE_API_KEY = 'AIzaSyCRFBlzx6bgck3cs_H2Ts1qvJKophembtg';
+const GOOGLE_API_KEY = 'AIzaSyDpeLIspvCJaOwdykG7o1ER-0lX8_XSItg';
 
 class LocationHelper {
   static String generateLocationPreviewImage(
@@ -22,6 +22,4 @@ class LocationHelper {
     );
     return jsonDecode(response.body)['results'][0]['formatted_address'];
   }
-
-  
 }

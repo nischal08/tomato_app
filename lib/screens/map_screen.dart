@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/auth.dart';
 import 'package:tomato_app/controller/restaurants.dart';
 import 'package:tomato_app/models/directions_model.dart';
@@ -38,8 +39,17 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text("Your Map"),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: InkWell(
+          onTap: () => Navigator.of(context).pop(),
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+        ),
         actions: [
           if (widget.isSelecting)
             IconButton(
@@ -48,7 +58,7 @@ class _MapScreenState extends State<MapScreen> {
                   : () {
                       Navigator.of(context).pop(_pickedLocation);
                     },
-              icon: Icon(Icons.check),
+              icon: Icon(Icons.check, color: Colors.black),
             )
         ],
       ),
@@ -69,22 +79,30 @@ class _MapScreenState extends State<MapScreen> {
             },
             zoomGesturesEnabled: true,
             myLocationButtonEnabled: false,
-            circles: {},
-
-            // widget.direction == null
-            //     ? {}
-            //     : {
-            //         Circle(
-            //           strokeWidth: 2,
-            //           strokeColor: Colors.blue,
-            //           circleId: CircleId("raduis"),
-            //           center: LatLng(
-            //               widget.direction!.bounds.southwest.latitude,
-            //               widget.direction!.bounds.southwest.longitude),
-            //           radius: 200,
-            //           fillColor: Colors.blue.withOpacity(0.1),
-            //         ),
-            //       },
+            circles: widget.direction == null
+                ? {}
+                : {
+                    Circle(
+                      visible: true,
+                      strokeWidth: 2,
+                      strokeColor: Colors.blue,
+                      circleId: CircleId("free-delivery"),
+                      center: LatLng(
+                          widget.direction!.bounds.northeast.latitude,
+                          widget.direction!.bounds.southwest.longitude),
+                      radius: 200,
+                      fillColor: Colors.blue.withOpacity(0.1),
+                    ),
+                    Circle(
+                      strokeWidth: 5,
+                      strokeColor: Colors.red,
+                      circleId: CircleId("delivery-raduis"),
+                      center: LatLng(
+                          widget.direction!.bounds.northeast.latitude,
+                          widget.direction!.bounds.southwest.longitude),
+                      radius: 3000,
+                    ),
+                  },
             zoomControlsEnabled: false,
             initialCameraPosition: CameraPosition(
               target: LatLng(
@@ -140,7 +158,7 @@ class _MapScreenState extends State<MapScreen> {
           ),
           if (widget.direction != null)
             Positioned(
-              top: 20.0,
+              top: 60.0,
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   vertical: 6.0,

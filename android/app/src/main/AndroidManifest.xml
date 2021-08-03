@@ -7,7 +7,7 @@
         android:label="tomato"
         android:icon="@mipmap/launcher_icon">
         <meta-data android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyCRFBlzx6bgck3cs_H2Ts1qvJKophembtg"/>
+        android:value="AIzaSyDpeLIspvCJaOwdykG7o1ER-0lX8_XSItg"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
