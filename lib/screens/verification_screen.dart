@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:otp_text_field/otp_field.dart';
-import 'package:otp_text_field/style.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_app/contants/color_properties.dart';
 import 'package:tomato_app/controller/auth.dart';
 import 'package:tomato_app/widgets/general_elevated_button.dart';
-import 'package:tomato_app/widgets/general_text_button.dart';
 import 'package:tomato_app/widgets/general_textfield.dart';
 
 class VerificationScreen extends StatelessWidget {
@@ -156,7 +153,7 @@ class VerificationScreen extends StatelessWidget {
           },
           keywordType: TextInputType.text,
           validate: (String value) {
-            if (value.isEmpty || value.length < 20) {
+            if (value.isEmpty || value.length < 5) {
               return 'Code is too short';
             }
           },

@@ -48,6 +48,7 @@ class _MapScreenState extends State<MapScreen> {
           child: Icon(
             Icons.arrow_back,
             color: Colors.black,
+            size: 32,
           ),
         ),
         actions: [
@@ -58,7 +59,11 @@ class _MapScreenState extends State<MapScreen> {
                   : () {
                       Navigator.of(context).pop(_pickedLocation);
                     },
-              icon: Icon(Icons.check, color: Colors.black),
+              icon: Icon(
+                Icons.check,
+                color: Colors.black,
+                  size: 32,
+              ),
             )
         ],
       ),

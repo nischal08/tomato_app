@@ -50,8 +50,6 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
-
     _prodDetailContr = Provider.of<ProductDetailController>(context);
 
     _homeCtrlrstate = Provider.of<HomeController>(context);
@@ -100,7 +98,6 @@ class _DetailScreenState extends State<DetailScreen> {
             _upperContainer(context),
             Expanded(
               child: Container(
-                
                 child: Transform.translate(
                   offset: Offset(0, -27),
                   child: _lowerContainer(context),
@@ -114,17 +111,17 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
   Widget _lowerContainer(context) {
-    return Container(
-      
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      decoration: BoxDecoration(
-        boxShadow: [kBoxShadowMeduim],
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        decoration: BoxDecoration(
+          boxShadow: [kBoxShadowMeduim],
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),
           ),
-          color: Theme.of(context).cardColor),
-      child: Expanded(
+          color: Theme.of(context).cardColor,
+        ),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,7 +138,7 @@ class _DetailScreenState extends State<DetailScreen> {
               _venderInfo(context),
               SizedBox(height: 30),
               _transactionBtn(context),
-                SizedBox(height: kBottomNavigationBarHeight-10),
+              SizedBox(height: kBottomNavigationBarHeight),
             ],
           ),
         ),

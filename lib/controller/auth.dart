@@ -99,8 +99,8 @@ class Auth extends ChangeNotifier {
       "email": email,
       "password": password,
       "role": "customer",
-      "firstname": firstname,
-      "lastname": lastname,
+      "firstName": firstname,
+      "lastName": lastname,
     };
     try {
       response = await ApiCall.postApi(jsonData: jsonData, url: url);
